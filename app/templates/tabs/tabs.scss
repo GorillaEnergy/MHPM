@@ -1,0 +1,68 @@
+.tabs {
+  font-family: AmericanPatrius;
+  color: #0b1138;
+
+  .header {
+    height: 105px;
+    background-color: white;
+    box-sizing: border-box;
+    border-bottom: 2px solid #0b1138;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+
+    span {
+      border: none;
+    }
+    .logo {
+      width: fit-content;
+      display: flex;
+    }
+
+    .logout-name-block {
+      display: flex;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+    }
+    .name {
+      cursor: pointer;
+      width: fit-content;
+      display: flex;
+    }
+    .logout {
+      cursor: pointer;
+      width: fit-content;
+      display: flex;
+    }
+
+  }
+
+  .body {
+    display: flex;
+    height: calc(100vh - 105px);
+
+    .tabs {
+      width: 255px;
+      height: 100%;
+      background-color: white;
+      box-sizing: border-box;
+      border-right: 1px solid #0b1138;
+
+      .tab-item {
+        //display: flex;
+        //text-align: center;
+        cursor: pointer;
+        padding: 50px 0 0 20px;
+        height: 87px;
+        box-sizing: border-box;
+        border-bottom: 2px solid #cdf2fd;
+      }
+    }
+    .scope-view {
+      background-color: white;
+      height: 100%;
+      width: 100%;
+    }
+  }
+}

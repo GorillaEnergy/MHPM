@@ -1,0 +1,111 @@
+.authorization {
+  width: 100vw;
+  height: 100vh;
+
+  .header-logo {
+    width: 100%;
+    height: 33.5vh;
+    box-sizing: border-box;
+    //border-bottom: 2px solid #0b1138;
+    background: url('../../content/img/authorization/bg2.png')
+                #64cae2 no-repeat top center;
+    background-size: cover;
+  }
+  .body {
+    width: 100%;
+    height: calc(100vh - 33.5vh);
+    background: url('../../content/img/authorization/dots.png') no-repeat center;
+    //background-size: 101%;
+    background-size: cover;
+  }
+
+  .data-block {
+    width: fit-content;
+    margin: 0 auto;
+    padding-top: 35px;
+    font-family: AmericanPatrius;
+    color: #0b1138;
+  }
+  .title {
+    cursor: context-menu;
+    font-size: 49px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-family: American;
+  }
+  .input-block {
+    border: 1px solid #0b1138;
+    display: flex;
+    width: fit-content;
+    margin-bottom: 40px;
+
+    .description {
+      cursor: context-menu;
+      width: 158px;
+      height: 42px;
+      box-sizing: border-box;
+      border-right: 1px solid #0b1138;
+      background-color: white;
+      text-transform: uppercase;
+      font-size: 20px;
+      padding-top: calc((25px - 10px) / 2);
+      padding-left: 15px;
+    }
+    .input {
+      width: 476px;
+      height: 42px;
+      box-sizing: border-box;
+      background-color: white;
+      border: none;
+      padding-left: 15px;
+      font-family: AmericanPatrius;
+      font-size: 20px;
+      color: #0b1138;
+      outline: none;
+    }
+    .new-description {
+      width: 250px;
+    }
+    .new-input {
+      width: 380px;
+
+    }
+  }
+
+  .button-zone {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .forgot {
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 19px;
+    margin-top: 9px;
+    margin-left: -3px;
+    text-decoration: underline;
+  }
+  .button {
+    cursor: pointer;
+    margin-top: -6px;
+    padding: 15px 0 18px 0;
+    font-size: 19px;
+    text-align: center;
+    background-color: #0b1138;
+    color: white;
+    -webkit-clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
+    //shape-margin: 20px; // обтеканик вокруг объекта
+  }
+  .login {
+    width: 125px;
+  }
+  .new-pass {
+    width: 277px;
+    margin-top: 0;
+    -webkit-clip-path: polygon(0 15%, 5% 100%, 100% 70%, 100% 0);
+  }
+  .save {
+    width: 124px;
+    margin-top: 1px;
+  }
+}

@@ -1,0 +1,37 @@
+<div class="tabs">
+
+    <div class="header">
+        <!--<img src="" class="logo outline" ng-click="vm.toStatistic()">-->
+        <span class="outline" ng-click="vm.toStatistic()">logo must be here</span>
+        <div class="logout-name-block">
+            <div class="name outline" ng-click="vm.profile()">
+                <!--<img src="" class="name-logo">-->
+                <span style="color: darkred;">logo </span>
+                <p>my name</p>
+            </div>
+            <div class="logout outline" ng-click="vm.logout()">
+                <!--<img src="" class="logout-logo">-->
+                <span style="color: darkred;">logo </span>
+                <p>logout</p>
+            </div>
+        </div>
+    </div>
+    <div class="body">
+        <div class="tabs">
+            <div class="tab-item outline" ng-click="vm.toSchedule()">
+                <!--<img src="" class="logout-logo">-->
+                <span style="color: darkred;">logo </span>
+                <span>schedule</span>
+            </div>
+            <div class="tab-item outline" ng-click="vm.toChat()">
+                <!--<img src="" class="logout-logo">-->
+                <span style="color: darkred;">logo </span>
+                <span>chat</span>
+            </div>
+        </div>
+
+        <div ui-view class="scope-view"></div>
+    </div>
+
+</div>
+

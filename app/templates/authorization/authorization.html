@@ -1,0 +1,60 @@
+<div class="authorization">
+
+    <div class="header-logo"></div>
+
+    <div class="body">
+
+        <div class="data-block" ng-if="vm.view.login">
+            <p class="title">login</p>
+            <div class="input-block">
+                <div class="description disable-selection"><p>e-mail</p></div>
+                <input class="input" ng-model="vm.email">
+            </div>
+            <div class="input-block">
+                <div class="description disable-selection"><p>password</p></div>
+                <input class="input" ng-model="vm.password">
+            </div>
+            <div class="input-block">
+                <div class="description disable-selection"><p>id</p></div>
+                <input class="input" ng-model="vm.id">
+            </div>
+
+            <div class="button-zone">
+                <div class="forgot"> forgot password? </div>
+                <div class="button login disable-selection" ng-click="vm.login()"> Login </div>
+            </div>
+        </div>
+
+        <div class="data-block" ng-if="vm.view.forgot">
+            <p class="title">forgot password</p>
+            <div class="input-block">
+                <div class="description disable-selection"><p>e-mail</p></div>
+                <input class="input" ng-model="vm.forgot_email">
+            </div>
+
+            <div class="button-zone">
+                <div></div>
+                <div class="button new-pass disable-selection" ng-click="vm.forgot()"> get new password </div>
+            </div>
+        </div>
+
+        <div class="data-block" ng-if="vm.view.new_password">
+            <p class="title">create new password</p>
+            <div class="input-block">
+                <div class="description new-description disable-selection"><p>new password</p></div>
+                <input class="input new-input" ng-model="vm.new_password">
+            </div>
+            <div class="input-block">
+                <div class="description new-description disable-selection"><p>repeat password</p></div>
+                <input class="input new-input" ng-model="vm.new_password_repeat">
+            </div>
+
+            <div class="button-zone">
+                <div></div>
+                <div class="button save disable-selection" ng-click="vm.save()"> save </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

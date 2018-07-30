@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html lang="en" ng-app="app" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html lang="en" ng-app="app" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html lang="en" ng-app="app" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" ng-app="app" class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Knight Hayes</title>
+    <link rel="icon" href="content/img/logoTitle.png" type="img/png"/>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="bower_components/angular-material/angular-material.css"/>
+    <link rel="stylesheet" href="content/css/app.css">
+    <link rel="stylesheet" href="bower_components/angular-toastr/dist/angular-toastr.css"/>
+    <link rel="stylesheet" href="bower_components/angular-material-data-table/dist/md-data-table.min.css">
+    <link rel="stylesheet" href="bower_components/material-design-icons/iconfont/material-icons.css">
+    <link href="bower_components/v-accordion/dist/v-accordion.css" rel="stylesheet" />
+
+</head>
+<body>
+
+<div id="page" class="main-container">
+
+    <div ui-view></div>
+
+</div>
+<!--Firebase-->
+<script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>
+
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/jquery-ui/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
+
+<script src="bower_components/angular/angular.min.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/angular-aria/angular-aria.js"></script>
+<script src="bower_components/angular-messages/angular-messages.js"></script>
+<script src="bower_components/angular-material/angular-material.min.js"></script>
+<script src="bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
+<script src="bower_components/angular-material-data-table/dist/md-data-table.min.js"></script>
+<script src="bower_components/ngstorage/ngStorage.js"></script>
+<script src="bower_components/angular-ui-sortable/sortable.min.js"></script>
+<script src="bower_components/v-accordion/dist/v-accordion.js"></script>
+
+<script src="app.js"></script>
+<script src="core/core.module.js"></script>
+<script src="core/core.config.js"></script>
+<script src="core/blocks/directives/directives.module.js"></script>
+<script src="core/blocks/filters/filters.module.js"></script>
+<script src="core/blocks/request/request.module.js"></script>
+<script src="core/blocks/services/services.module.js"></script>
+
+<!--services-->
+<script src="services/authorization.service.js"></script>
+<script src="services/tabs.service.js"></script>
+<script src="services/survey.service.js"></script>
+
+<!--factories-->
+<script src="factories/request.js"></script>
+<script src="factories/url.js"></script>
+<script src="factories/survey.js"></script>
+<script src="factories/tabs.js"></script>
+
+<!--filters-->
+<script src="filters/example.filter.js"></script>
+
+<!--directives-->
+<!--<script src="components/survey-block/dot-menu/dot-menu.directive.js"></script>-->
+<!--<script src="components/survey-management/create-survey/create-survey.directive.js"></script>-->
+
+<!--controllers-->
+<script src="templates/authorization/authorization.controller.js"></script>
+<script src="templates/tabs/tabs.controller.js"></script>
+<script src="templates/statistic/statistic.controller.js"></script>
+<script src="templates/schedule/schedule.controller.js"></script>
+<script src="templates/chat/chat.controller.js"></script>
+
+<script src="components/survey-question/add-quest/add-quest.controller.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,135 @@
+.addQuest {
+
+  .identifier {
+    margin: 44px 0 0 0;
+  }
+
+  .question-name {
+    margin: 18px 0 0 0;
+  }
+  .next-question-for-checkbox {
+    margin: 24px 0 0 0;
+  }
+  .next-question-for-date {
+    margin-top: 6px;
+  }
+  .next-question-for-country {
+    margin-top: 24px;
+  }
+  .accordion-for-checkbox {
+    margin: 45px 0 0 0;
+  }
+  .accordion-for-text-date {
+    margin-top: 27px;
+  }
+  .accordion-for-text-country {
+    margin-top: 27px;
+  }
+  .text-margin {
+    margin: 0;
+  }
+
+
+  .dialog-content {
+    margin: 5px 30px 0 30px;
+  }
+  .answer-content {
+    margin: 0 30px;
+  }
+  .text-box {
+    margin-top: 24px;
+  }
+
+  .overflow-x {
+    overflow: -webkit-paged-x;
+  }
+  .add-answer-button {
+    text-transform: none;
+    margin: 4px 30px 15px 30px;
+    font-size: 15px;
+  }
+
+  .add-answer-button_country {
+    text-transform: none;
+    font-size: 15px;
+  }
+
+  .delAns {
+    margin-top: 4px;
+  }
+  .delAns-for-country {
+    margin-top: 10px;
+  }
+
+  .country_input {
+    width: 90%;
+  }
+  .country_input_next_question {
+    width: 100%;
+  }
+
+  .next-quest-radio{
+    //margin-bottom: 42px;
+    margin-bottom: 0;
+    width: 100%;
+  }
+  .name-input{
+    margin-bottom: 0;
+  }
+  .main-input , .radio-input{
+    width: 100%;
+  }
+
+  #answer-container {
+    height: 220px;
+  }
+  .answer-container {
+    max-height: 220px;
+  }
+
+  md-dialog-actions {
+    padding: 10px 30px 20px 30px;
+    border-top: none !important;
+    button {
+      margin: 0;
+    }
+  }
+  .next-label {
+    display: flex;
+  }
+
+  .margin-null {
+    margin: 0;
+  }
+
+  .answer-background:nth-child(odd){
+    background-color: #f3f3f3;
+  }
+
+  .radio-accordion {
+
+    .local-margin-left {
+      margin-left: 10px;
+    }
+
+  }
+
+  .vAccordion--default v-pane-content > div {
+    padding-bottom: 0;
+  }
+  .vAccordion--default v-pane-header {
+    border-bottom: 1px solid #D8D8D8;
+  }
+
+}
+.pick-next{
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.next-quest-id {
+  width: 80px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
