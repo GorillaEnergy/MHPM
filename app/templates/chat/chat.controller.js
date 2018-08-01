@@ -14,7 +14,7 @@
        let psy_id = 1;
        let number_of_posts = 5;
 
-       // loadMessages();
+       loadMessages();
        function loadMessages() {
            fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').limitToLast(number_of_posts).once('value', (snapshot) => {
                $timeout(function () {

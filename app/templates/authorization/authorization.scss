@@ -4,17 +4,20 @@
 
   .header-logo {
     width: 100%;
+    min-width: 636px;
     height: 33.5vh;
     box-sizing: border-box;
-    //border-bottom: 2px solid #0b1138;
-    background: url('../../content/img/authorization/bg2.png')
+    border-bottom: 2px solid #0b1138;
+    background: url('../../content/img/authorization/bg.png')
                 #64cae2 no-repeat top center;
     background-size: cover;
   }
   .body {
     width: 100%;
+    min-width: fit-content;
     height: calc(100vh - 33.5vh);
-    background: url('../../content/img/authorization/dots.png') no-repeat center;
+    background: url('../../content/img/authorization/dots.png')
+                no-repeat center;
     //background-size: 101%;
     background-size: cover;
   }

@@ -13,8 +13,8 @@
        vm.save = save;
 
 
-       // vm.view = {login: true, forgot: false, new_password: false};
-       vm.view = {login: false, forgot: true, new_password: false};
+       vm.view = {login: true, forgot: false, new_password: false};
+       // vm.view = {login: false, forgot: true, new_password: false};
        // vm.view = {login: false, forgot: false, new_password: true};
 
        function login() {

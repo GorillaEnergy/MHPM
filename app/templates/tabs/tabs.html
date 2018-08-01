@@ -1,17 +1,14 @@
-<div class="tabs">
+<div class="tabs-block">
 
     <div class="header">
-        <!--<img src="" class="logo outline" ng-click="vm.toStatistic()">-->
-        <span class="outline" ng-click="vm.toStatistic()">logo must be here</span>
+        <img src="../../content/img/tabs/logo.png" class="logo outline pointer" ng-click="vm.toStatistic()">
         <div class="logout-name-block">
             <div class="name outline" ng-click="vm.profile()">
-                <!--<img src="" class="name-logo">-->
-                <span style="color: darkred;">logo </span>
+                <img src="../../content/img/tabs/profile-ico.png" class="name-logo">
                 <p>my name</p>
             </div>
             <div class="logout outline" ng-click="vm.logout()">
-                <!--<img src="" class="logout-logo">-->
-                <span style="color: darkred;">logo </span>
+                <img src="../../content/img/tabs/logout-ico.png" class="logout-logo">
                 <p>logout</p>
             </div>
         </div>
@@ -19,14 +16,16 @@
     <div class="body">
         <div class="tabs">
             <div class="tab-item outline" ng-click="vm.toSchedule()">
-                <!--<img src="" class="logout-logo">-->
-                <span style="color: darkred;">logo </span>
-                <span>schedule</span>
+                <div class="wrapper">
+                    <img src="../../content/img/tabs/schedule-ico.png" class="schedule-logo">
+                    <span>schedule</span>
+                </div>
             </div>
             <div class="tab-item outline" ng-click="vm.toChat()">
-                <!--<img src="" class="logout-logo">-->
-                <span style="color: darkred;">logo </span>
-                <span>chat</span>
+                <div class="wrapper">
+                    <img src="../../content/img/tabs/chat-ico.png" class="chat-logo">
+                    <span>chat</span>
+                </div>
             </div>
         </div>
 

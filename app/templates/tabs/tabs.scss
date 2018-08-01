@@ -1,10 +1,13 @@
-.tabs {
+.tabs-block {
   font-family: AmericanPatrius;
   color: #0b1138;
+  min-width: 660px;
 
   .header {
-    height: 105px;
-    background-color: white;
+    max-height: 158px;
+    min-height: 110px;
+    height: 15vh;
+    background-color: #64cae2;
     box-sizing: border-box;
     border-bottom: 2px solid #0b1138;
     display: flex;
@@ -15,54 +18,91 @@
       border: none;
     }
     .logo {
-      width: fit-content;
-      display: flex;
+      height: 96%;
+      //height: 150px;
+      //width: 372px;
+      -webkit-clip-path: polygon(0 0, 0 100%, 33% 100%, 44% 96%, 68% 83%, 83% 61%, 100% 20%, 100% 0);
     }
 
     .logout-name-block {
       display: flex;
       position: absolute;
-      bottom: 0;
-      right: 0;
+      bottom: 12px;
+      right: 17px;
     }
     .name {
+      position: relative;
       cursor: pointer;
-      width: fit-content;
+      width: 116px;
       display: flex;
+      //margin-right: 133px;
+      margin-right: 9vw;
     }
     .logout {
+      position: relative;
       cursor: pointer;
-      width: fit-content;
+      width: 100px;
       display: flex;
+    }
+    .name, .logout {
+      p{
+        position: absolute;
+        bottom: -4px;
+        right: 0;
+        font-size: 13px;
+      }
     }
 
   }
 
   .body {
     display: flex;
-    height: calc(100vh - 105px);
+    height: calc(100vh - 158px);
 
     .tabs {
-      width: 255px;
+      //width: 255px;
+      width: 25%;
+      max-width: 450px;
+      min-width: 230px;
       height: 100%;
       background-color: white;
       box-sizing: border-box;
       border-right: 1px solid #0b1138;
 
       .tab-item {
-        //display: flex;
-        //text-align: center;
         cursor: pointer;
-        padding: 50px 0 0 20px;
-        height: 87px;
+        height: 85px;
         box-sizing: border-box;
         border-bottom: 2px solid #cdf2fd;
+        position: relative;
+        margin: auto;
+
+        .wrapper {
+          position: absolute;
+          bottom: 16px;
+          left: 46px;
+
+          span {
+            font-size: 18px;
+            margin-left: 10px;
+          }
+        }
+
+        .schedule-logo {
+          height: auto;
+        }
+        .chat-logo {
+          height: auto;
+        }
       }
     }
     .scope-view {
-      background-color: white;
+      //background-color: white;
       height: 100%;
       width: 100%;
+      background: url('../../content/img/tabs/dots.png')
+                  no-repeat left center;
+      background-size: cover;
     }
   }
 }
