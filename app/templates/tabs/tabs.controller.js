@@ -3,9 +3,9 @@
     angular.module('app')
         .controller('TabsController', TabsController);
 
-    TabsController.$inject = ['$localStorage', '$state', 'tabsService'];
+    TabsController.$inject = ['$localStorage', '$state', '$timeout', '$window', 'tabsService'];
 
-    function TabsController($localStorage, $state, tabsService) {
+    function TabsController($localStorage, $state, $timeout, $window, tabsService) {
        let vm = this;
        console.log('TabsController start');
 
@@ -15,6 +15,23 @@
        vm.toStatistic = toStatistic;
        vm.toSchedule = toSchedule;
        vm.toChat = toChat;
+
+
+
+       $timeout(function () { resizeBody(); });
+       angular.element($window).bind("resize",function(e){ resizeBody(true); });
+
+       function resizeBody(page_ready) {
+           let main = $("#tabs-main");
+           let header = $("#tabs-header");
+           let body = $("#tabs-body");
+
+           if (body.height() < 560 && page_ready) {
+               body.height(560);
+           } else {
+               body.height(main.height() - header.height() - 2);
+           }
+       }
 
        function logout() {
            tabsService.logout()

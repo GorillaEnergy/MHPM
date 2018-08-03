@@ -1,6 +1,116 @@
-.statistic {
+.statistic-block {
   font-family: AmericanPatrius;
   color: #0b1138;
+  
+  //overflow-y: scroll;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  
+  .statistic {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    border-right: 1px solid #0b1138;
 
+    .centered-block {
+      width: 520px;
+      margin: 10px auto 0;
+      display: flex;
+      flex-wrap: wrap;
+    }
+    
+    .item {
+      width: 250px;
+      height: 250px;
+      border: 2px solid #0b1138;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      margin: 5px;
+      padding: 15px 35px 20px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
 
+      .title {
+        font-family: American;
+        font-size: 25px;
+        line-height: 1;
+      }
+    }
+    .this-week {
+
+      .week-block-data {
+        display: flex;
+      }
+      .img-block {
+        width: 50px;
+        margin-right: 20px;
+
+        .in-call-logo-week {
+          width: 126%;
+        }
+        .chat-logo-week {
+          width: 100%;
+        }
+        .calls-logo-week {
+          width: 100%;
+        }
+      }
+      .footer-st {
+        justify-content: space-around;
+      }
+    }
+
+    .item:nth-child(2) {
+      padding-top: 7px;
+    }
+    .item:nth-child(4) {
+      padding: 15px;
+    }
+    .footer-st {
+      display: flex;
+      justify-content: space-between;
+      width: 80%;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .time{
+       .number {
+         font-size: 30px;
+       }
+       .text {
+         font-size: 13px;
+       }
+     }
+    .in-call-today {
+      img {
+        height: 37%;
+        margin: 0 auto;
+      }
+    }
+    .chats-today {
+      img {
+        height: 33%;
+        margin: 0 auto;
+      }
+    }
+    .calls-today {
+      img {
+        height: 29%;
+        margin: 0 auto;
+      }
+    }
+  }
+
+  .live-room {
+    height: 100%;
+    width: 25vw;
+    max-width: 450px;
+    min-width: 230px;
+  }
 }

@@ -9,5 +9,6 @@
        let vm = this;
        console.log('StatisticController start');
 
+
     }
 })();
