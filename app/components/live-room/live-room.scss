@@ -1,0 +1,106 @@
+.live-room-popup {
+
+  background: white;
+  color: #0b1138;
+  border: 2px solid #0b1138;
+  border-radius: unset;
+  padding: 20px 20px 10px;
+  font-size: 16px;
+  font-family: AmericanPatrius;
+  width: 560px;
+  min-width: 560px;
+
+  .description {
+    width: 75px;
+    font-size: 100%;
+    text-align: center;
+    border: 1px solid #0b1138;
+    padding-top: 4px;
+  }
+  .input {
+    width: calc(100% - 75px);
+    border: 1px solid #0b1138;
+    border-left: none;
+    padding: 0 10px;
+    box-sizing: border-box;
+    font-family: AmericanPatrius;
+    color: #0b1138;
+    outline: none;
+  }
+  .input-form {
+    height: 30px;
+  }
+  .name-block {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+  }
+  .date-time-block {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    .date-block {
+      width: calc(50% - 20px);
+      display: flex;
+      flex-direction: row;
+    }
+    .time-block {
+      width: calc(50% - 20px);
+      display: flex;
+      flex-direction: row;
+    }
+  }
+  .photo-block {
+    min-width: 235px;
+    width: 70%;
+    //min-height: 176px;
+    margin: 0 auto 20px;
+    border: 1px solid #0b1138;
+    background-size: cover;
+    position: relative;
+
+    .photo {
+      margin: 31% auto 0;
+      text-align: center;
+
+      img {
+        height: 30px;
+      }
+      span {
+        text-decoration: underline;
+        cursor: pointer;
+      }
+    }
+    .white-camera {
+      position: absolute;
+      bottom: 7px;
+      right: 7px;
+      height: 35px;
+      cursor: pointer;
+    }
+  }
+  .button-block {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    //width: 235px;
+    margin: 0 auto;
+
+    .create-update-button {
+      cursor: pointer;
+      height: 20px;
+      padding: 5px 10px 5px 10px;
+      font-size: 15px;
+      text-align: center;
+      background-color: rgb(227, 27, 79);
+      color: white;
+      -webkit-clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
+    }
+    .close-remove-button {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+}

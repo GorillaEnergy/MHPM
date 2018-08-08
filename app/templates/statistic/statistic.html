@@ -97,10 +97,39 @@
         </div>
     </div>
 
-    <div class="live-room">
-        <p>live room schedule</p>
 
+    <div class="live-room">
+        <div class="title">
+            <p>live room schedule</p>
+        </div>
+
+        <div ng-repeat="event_day in vm.schedule" class="event-day-block">
+            <div class="title-block">
+                <span>{{event_day.day}}</span>
+
+                <div class="title-line-block">
+                    <div class="title-line"></div>
+                    <div></div>
+                </div>
+            </div>
+
+            <div ng-repeat="event_time in event_day.data" class="event-time-block">
+                <p class="time-title" title="{{event_time.title}}">
+                    {{event_time.time}} - {{event_time.title}}
+                </p>
+
+                <img src="../../content/img/statistic/arrow-ico.png" class="to-live disable-selection outline"
+                     ng-click="vm.toLive()" ng-if="event_time.live">
+
+                <div ng-if="!event_time.live" ng-click="vm.editLiveRoom(event_day)" class="edit-event-button disable-selection">
+                    edit
+                </div>
+            </div>
+        </div>
+
+        <div ng-click="vm.createLiveRoom()"  class="create-event-button create-button disable-selection">
+            create live room
+        </div>
     </div>
 
 </div>
-

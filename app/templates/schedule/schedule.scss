@@ -1,6 +1,114 @@
 .schedule {
   font-family: AmericanPatrius;
   color: #0b1138;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
 
+  .main {
+    width: 80%;
+    height: 100%;
+    padding-top: 20px;
+    box-sizing: border-box;
+    border-right: 2px solid #0b1138;
 
+    .title {
+      text-align: center;
+      font-family: American;
+      font-size: 30px;
+      margin: auto;
+    }
+
+    .calendar {
+      width: 100%;
+
+      table {
+        width: calc(100% + 2px);
+        border-top: 1px solid #0b1138;
+        border-left: none;
+        border-right: none;
+        box-sizing: border-box;
+
+        tr {
+          height: 20px;
+        };
+        td {
+          background-color: white;
+          border-bottom: 1px solid #0b1138;
+          border-right: 1px solid #0b1138;
+          font-size: 65%;
+          padding: 5px 0;
+        }
+        td:first-child {
+          width: 50px;
+          text-align: center;
+        };
+      }
+
+      .calendar-header {
+        td {
+          background-color: #64cae2;
+          text-align: left;
+          padding: 0;
+
+          p {
+            padding-left: 10px;
+            font-family: American;
+            font-size: 16px;
+          }
+          span {
+            padding-left: 20px;
+            font-family: AmericanPatrius;
+            font-size: 10px;
+          }
+        }
+      }
+
+      .busy {
+        background-color: rgb(202, 242, 253);
+      }
+    }
+  }
+  .sidebar {
+    width: 20%;
+    height: 100%;
+    overflow: auto;
+    padding: 0 15px;
+
+    .title {
+      text-align: center;
+      font-family: American;
+      font-size: 30px;
+      padding-top: 20px;
+    }
+
+    .busy-on-day {
+      width: 100%;
+
+      .day-name-block {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .day-name {
+          width: 55px;
+          text-align: center;
+        }
+
+        .day-line-block {
+          width: 100%;
+
+          .day-line {
+            box-sizing: border-box;
+            border-bottom: 2px solid #0b1138;
+            height: 50%;
+            width: calc(100% - 5px);
+            margin-left: 5px;
+          }
+        }
+      }
+    }
+
+  }
 }

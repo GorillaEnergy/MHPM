@@ -1,0 +1,42 @@
+<md-dialog class="live-room-popup">
+
+    <div class="name-block input-form">
+        <div class="description">name</div>
+        <input ng-model="vm.name" class="input" type="text">
+    </div>
+
+    <div class="date-time-block input-form">
+        <div class="date-block">
+            <div class="description">date</div>
+            <input ng-model="vm.date" class="input" type="date">
+        </div>
+        <div class="time-block">
+            <div class="description">time</div>
+            <input ng-model="vm.time" class="input" type="time">
+        </div>
+    </div>
+
+    <div class="photo-block" id="photo-block">
+            <div class="photo" ng-if="false">
+                <img src="../../content/img/live-room-popup/photo_camera.png" class="blue-camera">
+
+                <form name="imgForm" enctype="multipart/form-data">
+                    <input type="file" class="ng-hide" id="file" name="imgFile" value="Select" accept="image/*"
+                       required>
+                    <label for="file"><span>add photo</span></label>
+                </form>
+            </div>
+            <label for="file" ng-if="true">
+                <img src="../../content/img/live-room-popup/photo_camera_white.png" class="white-camera">
+            </label>
+    </div>
+
+    <div class="button-block" id="button-block">
+        <div ng-click="vm.createRoom()" ng-if="vm.showCreateButton()" class="create-update-button">create</div>
+        <div ng-click="vm.editRoom()" ng-if="vm.showEditButton()" class="create-update-button">save</div>
+        <div ng-click="vm.removeRoom()" ng-if="vm.showRemoveButton()" class="close-remove-button">remove</div>
+        <div ng-click="vm.close()" ng-if="vm.showCloseButton()" class="close-remove-button">close</div>
+    </div>
+
+
+</md-dialog>

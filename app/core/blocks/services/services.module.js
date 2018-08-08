@@ -4,7 +4,8 @@
     angular.module('blocks.services', [
         'service.authService',
         'service.tabsService',
-        'service.surveyService',
+        'service.statisticService',
+        'service.scheduleService',
     ]);
 
 })();
