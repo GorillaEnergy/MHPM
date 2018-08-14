@@ -1,0 +1,46 @@
+.call {
+  font-family: AmericanPatrius;
+  color: #0b1138;
+  position: relative;
+
+  .img-block {
+    width: 644px;
+    height: 484px;
+    background-size: cover;
+    position: absolute;
+    top: 50px;
+    left: 30px;
+    border: 1px solid #0b1138;
+    background-color: white;
+    display: flex;
+    flex-wrap: wrap;
+
+    //video {
+    //  width: 320px;
+    //  height: 240px;
+    //}
+
+  }
+
+  .face-box-video {
+    border: 1px solid red;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+
+  }
+
+  video {
+    --width: 45%;
+    width: var(--width);
+    height: calc(var(--width) * 0.75);
+    margin: 0 0 20px 0;
+    vertical-align: top;
+  }
+
+  video#localVideo {
+    margin: 0 20px 20px 0;
+  }
+}

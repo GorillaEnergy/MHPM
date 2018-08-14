@@ -41,6 +41,7 @@
     "angular-material-data-table": "^0.10.10",
     "font-awesome": "^4.7.0",
     "ng2-md-datatable": "^1.5.1",
+    "node-sass": "^4.9.2",
     "v-accordion": "^1.6.0"
   }
 }

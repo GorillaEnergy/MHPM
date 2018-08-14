@@ -6,6 +6,7 @@
         'service.tabsService',
         'service.statisticService',
         'service.scheduleService',
+        'service.webrtcService',
     ]);
 
 })();

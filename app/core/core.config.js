@@ -43,6 +43,36 @@
                 controller: 'ChatController',
                 controllerAs: 'vm'
             })
+            .state('tabs.call', {
+                url: '/call',
+                templateUrl: 'templates/call/call.html',
+                controller: 'CallController',
+                controllerAs: 'vm'
+            })
+            .state('tabs.call2', {
+                url: '/call2',
+                templateUrl: 'templates/call2/call2.html',
+                controller: 'Call2Controller',
+                controllerAs: 'vm'
+            })
+            .state('tabs.call3', {
+                url: '/call3',
+                templateUrl: 'templates/call3/call3.html',
+                controller: 'Call3Controller',
+                controllerAs: 'vm'
+            })
+            .state('tabs.call4', {
+                url: '/call4',
+                templateUrl: 'templates/call4/call4.html',
+                controller: 'Call4Controller',
+                controllerAs: 'vm'
+            })
+            .state('tabs.call5', {
+                url: '/call5',
+                templateUrl: 'templates/call5/call5.html',
+                controller: 'Call5Controller',
+                controllerAs: 'vm'
+            })
             // .state('login', {
             //     url: '/login',
             //     templateUrl: 'templates/login/login.html',

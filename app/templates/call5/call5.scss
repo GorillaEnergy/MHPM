@@ -1,0 +1,24 @@
+.call5 {
+  font-family: AmericanPatrius;
+  color: #0b1138;
+  //color: red;
+  position: relative;
+
+  .video-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 648px;
+    //margin: 0 auto;
+    margin: 5px 5px 0;
+  }
+
+  video {
+    width: 320px;
+    height: 240px;
+    border: 1px solid #02458b;
+    margin: 1px;
+    background-color: black;
+  }
+
+}

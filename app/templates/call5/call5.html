@@ -1,0 +1,19 @@
+<div class="call5">
+    <h2>Realtime communication with WebRTC</h2>
+
+    <div layout="row">
+        <md-button ng-click="vm.callTo('user id here')" class="md-primary md-raised">Call</md-button>
+        <md-button ng-click="vm.emulateUserAnswer()" class="md-primary md-raised">Emu</md-button>
+    </div>
+
+    <div class="video-container">
+        <div>
+            <p>Local video</p>
+            <video id="localVideo" autoplay muted playsinline></video>
+        </div>
+        <div>
+            <p>Remote video</p>
+            <video id="remoteVideo" autoplay playsinline></video>
+        </div>
+    </div>
+</div>
