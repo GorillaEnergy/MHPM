@@ -7,6 +7,9 @@
 <html lang="en" ng-app="app" class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!-->
 <html lang="en" ng-app="app" class="no-js"> <!--<![endif]-->
+<!--[if lt IE 9]><!-->
+<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,6 +24,15 @@
     <link rel="stylesheet" href="bower_components/angular-material-data-table/dist/md-data-table.min.css">
     <link rel="stylesheet" href="bower_components/material-design-icons/iconfont/material-icons.css">
     <link href="bower_components/v-accordion/dist/v-accordion.css" rel="stylesheet" />
+
+    <!--WebRTC styles-->
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="WebRTC/stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="WebRTC/stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="WebRTC/stylesheets/print.css" media="print">
+    <link rel="stylesheet" type="text/css" href="WebRTC/stylesheets/style.css" />
+    <link rel="stylesheet" type="text/css" href="WebRTC/fonts/font-awesome-4.3.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="WebRTC/stylesheets/normalize.css" />
 
 </head>
 <body>
@@ -40,8 +52,14 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="bower_components/jquery.facedetection/dist/jquery.facedetection.min.js"></script>
 
-<!--WebRTC adapter-->
+<!--WebRTC-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+<script src="https://cdn.pubnub.com/pubnub.min.js"></script>
+<script src="http://kevingleason.me/SimpleRTC/js/webrtc.js"></script>
+<script src="WebRTC/js/modernizr.custom.js"></script>
+<script src="WebRTC/js/webrtc.js"></script>
+<script src="WebRTC/js/rtc-controller.js"></script>
 
 <script src="bower_components/angular/angular.min.js"></script>
 <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
