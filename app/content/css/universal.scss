@@ -1,0 +1,138 @@
+@font-face {
+  font-family: "American";
+  src: url("fonts/American Captain.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "AmericanPatrius";
+  src: url("fonts/American Captain Patrius.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Lazy";
+  src: url("fonts/Lazy Spring Day.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "Neue";
+  src: url("fonts/HelveticaNeueCyr-Roman.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "ArimoBold";
+  src: url("fonts/Arimo-Bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "ArimoBoldItalic";
+  src: url("fonts/Arimo-BoldItalic.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "ArimoItalic";
+  src: url("fonts/Arimo-Italic.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-family: "ArimoRegular";
+  src: url("fonts/Arimo-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+
+html, body, p{
+  margin: 0;
+  padding: 0;
+}
+
+md-dialog {
+  overflow: visible;
+}
+
+i {
+  cursor: pointer;
+}
+
+.view-head{
+  line-height: 60px;
+}
+
+.bot-btn button {
+  box-shadow: none !important;
+  line-height: 0;
+  min-height: 32px;
+  margin: 0;
+  min-width: 98px;
+  background-color: #001041 !important;
+}
+
+.bot-btn button:last-child {
+  background-color: #fff !important;
+  border: 2px solid #001041;
+  margin-left: 40px;
+  color: #001041 !important;
+}
+
+md-list-item .md-list-item-inner > md-checkbox{
+  margin-right: 0;
+  margin-left: 10px;
+}
+
+md-toolbar{
+  background-color: #001041 !important;
+}
+
+
+//clicked element
+
+.pointer {
+  cursor: pointer;
+  outline:none;
+  user-select: none;
+}
+.outline {
+  outline: none;
+}
+.disable-selection {
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer */
+  -khtml-user-select: none; /* KHTML browsers (e.g. Konqueror) */
+  -webkit-user-select: none; /* Chrome, Safari, and Opera */
+  -webkit-touch-callout: none; /* Disable Android and iOS callouts*/
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+  background: white;
+  border: 1px solid #0b1138;
+}
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #0b1138;
+}
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #0b1138;
+}
+
+body {
+  -ms-scrollbar-face-color: #0b1138;
+  -ms-scrollbar-arrow-color: #0b1138;
+  -ms-scrollbar-base-color: white;
+  //-ms-scrollbar-highlight-color: #ff4016;
+}
