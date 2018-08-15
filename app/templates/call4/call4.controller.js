@@ -38,6 +38,7 @@
                 addLog("Logged in as " + form.username.value);
             });
             ctrl.receive(function(session){
+                console.log(session);
                 session.connected(function(session){ video_out.appendChild(session.video); addLog(session.number + " has joined."); vidCount++; });
                 session.ended(function(session) { ctrl.getVideoElement(session.number).remove(); addLog(session.number + " has left.");    vidCount--;});
             });
@@ -70,6 +71,7 @@
         }
 
         function end(){
+            console.log('end');
             ctrl.hangup();
         }
 

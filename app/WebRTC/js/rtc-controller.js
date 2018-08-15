@@ -239,6 +239,8 @@ var CONTROLLER = window.CONTROLLER = function(phone){
 	}
 	
 	function receive(m){
+		console.log('receive');
+		console.log(m);
 		switch(m.type) {
 		case "userCall":
 			callAuth(m.data);
