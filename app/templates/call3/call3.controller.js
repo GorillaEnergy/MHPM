@@ -22,7 +22,7 @@
         });
 
         vm.users = consultants;
-        vm.userOnlineStatusArr = [true, false];
+        vm.userOnlineStatusArr = [];
         watchOnline(vm.users);
         watchInvites();
 
@@ -38,10 +38,11 @@
             fb.ref('/WebRTC/users/' + to_user.id + '/answer').on('value', (snapshot) => {
                 console.log(snapshot.val());
                 $timeout(function () {
+                    console.log('answer', snapshot.val());
                     if (snapshot.val()) {
                         dialing('joinRTC', call_from_user, call_to_user)
                     } else {
-                        fb.ref('/WebRTC/users/' + to_user.id + '/answer').off();
+                        // fb.ref('/WebRTC/users/' + to_user.id + '/answer').off();
                     }
                 })
             });
