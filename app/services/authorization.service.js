@@ -11,6 +11,7 @@
 
         let model = {};
         model.login = login;
+        model.logout = logout;
         model.getToken = getToken;
         model.setToken = setToken;
         model.getUser = getUser;
@@ -27,6 +28,7 @@
             return http.post(url.user.login, data).then(function (res) {
                 console.log(res);
                 if (res.status === 'success') {
+                    firebase.database().ref('/WebRTC/users/' + res.data.user.id + '/online').set(true);
                     $localStorage.token = res.data.token;
                     $localStorage.user = res.data.user;
                     toastr.success('Authorization success');
@@ -35,6 +37,14 @@
                     toastr.error('Authorization error')
                 }
             })
+        }
+        function logout() {
+            console.log('logout');
+            let user_id = angular.copy($localStorage.user.id);
+            firebase.database().ref('/WebRTC/users/' + user_id + '/online').set(false);
+            firebase.database().ref().off();
+            $localStorage.$reset();
+            $state.go('authorization.login')
         }
         function getToken() {
             return $localStorage.token;

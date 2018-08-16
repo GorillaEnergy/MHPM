@@ -3,9 +3,9 @@
     angular.module('app')
         .controller('TabsController', TabsController);
 
-    TabsController.$inject = ['$localStorage', '$state', '$timeout', '$window', 'tabsService'];
+    TabsController.$inject = ['$localStorage', '$state', '$timeout', '$window', 'tabsService', 'authService'];
 
-    function TabsController($localStorage, $state, $timeout, $window, tabsService) {
+    function TabsController($localStorage, $state, $timeout, $window, tabsService, authService) {
        let vm = this;
        console.log('TabsController start');
 
@@ -35,7 +35,7 @@
        }
 
        function logout() {
-           tabsService.logout()
+           authService.logout()
        }
        function profile() {
            tabsService.profile()
