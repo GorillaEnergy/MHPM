@@ -5,9 +5,9 @@
         .module('service.authService', [])
         .service('authService', authService);
 
-    authService.$inject = ['http', 'url', '$localStorage'];
+    authService.$inject = ['http', 'url', '$localStorage', '$state', 'toastr'];
 
-    function authService(http, url, $localStorage) {
+    function authService(http, url, $localStorage, $state, toastr) {
 
         let model = {};
         model.login = login;
@@ -23,8 +23,18 @@
 
         return model;
 
-        function login(credentials) {
-            return http.post(url.user.login, credentials)
+        function login(data) {
+            return http.post(url.user.login, data).then(function (res) {
+                console.log(res);
+                if (res.status === 'success') {
+                    $localStorage.token = res.data.token;
+                    $localStorage.user = res.data.user;
+                    toastr.success('Authorization success');
+                    $state.go('tabs.statistic')
+                } else {
+                    toastr.error('Authorization error')
+                }
+            })
         }
         function getToken() {
             return $localStorage.token;

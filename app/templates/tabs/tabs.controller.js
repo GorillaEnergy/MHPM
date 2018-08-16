@@ -15,6 +15,7 @@
        vm.toStatistic = toStatistic;
        vm.toSchedule = toSchedule;
        vm.toChat = toChat;
+       vm.toVideoChatTest = toVideoChatTest;
 
 
 
@@ -48,6 +49,9 @@
        }
        function toChat() {
            tabsService.route('tabs.chat');
+       }
+       function toVideoChatTest() {
+           tabsService.route('tabs.video-chat-test');
        }
     }
 })();

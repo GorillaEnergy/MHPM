@@ -10,7 +10,7 @@
             .theme('blue-grey')
             .accentPalette('blue-grey');
 
-        $urlRouterProvider.otherwise('/authorization');
+        $urlRouterProvider.otherwise('/authorization/login');
 
         $stateProvider
 
@@ -18,12 +18,27 @@
                 url: '/authorization',
                 templateUrl: 'templates/authorization/authorization.html',
                 controller: 'AuthorizationController',
-                controllerAs: 'vm',
+                controllerAs: 'vm'
+            }).state('authorization.login', {
+                url: '/login',
+                templateUrl: 'templates/login/login.html',
+                controller: 'LoginController',
+                controllerAs: 'vm'
+            }).state('authorization.forgot', {
+                url: '/forgot',
+                templateUrl: 'templates/forgot/forgot.html',
+                controller: 'ForgotController',
+                controllerAs: 'vm'
+            }).state('authorization.new-password', {
+                url: '/new-password',
+                templateUrl: 'templates/new-password/new-password.html',
+                controller: 'NewPasswordController',
+                controllerAs: 'vm'
             }).state('tabs', {
                 url: '/tabs',
                 templateUrl: 'templates/tabs/tabs.html',
                 controller: 'TabsController',
-                controllerAs: 'vm',
+                controllerAs: 'vm'
             })
             .state('tabs.statistic', {
                 url: '/statistic',
@@ -55,11 +70,16 @@
                 controller: 'Call2Controller',
                 controllerAs: 'vm'
             })
-            .state('tabs.call3', {
-                url: '/call3',
+            .state('tabs.video-chat-test', {
+                url: '/video-chat-test',
                 templateUrl: 'templates/call3/call3.html',
                 controller: 'Call3Controller',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                resolve: {
+                    consultants: function (userService) {
+                        return userService.getConsultantList();
+                    }
+                }
             })
             .state('tabs.call4', {
                 url: '/call4',
@@ -73,59 +93,5 @@
                 controller: 'Call5Controller',
                 controllerAs: 'vm'
             })
-            // .state('login', {
-            //     url: '/login',
-            //     templateUrl: 'templates/login/login.html',
-            //     controller: 'LoginController',
-            //     controllerAs: 'vm'
-            // })
-            // .state('registration', {
-            //     url: '/register/:token',
-            //     templateUrl: 'templates/registration/registration.html',
-            //     controller: 'RegistrationController',
-            //     controllerAs: 'vm'
-            // })
-            // .state('forgot', {
-            //     url: '/sign-up/forgot',
-            //     templateUrl: 'templates/forgot-password/forgot-password.html',
-            //     controller: 'ForgotController',
-            //     controllerAs: 'vm'
-            // })
-            // .state('reset', {
-            //     url: '/sign-up/reset/:token',
-            //     templateUrl: 'templates/reset-password/reset-password.html',
-            //     controller: 'ResetController',
-            //     controllerAs: 'vm'
-            // })
-            // .state('tab.user-management', {
-            //     url: '/user-management',
-            //     templateUrl: 'templates/user-management/user-management.html',
-            //     controller: 'UserManagementController',
-            //     controllerAs: 'vm',
-            //     resolve: {
-            //         loadCustomers: function (customerService) {
-            //             return customerService.loadCustomers();
-            //         },
-            //         loadCompany: function (companyService, userService) {
-            //             let company = [];
-            //             let userRole = userService.getUser().role_id;
-            //
-            //             if (userRole === 2) {
-            //                 company = companyService.loadCompany();
-            //             }
-            //
-            //             return company;
-            //         },
-            //         security: function ($state, userService) {
-            //             let userRole = userService.getUser().role_id;
-            //             if (userRole === 3) {
-            //                 return $state.go('tab.company');
-            //             }
-            //         }
-            //     },
-            //     params: {
-            //         data: null
-            //     }
-            // })
     }
 })();

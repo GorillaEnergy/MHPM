@@ -5,9 +5,9 @@
         .module('service.tabsService', [])
         .service('tabsService', tabsService);
 
-    tabsService.$inject = ['http', 'url', '$localStorage' , '$state', '$mdDialog'];
+    tabsService.$inject = ['http', 'url', '$sessionStorage', '$localStorage' , '$state', '$mdDialog'];
 
-    function tabsService(http, url, $localStorage, $state, $mdDialog) {
+    function tabsService(http, url, $sessionStorage, $localStorage, $state, $mdDialog) {
         let model = {};
 
         model.logout = logout;
@@ -19,6 +19,10 @@
 
         function logout() {
             console.log('logout');
+
+            $localStorage.$reset();
+            $sessionStorage.$reset();
+            $state.go('authorization.login')
             // return http.get(url.logout_func($localStorage.token).logout);
         }
         function profile() {
