@@ -6,7 +6,7 @@
     url.$inject = [];
 
     function url() {
-        let baseUrl = 'http://api.mind-hero.grassbusinesslabs.tk/';
+        let baseUrl = 'https://api.mind-hero.grassbusinesslabs.tk/';
 
         return {
             user: {
