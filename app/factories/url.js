@@ -15,6 +15,9 @@
             consultant: {
                 list: baseUrl + 'api/list-consultants',
             },
+            kids: {
+                list: baseUrl + 'api/list-paid-kids',
+            },
             create_adm: function (token) {
                 return {register: baseUrl + 'api/auth/register/' + token}
             },

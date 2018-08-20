@@ -12,6 +12,7 @@
         let model = {};
         model.getConsultantList = getConsultantList;
         model.setConsultantList = setConsultantList;
+        model.getKidsList = getKidsList;
 
 
         return model;
@@ -28,6 +29,15 @@
         }
         function setConsultantList(user) {
             $localStorage.user = user;
+        }
+        function getKidsList() {
+            return http.get(url.kids.list).then(function (res) {
+                if (res.status === 'success') {
+                    return res.data;
+                } else {
+                    return []
+                }
+            })
         }
 
 

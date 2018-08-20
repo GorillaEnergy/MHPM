@@ -3,9 +3,9 @@
     angular.module('app')
         .controller('Call3Controller', Call3Controller);
 
-    Call3Controller.$inject = ['$localStorage', '$state', '$timeout', 'consultants'];
+    Call3Controller.$inject = ['$localStorage', '$state', '$timeout', 'consultants', 'kids', 'userService'];
 
-    function Call3Controller($localStorage, $state, $timeout, consultants) {
+    function Call3Controller($localStorage, $state, $timeout, consultants, kids, userService) {
         let vm = this;
 
         vm.call = call;
@@ -15,26 +15,32 @@
         let fb = firebase.database();
         let user = $localStorage.user;
 
-        consultants = consultants.filter(function (consultant) {
-            if (consultant.id !== user.id) {
-                return consultant
-            }
-        });
 
-        vm.users = consultants;
+        vm.users = usersFilter(kids, consultants);
         vm.userOnlineStatusArr = [];
         watchOnline(vm.users);
         watchInvites();
 
+        function usersFilter(kids, consultants) {
+            consultants = consultants.filter(function (consultant) {
+                if (consultant.id !== user.id) {
+                    return consultant
+                }
+            });
+            return kids.concat(consultants)
+        }
+
         function call(to_user) {
-            let call_from_user = user.id + 'mhconsultant';
-            let call_to_user = to_user.id + 'mhconsultant';
+            let call_from_user = user.id + 'mhuser';
+            let call_to_user = to_user.id + 'mhuser';
 
             console.log(call_from_user);
             console.log(call_to_user);
 
+
             console.log(to_user.id);
             fb.ref('/WebRTC/users/' + to_user.id + '/invite').set(call_from_user);
+            fb.ref('/WebRTC/users/' + to_user.id + '/invite_from').set(user.name);
             fb.ref('/WebRTC/users/' + to_user.id + '/answer').on('value', (snapshot) => {
                 console.log(snapshot.val());
                 $timeout(function () {
@@ -58,9 +64,9 @@
 
             if (type === 'joinRTC') {
                 $timeout(function () {
-                    console.log('timeout end');
+                    console.log('call_submitt');
                     document.getElementById('call_submitt').click();
-                }, 1000)
+                }, 3000)
             }
         }
 
@@ -100,7 +106,7 @@
 
                             console.log("pick up");
                             fb.ref('/WebRTC/users/' + user.id + '/answer').set(true);
-                            dialing('initRTC', user.id + 'mhconsultant');
+                            dialing('initRTC', user.id + 'mhuser');
                             $timeout(function () {
                                 fb.ref('/WebRTC/users/' + user.id + '/invite').remove();
                                 fb.ref('/WebRTC/users/' + user.id + '/answer').remove();

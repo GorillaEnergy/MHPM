@@ -78,6 +78,9 @@
                 resolve: {
                     consultants: function (userService) {
                         return userService.getConsultantList();
+                    },
+                    kids: function (userService) {
+                        return userService.getKidsList();
                     }
                 }
             })
