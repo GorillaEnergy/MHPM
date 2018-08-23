@@ -1,71 +1,34 @@
-<div class = "bodyDiv">
+<div class="call3">
 
-    <!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
-    <!-- My Phone Number & Dial Areas -->
-    <!-- =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= -->
-    <div id="vid-box" class="video2"></div>
-    <div id="vid-thumb"></div>
+    <div class = "bodyDiv">
+
+        <div id="vid-box" class="video2"></div>
+        <div id="vid-thumb"></div>
 
 
-    <!--<form name="loginForm" id="login" action="#" onsubmit="return errWrap(login,this);">-->
-    <form name="loginForm" ng-submit="vm.errWrap('login')" id="login">
-    <span class="input input--nao">
-        <input class="input__field input__field--nao" type="text" name="username" id="username" placeholder="Enter A Username"/>
-            <label class="input__label input__label--nao" for="username">
-                <span class="input__label-content input__label-content--nao">
-                </span>
-            </label>
-            <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
-                <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"/>
-            </svg>
-    </span>
+        <div id="inCall" class="ptext">
+            <button id="end" ng-click="vm.end()" >End</button>
+            <button id="mute" ng-click="vm.mute()">Mute</button>
+            <button id="pause" ng-click="vm.pause()">Pause</button>
+        </div>
 
-        <button class="cbutton cbutton--effect-radomir" type="submit" name="login_submit" value="Log In" style="margin-top: 40px; margin-left:-10px">
-            <i class="cbutton__icon fa fa-fw fa fa-sign-in"></i>
-        </button>
-    </form>
+        <div id="logs" class="ptext"></div>
 
-    <form name="callForm" id="call" ng-submit="vm.errWrap('call')">
-    <span class="input input--nao">
-        <input class="input__field input__field--nao" type="text" name="number" id="number" placeholder="Enter User To Call!"/>
-                <label class="input__label input__label--nao" for="number">
-                    <span class="input__label-content input__label-content--nao">
-                    </span>
-                </label>
-            <svg class="graphic graphic--nao" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
-                <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"/>
-            </svg>
-    </span>
-        <button class="cbutton cbutton--effect-radomir md-trigger" type="submit" value="Call" style="margin-top: 40px; margin-left:-10px" data-modal="modal-13">
-            <i class="cbutton__icon fa fa-fw fa fa fa-phone-square"></i>
-        </button>
-    </form>
-
-    <div id="inCall" class="ptext">
-        <button id="end" ng-click="vm.end()" >End</button>
-        <button id="mute" ng-click="vm.mute()">Mute</button>
-        <button id="pause" ng-click="vm.pause()">Pause</button>
     </div>
 
-    <div id="logs" class="ptext"></div>
-
-    <p class="ptext"><b>To Use:</b></p>
-    <p class="ptext">Type a username and click Log in. If input turns green you are ready to receive/place a call.</p>
-    <p class="ptext">In a separate browser window, log in with a different username, and place a call to the first.</p>
-
-
-
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new
-        Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-        ga('create', 'UA-46933211-3', 'auto');
-        ga('send', 'pageview');
-
-    </script>
-
+    <div class="user-panel">
+        <div class="title">Users</div>
+        <div ng-repeat="user in vm.users track by $index" class="user-block">
+            <div style="display: flex; flex-direction: row;">
+                <img src="../../content/img/tabs/profile-ico.png" class="man-ico">
+                <div class="offline-status" ng-class="vm.userOnlineStatus($index)"></div>
+                <div class="name">{{user.name}}</div>
+            </div>
+            <div>
+                <img src="../../content/img/statistic/total-calls-ico.png" class="phone-ico" ng-click="vm.call(user)"
+                     ng-if="vm.accesToCall($index)">
+            </div>
+        </div>
+    </div>
 </div>
 

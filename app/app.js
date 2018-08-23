@@ -10,9 +10,9 @@
         ])
         .run(runBlock);
 
-    runBlock.$inject = ['$localStorage', '$state'];
+    runBlock.$inject = ['webrtc', 'rtcController'];
 
-    function runBlock($localStorage, $state) {
+    function runBlock(webrtc, rtcController) {
         // console.log('runBlock start');
 
         let config = {
