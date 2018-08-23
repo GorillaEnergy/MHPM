@@ -12,6 +12,8 @@
         let localStream;
         let remoteStream;
         let channelName;
+        let reconnectAccess = true;
+        let reconnect;
 
         vm.call = call;
         vm.userOnlineStatus = userOnlineStatus;
@@ -71,13 +73,14 @@
             //joinRTC  initRTC
             console.log(user);
 
-            // document.getElementById('username').value = your_name;
-            // vm.opponent_name = opponent_name;
-            errWrap(login, your_name);
+            if (!localStream) {
+                console.log('login');
+                errWrap(login, your_name);
+            }
 
             if (type === 'joinRTC') {
                 $timeout(function () {
-                    console.log('call_submitt');
+                    console.log('makeCall');
                     errWrap(makeCall, opponent_name);
                 }, 3000)
             }
@@ -229,8 +232,23 @@
             let num = opponent_name;
             if (phone.number()==num) return false; // No calling yourself!
             ctrl.isOnline(num, function(isOn){
-                if (isOn) ctrl.dial(num);
-                else alert("User if Offline");
+                if (isOn) {
+                    ctrl.dial(num);
+                    reconnect = false;
+                } else {
+                    if (reconnectAccess) {
+                        $timeout(function () {
+                            makeCall(opponent_name);
+                        }, 1000);
+
+                        if (!reconnect) {
+                            reconnectTimerStart();
+                        }
+                    } else {
+                        reconnect = false;
+                        alert("User if Offline");
+                    }
+                }
             });
             return false;
         }
@@ -268,6 +286,33 @@
                 return false;
             }
         }
+
+
+        function reconnectTimerStart() {
+            reconnect = true;
+            $timeout(function () { reconnect = false; }, 30000);
+
+            let timer = setInterval(timerFnc, 1000);
+
+            function timerFnc() {
+                console.log(reconnect);
+                if (!reconnect) {
+                    stopTimer()
+                }
+            }
+            function stopTimer() {
+                resetReconnectPermission();
+                clearInterval(timer)
+            }
+        }
+
+        function resetReconnectPermission() {
+            console.log('resetReconnectPermission');
+            reconnectAccess = false;
+            $timeout(function () { reconnectAccess = true; }, 5000);
+
+        }
+
 
         //////////////// Script isogram ////////////////
 
