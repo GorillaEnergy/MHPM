@@ -7,26 +7,30 @@
   display: flex;
   flex-direction: row;
 
-  .bodyDiv {
+  .main {
     width: calc(100% - 280px);
     height: 100%;
 
-    #vid-box {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      height: 330px;
+  }
+  .bodyDiv {
+    width: 100%;
+    position: relative;
 
+    .video1 {
+      width: 100%;
       video {
-        width: 427px;
+        width: 100%!important;
       }
     }
+    .video2 {
+      position: absolute;
+      z-index: 99;
+      bottom: 0;
+      right: 0;
+      width: 150px;
 
-    #vid-thumb {
-      transform: scale(-1, 1);
-      text-align: center;
       video {
-        width: 284px;
+        width: 100%!important;
       }
     }
 

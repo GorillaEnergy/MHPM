@@ -682,21 +682,24 @@ body {
   height: 100%;
   display: flex;
   flex-direction: row; }
-  .call4 .bodyDiv {
+  .call4 .main {
     width: calc(100% - 280px);
     height: 100%; }
-    .call4 .bodyDiv #vid-box {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      height: 330px; }
-      .call4 .bodyDiv #vid-box video {
-        width: 427px; }
-    .call4 .bodyDiv #vid-thumb {
-      transform: scale(-1, 1);
-      text-align: center; }
-      .call4 .bodyDiv #vid-thumb video {
-        width: 284px; }
+  .call4 .bodyDiv {
+    width: 100%;
+    position: relative; }
+    .call4 .bodyDiv .video1 {
+      width: 100%; }
+      .call4 .bodyDiv .video1 video {
+        width: 100% !important; }
+    .call4 .bodyDiv .video2 {
+      position: absolute;
+      z-index: 99;
+      bottom: 0;
+      right: 0;
+      width: 150px; }
+      .call4 .bodyDiv .video2 video {
+        width: 100% !important; }
     .call4 .bodyDiv .ptext {
       text-align: center; }
   .call4 .user-panel {

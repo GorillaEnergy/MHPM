@@ -43,7 +43,7 @@
 
         ////////////////////////////////////////
 
-        incommingOnBusy('room', 'name');
+        // incommingOnBusy('room', 'name');
         function incommingOnBusy(room_name, opponent_name) {
             $mdDialog.show({
                 controller: 'IncomingOnBusyController',
@@ -97,9 +97,11 @@
                         offAnswerWatcher(to_user.id);
                     } else if (snapshot.val() === 'add') {
                         offAnswerWatcher(to_user.id);
-                        if (!vidCount || remoteStream) {
+                        console.log(vidCount);
+                        console.log(remoteStream);
+                        if (vidCount || remoteStream) {
                             end();
-                            dialing('joinRTC', call_from_user, call_to_user)
+                            dialing('initRTC', call_from_user, call_to_user)
                         } else {
                             dialing('joinRTC', call_from_user, call_to_user)
                         }
@@ -114,6 +116,7 @@
         function dialing(type, your_name, opponent_name) {
             //joinRTC  initRTC
             console.log(user);
+            console.log(type, your_name, opponent_name);
 
             if (!localStream) {
                 console.log('login');
