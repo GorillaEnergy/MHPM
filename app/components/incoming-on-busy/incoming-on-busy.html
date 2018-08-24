@@ -1,0 +1,20 @@
+<md-dialog flex="30" class="createTemplateTitle">
+    <div class="createWindow">
+       <md-toolbar class="view-head" layout="row" layout-align="center center">
+            <p>Incoming call</p>
+       </md-toolbar>
+
+        <div class="content">
+
+            <p class="name">{{vm.opponent_name}}</p>
+
+            <div class="bot-btn" layout="row" layout-align="space-between">
+                <md-button class="md-raised md-primary" ng-click="vm.addToCurrent()">Add to call</md-button>
+
+                <!--<md-button class="md-raised md-primary" ng-click="vm.newConnect()">Add</md-button>-->
+
+                <md-button class="md-raised" ng-click="vm.close()">Hang up</md-button>
+            </div>
+        </div>
+    </div>
+</md-dialog>

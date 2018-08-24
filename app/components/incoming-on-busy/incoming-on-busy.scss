@@ -1,0 +1,29 @@
+.createTemplateTitle {
+
+  min-width: 291px;
+
+  .createTop p {
+    text-align: center;
+    color: white;
+    padding: 12px;
+  }
+
+  .createTop {
+    background: #3f51b5;
+  }
+
+  .content {
+    padding: 0 30px 20px 30px;
+    text-align: center;
+  }
+
+  .name {
+    margin: 10px 0;
+  }
+
+  md-input-container {
+    width: 100%;
+    margin-bottom: 25px;
+    margin-top: 40px;
+  }
+}
