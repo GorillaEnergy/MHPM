@@ -3,9 +3,9 @@
     angular.module('app')
         .controller('Call4Controller', Call4Controller);
 
-    Call4Controller.$inject = ['$localStorage', '$state', '$timeout', 'consultants', 'kids', 'userService'];
+    Call4Controller.$inject = ['$localStorage', '$state', '$timeout', 'consultants', 'kids', 'userService', '$mdDialog'];
 
-    function Call4Controller($localStorage, $state, $timeout, consultants, kids, userService) {
+    function Call4Controller($localStorage, $state, $timeout, consultants, kids, userService, $mdDialog) {
         console.log('Call4Controller start');
         let vm = this;
 
@@ -43,6 +43,40 @@
 
         ////////////////////////////////////////
 
+        incommingOnBusy('room', 'name');
+        function incommingOnBusy(room_name, opponent_name) {
+            $mdDialog.show({
+                controller: 'IncomingOnBusyController',
+                controllerAs: 'vm',
+                templateUrl: 'components/incoming-on-busy/incoming-on-busy.html',
+                clickOutsideToClose: false,
+                locals: {
+                    opponent_name: opponent_name
+                }
+            }).then(function (res) {
+                //new add undefined
+                console.log(res);
+                if (res === 'add') {
+                    addToCurrentChat(room_name, opponent_name);
+                } else {
+                    console.log("hang up");
+                    fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set(false);
+                    $timeout(function () {
+                        fb.ref('/WebRTC/users/' + user.id + '/metadata').remove();
+                    }, 100)
+                }
+            }, function () {
+
+            });
+        }
+
+        function addToCurrentChat(room_name, opponent_name) {
+            console.log('addToCurrentChat');fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set('add');
+            $timeout(function () {
+                fb.ref('/WebRTC/users/' + user.id + '/metadata').remove();
+            }, 1500)
+        }
+
         //////////////// Signaling ////////////////
         function call(to_user) {
             let call_from_user = user.id + 'mhuser';
@@ -61,6 +95,14 @@
                         dialing('joinRTC', call_from_user, call_to_user)
                     } else if (snapshot.val() === false) {
                         offAnswerWatcher(to_user.id);
+                    } else if (snapshot.val() === 'add') {
+                        offAnswerWatcher(to_user.id);
+                        if (!vidCount || remoteStream) {
+                            end();
+                            dialing('joinRTC', call_from_user, call_to_user)
+                        } else {
+                            dialing('joinRTC', call_from_user, call_to_user)
+                        }
                     }
                 })
             });
@@ -118,24 +160,36 @@
             fb.ref('/WebRTC/users/' + user.id + '/metadata/invite').on('value', (snapshot) => {
                 $timeout(function () {
                     if (snapshot.val()) {
-                        if (confirm("Incoming call")) {
+                        let room_name = snapshot.val();
 
-                            console.log("pick up");
-                            fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set(true);
-                            console.log(user.id);
-                            dialing('initRTC', user.id + 'mhuser');
-                            $timeout(function () {
-                                fb.ref('/WebRTC/users/' + user.id + '/metadata').remove();
-                            }, 1500)
+                        fb.ref('/WebRTC/users/' + user.id + '/metadata/invite_from').once('value', (snapshot) => {
+                            let opponent_name = snapshot.val();
+                            if (vidCount) {
+                                incommingOnBusy(room_name, opponent_name)
+                            } else {
+                                if (confirm("Incoming call from " + opponent_name)) {
 
-                        } else {
+                                    console.log("pick up");
+                                    fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set(true);
+                                    console.log(user.id);
+                                    dialing('initRTC', user.id + 'mhuser');
+                                    $timeout(function () {
+                                        fb.ref('/WebRTC/users/' + user.id + '/metadata').remove();
+                                    }, 1500)
 
-                            console.log("hang up");
-                            fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set(false);
-                            $timeout(function () {
-                                fb.ref('/WebRTC/users/' + user.id + '/metadata').remove();
-                            }, 100)
-                        }
+                                } else {
+
+                                    console.log("hang up");
+                                    fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set(false);
+                                    $timeout(function () {
+                                        fb.ref('/WebRTC/users/' + user.id + '/metadata').remove();
+                                    }, 100)
+                                }
+                            }
+                        });
+
+
+
                     }
                 })
             });

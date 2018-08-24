@@ -829,3 +829,21 @@ body {
     .live-room-popup .button-block .close-remove-button {
       text-decoration: underline;
       cursor: pointer; }
+
+.createTemplateTitle {
+  min-width: 291px; }
+  .createTemplateTitle .createTop p {
+    text-align: center;
+    color: white;
+    padding: 12px; }
+  .createTemplateTitle .createTop {
+    background: #3f51b5; }
+  .createTemplateTitle .content {
+    padding: 0 30px 20px 30px;
+    text-align: center; }
+  .createTemplateTitle .name {
+    margin: 10px 0; }
+  .createTemplateTitle md-input-container {
+    width: 100%;
+    margin-bottom: 25px;
+    margin-top: 40px; }
