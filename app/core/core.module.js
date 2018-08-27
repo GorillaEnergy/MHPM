@@ -5,7 +5,7 @@
         'ui.router', 'ngMaterial',
         'ngAnimate', 'toastr',
         'ngStorage', 'ngMessages',
-        'ui.sortable'
+        'ui.sortable', 'ui.calendar',
     ]);
 
 
