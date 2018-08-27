@@ -70,8 +70,8 @@
                 controller: 'Call2Controller',
                 controllerAs: 'vm'
             })
-            .state('tabs.video-chat-test', {
-                url: '/video-chat-test',
+            .state('tabs.call3', {
+                url: '/call3',
                 templateUrl: 'templates/call3/call3.html',
                 controller: 'Call3Controller',
                 controllerAs: 'vm',
@@ -84,11 +84,19 @@
                     }
                 }
             })
-            .state('tabs.call4', {
-                url: '/call4',
+            .state('tabs.video-chat-test', {
+                url: '/video-chat-test',
                 templateUrl: 'templates/call4/call4.html',
                 controller: 'Call4Controller',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                resolve: {
+                    consultants: function (userService) {
+                        return userService.getConsultantList();
+                    },
+                    kids: function (userService) {
+                        return userService.getKidsList();
+                    }
+                }
             })
             .state('tabs.call5', {
                 url: '/call5',
