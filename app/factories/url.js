@@ -35,8 +35,11 @@
                     removePDF: baseUrl + 'api/storage/contracts/' + idReport,
                     sendContractToEmail: baseUrl + 'api/report/' + idReport + '/contract/' + idContract + '/send-contract/' + filename
                 };
+            },
+            password: {
+                forgot: baseUrl + 'api/password/forgot',
+                reset: baseUrl + 'api/password/reset'
             }
-
         };
     }
 
