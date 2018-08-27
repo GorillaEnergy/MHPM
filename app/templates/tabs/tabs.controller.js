@@ -16,8 +16,12 @@
        vm.toSchedule = toSchedule;
        vm.toChat = toChat;
        vm.toVideoChatTest = toVideoChatTest;
+       vm.toggleMenu = toggleMenu;
+       vm.menuOpen = true;
 
-
+        function toggleMenu(){
+            vm.menuOpen = !vm.menuOpen;
+        }
 
        $timeout(function () { resizeBody(); });
        angular.element($window).bind("resize",function(e){ resizeBody(true); });

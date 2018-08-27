@@ -266,7 +266,26 @@ body {
       height: 100%;
       background-color: white;
       box-sizing: border-box;
-      border-right: 1px solid #0b1138; }
+      border-right: 1px solid #0b1138;
+      transition: all 0.3s ease;
+      position: relative; }
+      .tabs-block .body .tabs--hide {
+        margin-left: -25%; }
+      .tabs-block .body .tabs .tabs-btn {
+        position: absolute;
+        right: -26px;
+        border: none;
+        padding: 0;
+        background: #64CAE2;
+        z-index: 1;
+        height: 56px;
+        border-radius: 0 50% 50% 0; }
+        .tabs-block .body .tabs .tabs-btn img {
+          height: 25px; }
+        .tabs-block .body .tabs .tabs-btn .img-scale {
+          transform: scale(-1); }
+      .tabs-block .body .tabs .tabs-btn:focus {
+        outline: none; }
       .tabs-block .body .tabs .tab-item {
         cursor: pointer;
         height: 85px;
@@ -479,7 +498,7 @@ body {
   display: flex;
   flex-direction: row; }
   .schedule .main {
-    width: 80%;
+    width: 75%;
     height: 100%;
     padding-top: 20px;
     box-sizing: border-box;
@@ -523,7 +542,7 @@ body {
       .schedule .main .calendar .busy {
         background-color: #caf2fd; }
   .schedule .sidebar {
-    width: 20%;
+    width: 25%;
     height: 100%;
     overflow: auto;
     padding: 0 15px; }
@@ -536,19 +555,25 @@ body {
       width: 100%; }
       .schedule .sidebar .busy-on-day .day-name-block {
         display: flex;
-        flex-direction: row;
-        justify-content: space-between; }
+        align-items: center; }
         .schedule .sidebar .busy-on-day .day-name-block .day-name {
           width: 55px;
-          text-align: center; }
-        .schedule .sidebar .busy-on-day .day-name-block .day-line-block {
-          width: 100%; }
-          .schedule .sidebar .busy-on-day .day-name-block .day-line-block .day-line {
-            box-sizing: border-box;
-            border-bottom: 2px solid #0b1138;
-            height: 50%;
-            width: calc(100% - 5px);
-            margin-left: 5px; }
+          text-align: center;
+          font-family: American;
+          font-size: 26px; }
+      .schedule .sidebar .busy-on-day .day-line {
+        box-sizing: border-box;
+        border-bottom: 2px solid #0b1138;
+        height: 50%;
+        width: calc(100% - 5px);
+        margin-left: 5px; }
+      .schedule .sidebar .busy-on-day .day-time-block {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 13px;
+        padding: 10px 0; }
 
 .chat {
   font-family: AmericanPatrius;

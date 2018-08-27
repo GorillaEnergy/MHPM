@@ -70,6 +70,32 @@
       background-color: white;
       box-sizing: border-box;
       border-right: 1px solid #0b1138;
+      transition: all 0.3s ease;
+      position: relative;
+
+      &--hide {
+        margin-left: -25%;
+      }
+
+      .tabs-btn {
+        position: absolute;
+        right: -26px;
+        border: none;
+        padding: 0;
+        background: #64CAE2;
+        z-index: 1;
+        height: 56px;
+        border-radius: 0 50% 50% 0;
+        img {
+          height:25px;
+        }
+        .img-scale{
+          transform: scale(-1);
+        }
+      }
+      .tabs-btn:focus{
+        outline: none;
+      }
 
       .tab-item {
         cursor: pointer;

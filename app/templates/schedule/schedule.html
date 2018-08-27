@@ -210,9 +210,11 @@
                 <div class="day-name">
                     <span>{{day.day}}</span>
                 </div>
-                <div class="day-line-block">
-                    <div class="day-line"></div>
-                    <div></div>
+                <div class="day-line"></div>
+            </div>
+            <div class="day-time-block">
+                <div class="day-time" ng-repeat="time in day.time">
+                    <p> {{time.start}} - {{time.end}}</p>
                 </div>
             </div>
         </div>
