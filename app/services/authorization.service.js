@@ -53,7 +53,7 @@
             $localStorage.token = token;
         }
         function getUser() {
-            return $localStorage.token;
+            return $localStorage.user;
         }
         function setUser(user) {
             $localStorage.user = user;

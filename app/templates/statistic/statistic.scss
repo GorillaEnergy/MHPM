@@ -184,6 +184,7 @@
       background-color: #64cae2;
       color: #0b1138;
       -webkit-clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
+      clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
     }
     .create-event-button {
       margin: 40px auto 0;
@@ -196,6 +197,7 @@
       background-color: #0b1138;
       color: white;
       -webkit-clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
+      clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
     }
   }
 }

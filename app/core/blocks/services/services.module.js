@@ -9,6 +9,7 @@
         'service.scheduleService',
         'service.webrtc',
         'service.rtcController',
+        'service.dateConverter',
     ]);
 
 })();

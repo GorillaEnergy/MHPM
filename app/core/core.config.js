@@ -56,7 +56,15 @@
                 url: '/chat',
                 templateUrl: 'templates/chat/chat.html',
                 controller: 'ChatController',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                resolve: {
+                    // consultants: function (userService) {
+                    //     return userService.getConsultantList();
+                    // },
+                    kids: function (userService) {
+                        return userService.getKidsList();
+                    }
+                }
             })
             .state('tabs.call', {
                 url: '/call',

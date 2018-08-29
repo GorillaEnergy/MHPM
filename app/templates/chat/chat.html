@@ -1,25 +1,65 @@
 <div class="chat">
 
-    <md-button ng-click="vm.playPause()">play/pause</md-button>
+    <div class="chat-body">
 
-    <div class="img-block" id="wrapper">
-        <video id="video"></video>
-        <!--<video autoplay id="video"></video>-->
+        <!--<md-progress-linear md-mode="indeterminate" class="load-linear" ng-show="vm.loadMessages"></md-progress-linear>-->
+        <!--<md-progress-circular md-mode="indeterminate" class="load-circular" ng-show="vm.loadMessages"></md-progress-circular>-->
 
-        <div class="face-box-video" id="face-box-video"></div>
+        <div class="messages" id="chat">
+
+            <div ng-repeat="(key, message) in vm.messages track by $index">
+                <div class="day" ng-if="vm.dateHeader($index)">
+                    <div class="title-line-block">
+                        <div class="title-line"></div>
+                        <div></div>
+                    </div>
+
+                    <p>{{vm.dateConvert(message.date)}}</p>
+
+                    <div class="title-line-block">
+                        <div class="title-line"></div>
+                        <div></div>
+                    </div>
+                </div>
+
+                <div ng-class="vm.ownMessage(key) ? 'my-message-block' : 'other-message' ">
+                    <div class="message-time" ng-if="vm.timeHeader($index)">
+                        <div class="info">
+                            <p class="name">contact name</p>
+                            <p>{{vm.timeConvert(message.date)}}</p>
+                        </div>
+
+                        <div class="contact">
+                            <div class="avatar"></div>
+                            <div class="trigon"></div>
+                        </div>
+                    </div>
+                    <div class="my-message">
+                        <p>{{message.text}}</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="send-box">
+            <input type="text" ng-model="vm.message_input">
+            <div class="button" ng-click="vm.sendMessage()">
+                send
+            </div>
+        </div>
     </div>
 
 
-    <!---->
-    <!--<md-button ng-click="vm.checkFace()">-->
-        <!--Check face coordinate-->
-    <!--</md-button>-->
-
-    <!--<div class="img-block" id="wrapper">-->
-
-        <!--<img src="../../content/2.jpg" alt="" id="picture" class="img">-->
-
-    <!--</div>-->
+    <div class="user-panel">
+        <!--<div class="title">Users</div>-->
+        <div ng-repeat="user in vm.users track by $index" class="user" ng-click="vm.selectUser(user)">
+            <div class="info">
+                <div class="offline-status" ng-class="vm.userOnlineStatus($index)"></div>
+                <img src="../../content/img/tabs/profile-ico.png" class="man-ico">
+                <div class="name">{{user.name}}</div>
+            </div>
+        </div>
+    </div>
 
 </div>
 

@@ -100,6 +100,7 @@
     background-color: #0b1138;
     color: white;
     -webkit-clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
+    clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
     //shape-margin: 20px; // обтеканик вокруг объекта
   }
   .login {
@@ -109,6 +110,7 @@
     width: 277px;
     margin-top: 0;
     -webkit-clip-path: polygon(0 15%, 5% 100%, 100% 70%, 100% 0);
+    clip-path: polygon(0 15%, 5% 100%, 100% 70%, 100% 0);
   }
   .save {
     width: 124px;

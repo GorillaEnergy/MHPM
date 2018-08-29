@@ -40,8 +40,7 @@
             });
             return kids.concat(consultants)
         }
-
-        ////////////////////////////////////////
+        /////////////////////////////////////////////////////////////
 
         // incommingOnBusy('room', 'name');
         function incommingOnBusy(room_name, opponent_name) {
@@ -71,7 +70,8 @@
         }
 
         function addToCurrentChat(room_name, opponent_name) {
-            console.log('addToCurrentChat');fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set('add');
+            console.log('addToCurrentChat');
+            fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set('add');
             $timeout(function () {
                 fb.ref('/WebRTC/users/' + user.id + '/metadata').remove();
             }, 1500)
@@ -216,12 +216,14 @@
                 ssl: true
             });
             let ctrl = window.ctrl = CONTROLLER(phone);
+
             ctrl.ready(function(){
                 ctrl.addLocalStream(vid_thumb);
                 addLog("Logged in as " + username);
                 localStream = true;
                 channelName = username;
             });
+
             ctrl.receive(function(session){
                 // session.connected(function(session){ video_out.appendChild(session.video); addLog(session.number + " has joined."); vidCount++; });
                 // session.ended(function(session) { ctrl.getVideoElement(session.number).remove(); addLog(session.number + " has left.");    vidCount--;});
@@ -237,39 +239,43 @@
                     activityCalc(session.number, false);
                 });
             });
+
             ctrl.videoToggled(function(session, isEnabled){
                 ctrl.getVideoElement(session.number).toggle(isEnabled);
                 addLog(session.number+": video enabled - " + isEnabled);
             });
+
             ctrl.audioToggled(function(session, isEnabled){
                 ctrl.getVideoElement(session.number).css("opacity",isEnabled ? 1 : 0.75);
                 addLog(session.number+": audio enabled - " + isEnabled);
             });
+
             function activityCalc(name, join) {
+                console.log(name, join);
                 let index;
+
                 search(name);
                 function search(name) {
                     for (let i=0; i < userActivityArr.length; i++) {
-                        if (userActivityArr[i].name === name) {
+                        if (userActivityArr[i].name == name) {
                             index = i;
+                            console.log('index = ' + i);
                             break
                         }
                     }
                     change(name);
                 }
                 function change(name) {
-                    if (index && !join) {
-                        userActivityArr[index].status = false;
-                    } else if (!index && join) {
-                        userActivityArr.push({ name: name, status: true })
+                    if (join) {
+                        userActivityArr.push({ user: name })
+                    } else {
+                        userActivityArr.splice(index, 1)
                     }
+
                     vidCalc(name)
                 }
                 function vidCalc(name) {
-                    vidCount = 0;
-                    angular.forEach(userActivityArr, function(value) {
-                        if (value.status) { vidCount++; }
-                    });
+                    vidCount = userActivityArr.length;
 
                     console.log('User arr', userActivityArr);
                     console.log('User count', vidCount);

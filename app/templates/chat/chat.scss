@@ -1,35 +1,257 @@
 .chat {
   font-family: AmericanPatrius;
+  font-size: 30px;
   color: #0b1138;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
 
-  .img-block {
-    width: 1024px;
-    height: 768px;
-    //background: url("../../content/2.jpg") no-repeat center;
-    background-size: cover;
-    position: absolute;
-    top: 50px;
-    left: 50px;
+  .chat-body {
+    width: calc(100% - 279px);
+    height: 100%;
+    position: relative;
 
+    .load-linear {
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+    .load-circular {
+      position: absolute;
+      top: 5px;
+      left: 0;
+      right: 0;
+      margin: 0 auto;
+      z-index: 1;
+      width: 40px;
+      height: 40px;
+
+      svg {
+        width: 40px!important;
+        height: 40px!important;
+        transform-origin: 20px 20px 20px!important;
+      }
+    }
+  }
+  .messages{
+    width: 100%;
+    height: calc(100% - 50px);
+    overflow-y: scroll;
+    position: relative;
+
+
+    .load {
+      margin-top: 10px;
+      color: #0b1138;
+      z-index: 1;
+      position: fixed;
+      left: calc(50% - 33px);
+      right: auto;
+      background-color: #caf2fd;
+      font-size: 14px;
+      padding: 10px;
+      border-radius: 25px;
+      font-family: AmericanPatrius;
+    }
+    .other-message{
+      width: 70%;
+      margin-left: 10px;
+      margin-bottom: 10px;
+      .my-message{
+        p{
+          font-family: Neue;
+          font-size: 50%;
+          background-color: #64cae2;
+          padding: 10px ;
+        }
+      }
+      .message-time{
+        display: inline-flex;
+        flex-direction: row-reverse;
+
+        p{
+          font-size: 12px;
+          margin: 0;
+          font-family: AmericanPatrius;
+        }
+
+        .info {
+          text-align: right;
+        }
+        .contact {
+          margin-right: 5px;
+
+          .avatar {
+            border: 1px solid #0b1138;
+            width: 30px;
+            height: 30px;
+            background-color: white;
+          }
+          .trigon {
+            margin: 1px auto 0;
+            width: 15px;
+            height: 10px;
+            background-color: #64cae2;
+            -webkit-clip-path: polygon(50% 0, 100% 100%, 0 100%);
+            clip-path: polygon(50% 0, 100% 100%, 0 100%);
+          }
+        }
+      }
+    }
+    .my-message-block{
+      width: 70%;
+      margin-left: auto;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      .my-message{
+        p{
+          font-family: Neue;
+          font-size: 50%;
+          background-color: #caf2fd;
+          padding: 10px 0 10px 10px;
+        }
+      }
+      .message-time{
+        display: flex;
+        justify-content: flex-end;
+        p{
+          font-size: 12px;
+          margin: 0;
+          font-family: AmericanPatrius;
+        }
+
+        .info {
+          text-align: right;
+        }
+        .contact {
+          margin-left: 5px;
+
+          .avatar {
+            border: 1px solid #0b1138;
+            width: 30px;
+            height: 30px;
+            background-color: white;
+          }
+          .trigon {
+            margin: 1px auto 0;
+            width: 15px;
+            height: 10px;
+            background-color: #caf2fd;
+            -webkit-clip-path: polygon(50% 0, 100% 100%, 0 100%);
+            clip-path: polygon(50% 0, 100% 100%, 0 100%);
+          }
+        }
+      }
+    }
+    .day{
+      display: flex;
+      justify-content: center;
+      margin-top: 10px;
+
+      p{
+        font-size: 90%;
+        font-family: American;
+        color: #0b1138;
+        text-transform: uppercase;
+        padding: 7px;
+      }
+
+      .title-line-block {
+        width: 30%;
+
+        .title-line {
+          box-sizing: border-box;
+          border-bottom: 2px solid #0b1138;
+          height: 50%;
+          width: 100%;
+        }
+      }
+    }
   }
 
-  .img {
-    //width: 100%;
-    //height: 100%;
+  .send-box {
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    width: 100%;
+    height: 50px;
+    padding: 10px;
+    background-color: #00acac;
+    border-top: 1px solid #0b1138;
+
+    input {
+      width: calc(100% - 105px);
+      border: 1px solid #0b1138;
+      padding: 0 10px;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      font-family: Neue;
+      font-size: 50%;
+    }
+
+    .button {
+      margin: 0 15px;
+      background-color: #0b1138;
+      color: white;
+      font-size: 50%;
+      padding: 5px 10px 5px 10px;
+      -webkit-clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
+      clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
+      cursor: pointer;
+    }
   }
 
-  .face-box {
-    border: 1px solid red;
-    position: absolute;
-  }
+  .user-panel {
+    width: 280px;
+    height: 100%;
+    overflow-y: auto;
+    padding: 0 10px;
+    border-left: 1px solid #0b1138;
 
-  .face-box-video {
-    border: 1px solid red;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 0;
+    .title {
+      font-size: 100%;
+    }
+    .user {
+      width: 100%;
+      margin: 10px 0;
+      outline: none;
+    }
+    .info {
+      display: flex;
+      flex-direction: row;
+      cursor: pointer;
+    }
+    .name {
+      width: 205px;
+      font-size: 50%;
+      padding-top: 12px;
+      margin-left: 8px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .man-ico {
+      height: 40px;
 
+    }
+    .phone-ico {
+      height: 40px;
+      outline: none;
+
+    }
+    .offline-status {
+      width: 10px;
+      height: 10px;
+      background-color: white;
+      margin-top: 18px;
+      margin-right: 5px;
+    }
+    .online-status {
+      background-color: #e31b4f;
+    }
   }
 }
