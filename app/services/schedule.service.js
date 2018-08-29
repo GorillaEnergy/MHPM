@@ -11,8 +11,25 @@
         let model = {};
 
         model.busyOnWeek = busyOnWeek;
+        model.createSchedule = createSchedule;
+        model.updateSchedule = updateSchedule;
+        model.deleteSchedule = deleteSchedule;
+        model.getMySchedule = getMySchedule;
 
         return model;
+
+        function createSchedule(data) {
+            return http.post(url.schedule.create, data)
+        }
+        function updateSchedule(data) {
+            return http.post(url.schedule.update, data)
+        }
+        function deleteSchedule(data) {
+            return http.post(url.schedule.delete, data)
+        }
+        function getMySchedule() {
+            return http.get(url.schedule.getMySchedules)
+        }
 
         function busyOnWeek() {
             let data = [

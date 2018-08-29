@@ -260,8 +260,6 @@ body {
     display: flex; }
     .tabs-block .body .tabs {
       width: 25%;
-      max-width: 450px;
-      min-width: 230px;
       height: 100%;
       background-color: white;
       box-sizing: border-box;
@@ -495,62 +493,17 @@ body {
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: row;
-  padding-top: 20px; }
-  .schedule .main {
-    width: 75%;
-    height: 100%;
-    padding-top: 20px;
-    box-sizing: border-box;
-    border-right: 2px solid #0b1138; }
-    .schedule .main .title {
-      text-align: center;
-      font-family: American;
-      font-size: 30px;
-      margin: auto; }
-    .schedule .main .calendar {
-      width: 100%; }
-      .schedule .main .calendar table {
-        width: calc(100% + 2px);
-        border-top: 1px solid #0b1138;
-        border-left: none;
-        border-right: none;
-        box-sizing: border-box; }
-        .schedule .main .calendar table tr {
-          height: 20px; }
-        .schedule .main .calendar table td {
-          background-color: white;
-          border-bottom: 1px solid #0b1138;
-          border-right: 1px solid #0b1138;
-          font-size: 65%;
-          padding: 5px 0; }
-        .schedule .main .calendar table td:first-child {
-          width: 50px;
-          text-align: center; }
-      .schedule .main .calendar .calendar-header td {
-        background-color: #64cae2;
-        text-align: left;
-        padding: 0; }
-        .schedule .main .calendar .calendar-header td p {
-          padding-left: 10px;
-          font-family: American;
-          font-size: 16px; }
-        .schedule .main .calendar .calendar-header td span {
-          padding-left: 20px;
-          font-family: AmericanPatrius;
-          font-size: 10px; }
-      .schedule .main .calendar .busy {
-        background-color: #caf2fd; }
+  flex-direction: row; }
   .schedule .sidebar {
-    width: 25%;
-    max-width: 260px;
+    width: 23%;
     height: 100%;
     overflow: auto;
-    padding: 0 15px; }
+    padding: 0 15px;
+    border-left: 1px solid #0b1138; }
     .schedule .sidebar .title {
       text-align: center;
       font-family: American;
-      font-size: 30px;
+      font-size: 40px;
       padding-top: 20px; }
     .schedule .sidebar .busy-on-day {
       width: 100%; }
@@ -561,25 +514,28 @@ body {
           width: 55px;
           text-align: center;
           font-family: American;
-          font-size: 26px; }
+          font-size: 30px; }
       .schedule .sidebar .busy-on-day .day-line {
         box-sizing: border-box;
         border-bottom: 2px solid #0b1138;
         height: 50%;
-        width: calc(100% - 5px);
+        width: calc(65%);
         margin-left: 5px; }
       .schedule .sidebar .busy-on-day .day-time-block {
         width: 100%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        font-size: 13px;
+        font-size: 16px;
         padding: 10px 0; }
   .schedule .fc-unthemed th, .schedule .fc-unthemed td, .schedule .fc-unthemed thead, .schedule .fc-unthemed tbody, .schedule .fc-unthemed .fc-divider, .schedule .fc-unthemed .fc-row, .schedule .fc-unthemed .fc-content, .schedule .fc-unthemed .fc-popover {
     border-color: #7F8397; }
   .schedule .fc {
     font-size: 1em;
-    width: 80%; }
+    width: 78%; }
+    .schedule .fc tr {
+      height: 30px;
+      line-height: 30px; }
     .schedule .fc .fc-head {
       background: #64CAE2; }
     .schedule .fc .fc-body {
@@ -589,13 +545,27 @@ body {
     width: 60px !important; }
   .schedule .fc-scroller.fc-time-grid-container {
     height: auto !important; }
+  .schedule .fc-toolbar h2 {
+    margin: 0;
+    margin-top: 20px;
+    font-family: American;
+    font-size: 40px; }
+  .schedule .fc-event-active {
+    z-index: 999;
+    background: #6BA5C1;
+    color: white;
+    height: 110px;
+    width: 110px;
+    border: 1px solid black;
+    position: absolute;
+    font-size: 12px; }
   .schedule .schedule-tbn {
     display: flex;
     align-items: center;
     cursor: pointer;
     position: absolute;
-    right: 20%;
-    bottom: 0; }
+    right: 25%;
+    bottom: 30px; }
     .schedule .schedule-tbn .update {
       text-decoration: underline; }
     .schedule .schedule-tbn .send {
@@ -608,6 +578,17 @@ body {
       border: none;
       -webkit-clip-path: polygon(0 15%, 10% 100%, 100% 65%, 100% 0%);
       font-family: AmericanPatrius; }
+
+.md-dialog-content {
+  font-family: AmericanPatrius;
+  color: #0b1138;
+  font-size: 22px;
+  text-align: center; }
+
+.md-button.md-primary {
+  color: #0b1138 !important;
+  text-decoration: underline;
+  font-size: 18px; }
 
 .chat {
   font-family: AmericanPatrius;

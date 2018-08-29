@@ -5,83 +5,18 @@
   height: 100%;
   display: flex;
   flex-direction: row;
-  padding-top: 20px;
 
-  .main {
-    width: 75%;
-    height: 100%;
-    padding-top: 20px;
-    box-sizing: border-box;
-    border-right: 2px solid #0b1138;
-
-    .title {
-      text-align: center;
-      font-family: American;
-      font-size: 30px;
-      margin: auto;
-    }
-
-    .calendar {
-      width: 100%;
-
-      table {
-        width: calc(100% + 2px);
-        border-top: 1px solid #0b1138;
-        border-left: none;
-        border-right: none;
-        box-sizing: border-box;
-
-        tr {
-          height: 20px;
-        };
-        td {
-          background-color: white;
-          border-bottom: 1px solid #0b1138;
-          border-right: 1px solid #0b1138;
-          font-size: 65%;
-          padding: 5px 0;
-        }
-        td:first-child {
-          width: 50px;
-          text-align: center;
-        };
-      }
-
-      .calendar-header {
-        td {
-          background-color: #64cae2;
-          text-align: left;
-          padding: 0;
-
-          p {
-            padding-left: 10px;
-            font-family: American;
-            font-size: 16px;
-          }
-          span {
-            padding-left: 20px;
-            font-family: AmericanPatrius;
-            font-size: 10px;
-          }
-        }
-      }
-
-      .busy {
-        background-color: rgb(202, 242, 253);
-      }
-    }
-  }
   .sidebar {
-    width: 25%;
-    max-width: 260px;
+    width: 23%;
     height: 100%;
     overflow: auto;
     padding: 0 15px;
+    border-left: 1px solid #0b1138;
 
     .title {
       text-align: center;
       font-family: American;
-      font-size: 30px;
+      font-size: 40px;
       padding-top: 20px;
     }
 
@@ -95,14 +30,14 @@
           width: 55px;
           text-align: center;
           font-family: American;
-          font-size: 26px;
+          font-size: 30px;
         }
       }
       .day-line {
         box-sizing: border-box;
         border-bottom: 2px solid #0b1138;
         height: 50%;
-        width: calc(100% - 5px);
+        width: calc(65%);
         margin-left: 5px;
       }
       .day-time-block {
@@ -110,7 +45,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        font-size: 13px;
+        font-size: 16px;
         padding: 10px 0;
       }
     }
@@ -122,7 +57,11 @@
   }
   .fc {
       font-size: 1em;
-      width: 80%;
+      width: 78%;
+      tr {
+        height: 30px;
+        line-height: 30px;
+      }
       .fc-head {
         background: #64CAE2;
       }
@@ -137,14 +76,31 @@
     .fc-scroller.fc-time-grid-container{
       height: auto !important;
     }
+  .fc-toolbar h2 {
+     margin: 0;
+     margin-top: 20px;
+     font-family: American;
+     font-size: 40px;
+  }
+
+  .fc-event-active{
+    z-index: 999;
+    background: #6BA5C1;
+    color: white;
+    height: 110px;
+    width: 110px;
+    border: 1px solid black;
+    position: absolute;
+    font-size: 12px;
+  }
 
   .schedule-tbn {
     display: flex;
     align-items: center;;
     cursor: pointer;
     position: absolute;
-    right: 20%;
-    bottom: 0;
+    right: 25%;
+    bottom: 30px;
     .update{
       text-decoration: underline;
     }
@@ -160,4 +116,15 @@
       font-family: AmericanPatrius;
     }
   }
+}
+.md-dialog-content{
+  font-family: AmericanPatrius;
+  color: #0b1138;
+  font-size: 22px;
+  text-align: center;
+}
+.md-button.md-primary {
+  color: #0b1138 !important;
+  text-decoration: underline;
+  font-size: 18px;
 }

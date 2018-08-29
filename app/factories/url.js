@@ -39,6 +39,12 @@
             password: {
                 forgot: baseUrl + 'api/password/forgot',
                 reset: baseUrl + 'api/password/reset'
+            },
+            schedule: {
+              create: baseUrl + 'api/schedule/create',
+              update: baseUrl + 'api/schedule/update',
+              delete: baseUrl + 'api/schedule/delete',
+              getMySchedules: baseUrl +'api/schedules/my'
             }
         };
     }

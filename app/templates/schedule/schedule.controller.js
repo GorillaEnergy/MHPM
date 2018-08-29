@@ -3,9 +3,9 @@
     angular.module('app')
         .controller('ScheduleController', ScheduleController);
 
-    ScheduleController.$inject = ['$localStorage', '$state', 'scheduleService', '$scope', 'uiCalendarConfig'];
+    ScheduleController.$inject = ['$localStorage', '$state', 'scheduleService', '$scope', 'uiCalendarConfig', '$mdDialog'];
 
-    function ScheduleController($localStorage, $state, scheduleService, $scope, uiCalendarConfig) {
+    function ScheduleController($localStorage, $state, scheduleService, $scope, uiCalendarConfig, $mdDialog) {
         let vm = this;
         console.log('ScheduleController start');
 
@@ -17,11 +17,18 @@
         $scope.eventSources = [$scope.events];
         $scope.NewEvent = {};
 
-        vm.newEvents = angular.copy($localStorage.events) || [];
 
-        if (!$localStorage.id) {
-            $localStorage.id = 1;
+        getSchedules();
+        function getSchedules() {
+        scheduleService.getMySchedule().then(function (data) {
+            vm.newEvents = data.data || [];
+            populate(vm.newEvents);
+        });
         }
+
+        // if (!$localStorage.id) {
+        //     $localStorage.id = 1;
+        // }
 
         // function getDate(datetime) {
         //     if (datetime != null) {
@@ -45,22 +52,20 @@
             $scope.events.splice(0, $scope.events.length);
             angular.forEach(data, function (value) {
                 $scope.events.push({
-                    id: value.EventID,
-                    start: new Date(value.StartAt),
-                    end: new Date(value.EndAt),
+                    id: value.id,
+                    start: new Date(value.time_from),
+                    end: new Date(value.time_to),
                     stick: true
                 })
             })
         }
-        populate(vm.newEvents);
-
-
-
 
         vm.prepDate = function () {
-            let y = new Date().getFullYear();
-            let m = new Date().getMonth();
-            let d = new Date().getDate() + 7;
+            // 2018, 2, 5, 19, 0, 0, 0
+            let dt = new Date();
+            let y = dt.getFullYear();
+            let m = dt.getMonth();
+            let d = dt.getDate() + 7;
             return new Date(y,m,d);
         };
 
@@ -93,9 +98,9 @@
                     let fromDate = moment(start).format('YYYY-MM-DDTHH:mm:SS');
                     let endDate = moment(end).format('YYYY-MM-DDTHH:mm:SS');
                     $scope.NewEvent = {
-                        EventID: $localStorage.id++,
-                        StartAt: fromDate,
-                        EndAt: endDate,
+                        id: 0,
+                        time_from: fromDate,
+                        time_to: endDate,
                     };
                     $scope.saveEvent();
                 },
@@ -104,11 +109,11 @@
                     let fromDate = moment(event.start).format('YYYY-MM-DDTHH:mm:SS');
                     let endDate = moment(event.end).format('YYYY-MM-DDTHH:mm:SS');
                     $scope.NewEvent = {
-                        EventID: event.id,
-                        StartAt: fromDate,
-                        EndAt: endDate,
+                        id: event.id,
+                        time_from: fromDate,
+                        time_to: endDate,
                     };
-                    $scope.ShowAlert(event);
+                    $scope.ShowAlert(event, jsEvent, view);
                 },
                 // eventAfterAllRender: function () {
                 //     if ($scope.events.length > 0) {
@@ -118,25 +123,27 @@
                 eventDrop: function (event, delta) {
                     angular.forEach(vm.newEvents, function (el, index) {
 
-                        if (el.EventID === event.id) {
-                            let change_event = {
-                                EventID: event.id,
-                                StartAt: moment(event.start).format('YYYY-MM-DDTHH:mm:SS'),
-                                EndAt: moment(event.end).format('YYYY-MM-DDTHH:mm:SS'),
+                        if (el.id === event.id) {
+                            let el= {
+                                id: event.id,
+                                time_from: moment(event.start).format('YYYY-MM-DDTHH:mm:SS'),
+                                time_to: moment(event.end).format('YYYY-MM-DDTHH:mm:SS'),
                             };
-                            vm.newEvents.splice(index, 1, change_event);
+                            // vm.newEvents.splice(index, 1, change_event);
+                            vm.update(el)
                         }
                     });
                 },
                 eventResize: function (event) {
                     angular.forEach(vm.newEvents, function (el, index) {
-                        if (el.EventID === event.id) {
-                            let change_event = {
-                                EventID: event.id,
-                                StartAt: moment(event.start).format('YYYY-MM-DDTHH:mm:SS'),
-                                EndAt: moment(event.end).format('YYYY-MM-DDTHH:mm:SS'),
+                        if (el.id === event.id) {
+                            el = {
+                                id: event.id,
+                                time_from: moment(event.start).format('YYYY-MM-DDTHH:mm:SS'),
+                                time_to: moment(event.end).format('YYYY-MM-DDTHH:mm:SS'),
                             };
-                            vm.newEvents.splice(index, 1, change_event);
+                            // vm.newEvents.splice(index, 1, change_event);
+                            vm.update(el)
                         }
                     });
                 },
@@ -144,18 +151,51 @@
         };
 
         $scope.saveEvent = function () {
-            vm.newEvents.push($scope.NewEvent);
-            vm.update();
+            let data = {
+                time_from: $scope.NewEvent.time_from,
+                time_to: $scope.NewEvent.time_to,
+            };
+            scheduleService.createSchedule(data).then(function (data) {
+                if(data.status = 'success'){
+                    getSchedules();
+                }
+            });
+            // vm.newEvents.push($scope.NewEvent);
+            // vm.update();
         };
 
-        $scope.ShowAlert = function (event) {
+        $scope.ShowAlert = function (event, jsEvent, view) {
+            vm.show = {
+                date: moment(event.start).format('DD MMM YYYY'),
+                time: jsEvent.currentTarget.innerText
+            };
             vm.event = event;
-            vm.showDetailEvent = true;
+
+                var dialogAlert = $mdDialog.alert()
+                    .parent(angular.element($('fc-view-container')))
+                    .clickOutsideToClose(true)
+                    .title(vm.show.date)
+                    .textContent(vm.show.time)
+                    .ok('Delete')
+                    .targetEvent(event);
+
+                $mdDialog.show(dialogAlert).then(function () {
+                    let data = {
+                        schedule_id: vm.event.id
+                    };
+                    scheduleService.deleteSchedule(data).then(function (data) {
+                        if(data.status = 'success'){
+                            getSchedules();
+                        }
+                    });
+                });
+
         };
+
 
         vm.deleteEvent = function (id) {
             angular.forEach(vm.newEvents, function (el, index) {
-                if (el.EventID === id) {
+                if (el.id === id) {
                     vm.newEvents.splice(index, 1);
                 }
             });
@@ -163,9 +203,18 @@
             vm.showDetailEvent = false;
         };
 
-        vm.update = function() {
-            $localStorage.events = vm.newEvents;
-            populate(vm.newEvents);
+        vm.update = function(ev) {
+            let data = {
+                schedule_id: ev.id,
+                time_from: ev.time_from,
+                time_to: ev.time_to,
+            };
+            scheduleService.updateSchedule(data).then(function (data) {
+                if(data.status = 'success'){
+                    getSchedules();
+                }
+            });
+
         }
     }
 

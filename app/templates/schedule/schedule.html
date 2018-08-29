@@ -1,14 +1,19 @@
 <div class="schedule">
 
-        <div ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar" id="calendar"></div>
+    <div ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar" id="calendar"></div>
 
-        <div class="schedule-tbn">
-                <div ng-if="vm.showDetailEvent" class="delete"
-                     style="margin-right: 100px" ng-click="vm.deleteEvent(vm.event.id)">delete</div>
+    <div class="schedule-tbn">
+        <!--<div class="update" ng-click="vm.update()">Update</div>-->
+        <button class="send" ng-click="vm.send()">Send</button>
+    </div>
 
-                <div class="update" ng-click="vm.update()">Update</div>
-                <button class="send" ng-click="vm.send()">Send</button>
-        </div>
+    <!--<div class="fc-event-active" ng-if="vm.isEventActive">-->
+        <!--<div class="text">-->
+            <!--<p>{{vm.show.date}}</p>-->
+            <!--<p>{{vm.show.time}}</p>-->
+        <!--</div>-->
+        <!--<div class="delete" ng-click="vm.deleteEvent(vm.event.id)">delete</div>-->
+    <!--</div>-->
 
 
     <div class="sidebar">
