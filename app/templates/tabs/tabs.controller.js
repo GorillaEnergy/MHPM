@@ -17,7 +17,7 @@
        vm.toChat = toChat;
        vm.toVideoChatTest = toVideoChatTest;
        vm.toggleMenu = toggleMenu;
-       vm.menuOpen = true;
+       vm.menuOpen = false;
 
         function toggleMenu(){
             vm.menuOpen = !vm.menuOpen;

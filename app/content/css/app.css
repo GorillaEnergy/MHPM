@@ -219,7 +219,6 @@ body {
 .tabs-block {
   font-family: AmericanPatrius;
   color: #0b1138;
-  min-width: 1150px;
   height: 100vh; }
   .tabs-block .header {
     max-height: 158px;
@@ -496,7 +495,8 @@ body {
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: row; }
+  flex-direction: row;
+  padding-top: 20px; }
   .schedule .main {
     width: 75%;
     height: 100%;
@@ -543,6 +543,7 @@ body {
         background-color: #caf2fd; }
   .schedule .sidebar {
     width: 25%;
+    max-width: 260px;
     height: 100%;
     overflow: auto;
     padding: 0 15px; }
@@ -574,6 +575,39 @@ body {
         align-items: center;
         font-size: 13px;
         padding: 10px 0; }
+  .schedule .fc-unthemed th, .schedule .fc-unthemed td, .schedule .fc-unthemed thead, .schedule .fc-unthemed tbody, .schedule .fc-unthemed .fc-divider, .schedule .fc-unthemed .fc-row, .schedule .fc-unthemed .fc-content, .schedule .fc-unthemed .fc-popover {
+    border-color: #7F8397; }
+  .schedule .fc {
+    font-size: 1em;
+    width: 80%; }
+    .schedule .fc .fc-head {
+      background: #64CAE2; }
+    .schedule .fc .fc-body {
+      background: #fff; }
+  .schedule .fc-axis {
+    text-align: center;
+    width: 60px !important; }
+  .schedule .fc-scroller.fc-time-grid-container {
+    height: auto !important; }
+  .schedule .schedule-tbn {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: absolute;
+    right: 20%;
+    bottom: 0; }
+    .schedule .schedule-tbn .update {
+      text-decoration: underline; }
+    .schedule .schedule-tbn .send {
+      cursor: pointer;
+      margin: 0 40px;
+      width: 80px;
+      height: 40px;
+      background-color: #0b1138;
+      color: white;
+      border: none;
+      -webkit-clip-path: polygon(0 15%, 10% 100%, 100% 65%, 100% 0%);
+      font-family: AmericanPatrius; }
 
 .chat {
   font-family: AmericanPatrius;
