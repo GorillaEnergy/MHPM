@@ -89,6 +89,7 @@ md-toolbar {
   outline: none; }
 
 .disable-selection {
+  user-select: none;
   -moz-user-select: none;
   /* Firefox */
   -ms-user-select: none;
@@ -1109,3 +1110,13 @@ body {
     .logs-include .log .message {
       font-size: 60%;
       font-family: Neue; }
+
+.send-log-dialog .main .button {
+  margin: 0 0 0 auto;
+  background-color: #0b1138;
+  color: white;
+  font-size: 50%;
+  padding: 5px 10px 5px 10px;
+  -webkit-clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
+  clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
+  cursor: pointer; }

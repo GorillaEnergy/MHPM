@@ -42,11 +42,11 @@
                 templateUrl: 'components/live-room/live-room.html',
                 clickOutsideToClose: true,
             }).then(function (res) {
-                    console.log('close dialog');
-                    console.log('res', res);
-                },
+                console.log('close dialog');
+                console.log('res', res);
+            },
                 function () {
-                });
+            });
         }
     }
 })();

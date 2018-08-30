@@ -4,10 +4,10 @@
         .controller('ChatController', ChatController);
 
     ChatController.$inject = ['$localStorage', '$state', '$timeout', 'consultants', 'kids', 'authService', 'dateConverter',
-                              'consultantService', 'userService'];
+                              'consultantService', 'userService', '$mdDialog'];
 
     function ChatController($localStorage, $state, $timeout, consultants, kids, authService, dateConverter,
-                            consultantService, userService) {
+                            consultantService, userService, $mdDialog) {
         let vm = this;
         console.log('ChatController start');
 
@@ -22,6 +22,7 @@
         vm.sendMessage = sendMessage;
 
         vm.consName = consName;
+        vm.addComment = addComment;
 
         let fb = firebase.database();
 
@@ -34,12 +35,12 @@
         let msgKeys = [];
         vm.logs = [];
         watchOnline(vm.users);
+        getParents(vm.kid.id);
 
         let user = authService.getUser();
-        // let kid_id;
-        // let psy_id = user.id;
         let kid_id = 8;
-        let psy_id = 1;
+        // let kid_id = kids[0].id;
+        let psy_id = user.id;
         let number_of_posts = 10;
         let number_of_logs = 10;
         let download_more = 10;
@@ -413,5 +414,28 @@
         console.log(kids);
 
 
+        /////////////////////////// add log /////////////////////////
+        function addComment() {
+            console.log('add comment');
+            let data = {
+                kid: vm.kid,
+                logs: vm.logs
+            };
+
+            $mdDialog.show({
+                controller: 'SendLogController',
+                controllerAs: 'vm',
+                locals: {
+                    data: data
+                },
+                templateUrl: 'components/send-log/send-log.html',
+                clickOutsideToClose: true,
+            }).then(function (res) {
+                console.log('close dialog');
+                console.log('res', res);
+            },
+                function () {}
+            );
+        }
     }
 })();
