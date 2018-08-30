@@ -14,6 +14,8 @@
         model.setConsultantList = setConsultantList;
         model.getKidsList = getKidsList;
 
+        model.getParents = getParents;
+
 
         return model;
 
@@ -25,7 +27,7 @@
                 } else {
                     return []
                 }
-            })
+            });
         }
         function setConsultantList(user) {
             $localStorage.user = user;
@@ -38,6 +40,10 @@
                     return []
                 }
             })
+        }
+
+        function getParents(data) {
+            return http.post(url.parents.list, data);
         }
 
 

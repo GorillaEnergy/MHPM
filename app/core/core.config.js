@@ -58,9 +58,9 @@
                 controller: 'ChatController',
                 controllerAs: 'vm',
                 resolve: {
-                    // consultants: function (userService) {
-                    //     return userService.getConsultantList();
-                    // },
+                    consultants: function (userService) {
+                        return userService.getConsultantList();
+                    },
                     kids: function (userService) {
                         return userService.getKidsList();
                     }

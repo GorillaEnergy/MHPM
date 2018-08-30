@@ -3,9 +3,11 @@
     angular.module('app')
         .controller('ChatController', ChatController);
 
-    ChatController.$inject = ['$localStorage', '$state', '$timeout', 'kids', 'authService', 'dateConverter'];
+    ChatController.$inject = ['$localStorage', '$state', '$timeout', 'consultants', 'kids', 'authService', 'dateConverter',
+                              'consultantService', 'userService'];
 
-    function ChatController($localStorage, $state, $timeout, kids, authService, dateConverter) {
+    function ChatController($localStorage, $state, $timeout, consultants, kids, authService, dateConverter,
+                            consultantService, userService) {
         let vm = this;
         console.log('ChatController start');
 
@@ -19,12 +21,18 @@
         vm.selectUser = selectUser;
         vm.sendMessage = sendMessage;
 
+        vm.consName = consName;
 
         let fb = firebase.database();
 
         // vm.users = usersFilter(kids, consultants);
         vm.users = kids;
+        vm.kid = kids[0];
+        vm.parents = [];
         vm.userOnlineStatusArr = [];
+        vm.messages = [];
+        let msgKeys = [];
+        vm.logs = [];
         watchOnline(vm.users);
 
         let user = authService.getUser();
@@ -33,7 +41,12 @@
         let kid_id = 8;
         let psy_id = 1;
         let number_of_posts = 10;
+        let number_of_logs = 10;
         let download_more = 10;
+
+        let total_unread = 0;
+        let local_unread = 0;
+        let unreadMsgsKeysArr = [];
 
         let chat_body = document.getElementById("chat");
         let visible_parts_of_logs_block = chat_body.clientHeight;
@@ -48,10 +61,14 @@
         initializeFB();
         function initializeFB() {
             // psychologistAccess();
+            checkUnreadAmount();
+            offFBWatchers();
             downloadMessages();
-            // addMessagesEvent();
-            // removeMessagesEvent();
-            // changeMessagesEvent();
+            addMessagesEvent();
+            removeMessagesEvent();
+            changeMessagesEvent();
+
+            downloadLogs();
         }
 
 
@@ -84,9 +101,27 @@
             }
         }
 
-        ///////////////// message view //////////////////
-        function selectUser(opponent) {
-            console.log(opponent.id);
+        ///////////////// change kid //////////////////
+        function selectUser(kid, index) {
+            // console.log(kid.id);
+            vm.kid = kids[index];
+            vm.messages = [];
+            vm.logs = [];
+            getParents(kid.id);
+            kid_id = kid.id;
+            post_is_last = false;
+            scrollEventEnabled = false;
+            destroyScrollEvent();
+            initializeFB()
+        }
+        function getParents(kid_id) {
+            userService.getParents({kid_id: kid_id}).then(function (res) {
+                if (res.status === 'success') {
+                    vm.parents = res.data;
+                } else {
+                    vm.parents = []
+                }
+            })
         }
 
         ///////////////// message view //////////////////
@@ -135,7 +170,7 @@
             }
         }
 
-        /////////////////////////////////////////////////
+        ///////////////// messages fb ///////////////////
         function sendMessage() {
             let data = {};
             data.text = vm.message_input;
@@ -163,60 +198,119 @@
             });
         }
 
-        function convertToArray(data, type) {
+        function convertToArray(data, type, logs) {
             let res = [];
             let arrOfKeys = Object.keys(data);
             angular.forEach(arrOfKeys ,function (key) {
                 res.push(data[key]);
             });
 
-            if (res.length < number_of_posts) { post_is_last = true }
-            console.log('post_is_last', post_is_last);
+            if (!logs) {
+                msgKeys = msgKeys.concat(arrOfKeys);
 
-            if (post_is_last) {
-                destroyScrollEvent()
-            } else if (!scrollEventEnabled) {
-                addScrollEvent()
+                if (res.length < number_of_posts) { post_is_last = true }
+                console.log('post_is_last', post_is_last);
+
+                if (post_is_last) {
+                    destroyScrollEvent()
+                } else if (!scrollEventEnabled) {
+                    addScrollEvent()
+                }
+
+
+
+                unreadCalc(res, msgKeys);
+
+
+
+                if (type === 'primary_loading') {
+                    return res;
+                } else {
+                    res.splice(res.length - 1, 1);
+                    res = res.concat(vm.messages);
+                    return res;
+                }
             }
 
-            if (type === 'primary_loading') {
-                return res;
-            } else {
-                res.splice(res.length - 1, 1);
-                res = res.concat(vm.messages);
-                return res;
-            }
+            return res.reverse();
         }
 
+        function checkUnreadAmount() {
+            fb.ref('/chats/' + kid_id + '/' + psy_id + '/total_unread_psy').on('value', (snapshot) => {
+                $timeout(function () {
+                    snapshot.val() ? total_unread = snapshot.val() : total_unread = 0;
+                    // console.log(total_unread);
+                })
+            });
+        }
+
+        function unreadCalc(arr, keysArr, obj) {
+            if (arr) {
+                angular.forEach(arr, function (msg, index) {
+                    if (msg.create_by_user_id === kid_id && !msg.read) {
+                        local_unread++;
+                        unreadMsgsKeysArr.push(keysArr[index])
+                    }
+                });
+            } else {
+                if (obj.create_by_user_id === kid_id && !obj.read) {
+                    local_unread++;
+                }
+            }
+
+            if (total_unread) {
+                markAsRead(unreadMsgsKeysArr);
+                fb.ref('/chats/' + kid_id + '/' + psy_id + '/total_unread_psy').set(total_unread - local_unread);
+
+                local_unread = 0;
+                unreadMsgsKeysArr = [];
+            }
+        }
+        
+        function markAsRead(keys) {
+            angular.forEach(keys, function (key) {
+                fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages/'+ key + '/read').set(true);
+            })
+        }
+
+        function offFBWatchers() {
+            console.log('offFBWatchers');
+            fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').off();
+            fb.ref('/logs/' + kid_id).off();
+        }
         function downloadMessages() {
             fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').limitToLast(number_of_posts).once('value', (snapshot) => {
                 $timeout(function () {
                     snapshot.val() ? vm.messages = convertToArray(snapshot.val(), 'primary_loading') : vm.messages = [];
-                    scrollToBottom()
+                    scrollToBottom();
+                    // console.log(angular.copy(vm.messages));
                 })
             });
         }
         function downloadMoreMessages() {
             vm.loadMessages = true;
             let last = vm.messages[0].date;
-            console.log('last = ', last);
             fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').orderByChild("date").endAt(last).limitToLast(download_more + 1).once('value', (snapshot) => {
                 anchorScroll(snapshot.val());
                 vm.loadMessages = false;
             })
         }
         function addMessagesEvent() {
-            // let access = false;
             console.log('addMessagesEvent');
             fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').limitToLast(1).on('child_added', (snapshot) => {
                 $timeout(function () {
-                    // if (access || !vm.messages.length) {
-                    //   console.log(snapshot.val());
-                    vm.messages.push(snapshot.val());
-                    scrollToBottom(true)
-                    // } else {
-                    //   access = true;
-                    // }
+                    let push_status = true;
+                    let added_message = snapshot.val();
+                    for (let i = 0; i < vm.messages.length; i++) {
+                        if (vm.messages[i].date === added_message.date) {
+                            push_status = false;
+                            break;
+                        }
+                    }
+                    if (push_status) {
+                        vm.messages.push(snapshot.val());
+                        scrollToBottom(true)
+                    }
                 })
             })
         }
@@ -227,7 +321,10 @@
                     let changed_message = snapshot.val();
                     for (let i = 0; i < vm.messages.length; i++) {
                         if (vm.messages[i].date === changed_message.date) {
+                            console.log(angular.copy(vm.messages));
+                            console.log('removed this ', vm.messages[i]);
                             vm.messages.splice(i, 1);
+                            console.log(angular.copy(vm.messages));
                             break;
                         }
                     }
@@ -239,6 +336,7 @@
             fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').on('child_changed', (snapshot) => {
                 $timeout(function () {
                     let changed_message = snapshot.val();
+                    console.log('message changed ', snapshot.val);
                     for (let i = 0; i < vm.messages.length; i++) {
                         if (vm.messages[i].date === changed_message.date) {
                             vm.messages[i] = changed_message;
@@ -247,6 +345,15 @@
                     }
                 })
             })
+        }
+
+        function downloadLogs() {
+            fb.ref('/logs/' + kid_id).limitToLast(number_of_logs).on('value', (snapshot) => {
+                $timeout(function () {
+                    snapshot.val() ? vm.logs = convertToArray(snapshot.val(), null, true) : vm.logs = [];
+                    // console.log(angular.copy(vm.logs));
+                })
+            });
         }
 
         function addScrollEvent() {
@@ -287,5 +394,24 @@
 
             })
         }
+
+        /////////////////////////// Consultants /////////////////////////
+
+        let consultantsObj = consultantService.convert(consultants);
+        // console.log(consultantsObj);
+
+        function consName(consultant) {
+            if (consultantsObj[consultant.consultant_id]) {
+                return consultantsObj[consultant.consultant_id].name
+            } else {
+                return "No Name"
+            }
+        }
+
+        /////////////////////////// kid and parents /////////////////////////
+
+        console.log(kids);
+
+
     }
 })();

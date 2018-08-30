@@ -10,6 +10,7 @@
         'service.webrtc',
         'service.rtcController',
         'service.dateConverter',
+        'service.consultantService',
     ]);
 
 })();

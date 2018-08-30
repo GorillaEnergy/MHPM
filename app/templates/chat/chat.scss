@@ -38,7 +38,7 @@
   }
   .messages{
     width: 100%;
-    height: calc(100% - 50px);
+    height: calc((100% - 50px) / 2);
     overflow-y: scroll;
     position: relative;
 
@@ -111,7 +111,7 @@
           font-family: Neue;
           font-size: 50%;
           background-color: #caf2fd;
-          padding: 10px 0 10px 10px;
+          padding: 10px;
         }
       }
       .message-time{
@@ -179,8 +179,9 @@
     width: 100%;
     height: 50px;
     padding: 10px;
-    background-color: #00acac;
+    background-color: #64cae2;
     border-top: 1px solid #0b1138;
+    border-bottom: 1px solid #0b1138;
 
     input {
       width: calc(100% - 105px);
@@ -203,6 +204,23 @@
       clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
       cursor: pointer;
     }
+  }
+
+  .detail-and-logs {
+    width: 100%;
+    height: calc((100% - 50px) / 2);
+    display: flex;
+
+    .half {
+      width: 50%;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+    .half:first-child {
+      padding: 0 10px 0;
+    }
+
   }
 
   .user-panel {

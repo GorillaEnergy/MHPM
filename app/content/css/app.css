@@ -585,7 +585,7 @@ body {
         transform-origin: 20px 20px 20px !important; }
   .chat .messages {
     width: 100%;
-    height: calc(100% - 50px);
+    height: calc((100% - 50px) / 2);
     overflow-y: scroll;
     position: relative; }
     .chat .messages .load {
@@ -641,7 +641,7 @@ body {
         font-family: Neue;
         font-size: 50%;
         background-color: #caf2fd;
-        padding: 10px 0 10px 10px; }
+        padding: 10px; }
       .chat .messages .my-message-block .message-time {
         display: flex;
         justify-content: flex-end; }
@@ -689,8 +689,9 @@ body {
     width: 100%;
     height: 50px;
     padding: 10px;
-    background-color: #00acac;
-    border-top: 1px solid #0b1138; }
+    background-color: #64cae2;
+    border-top: 1px solid #0b1138;
+    border-bottom: 1px solid #0b1138; }
     .chat .send-box input {
       width: calc(100% - 105px);
       border: 1px solid #0b1138;
@@ -709,6 +710,17 @@ body {
       -webkit-clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
       clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
       cursor: pointer; }
+  .chat .detail-and-logs {
+    width: 100%;
+    height: calc((100% - 50px) / 2);
+    display: flex; }
+    .chat .detail-and-logs .half {
+      width: 50%;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box; }
+    .chat .detail-and-logs .half:first-child {
+      padding: 0 10px 0; }
   .chat .user-panel {
     width: 280px;
     height: 100%;
@@ -1030,3 +1042,70 @@ body {
     width: 100%;
     margin-bottom: 25px;
     margin-top: 40px; }
+
+.kid-detail {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between; }
+  .kid-detail .half {
+    width: calc(50% - 5px);
+    height: 100%;
+    overflow-y: auto; }
+    .kid-detail .half .title {
+      font-family: American;
+      font-size: 120%; }
+    .kid-detail .half .parent {
+      margin-bottom: 40px; }
+    .kid-detail .half .parent:last-child {
+      margin-bottom: 0; }
+    .kid-detail .half .section {
+      display: flex;
+      border-bottom: 1px solid #0b1138;
+      margin-bottom: 10px; }
+      .kid-detail .half .section .image {
+        margin-bottom: -5px;
+        width: 50px; }
+      .kid-detail .half .section .info-pole {
+        font-size: 60%;
+        margin: 10px 0 0 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: calc(100% - 50px); }
+
+.logs-include {
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  box-sizing: border-box;
+  border-left: 1px solid #0b1138; }
+  .logs-include .button {
+    margin: 7px 10px 7px auto;
+    width: 125px;
+    width: fit-content;
+    background-color: #0b1138;
+    color: white;
+    font-size: 60%;
+    padding: 9px 10px 12px 10px;
+    -webkit-clip-path: polygon(0 15%, 5% 95%, 100% 70%, 100% 0);
+    clip-path: polygon(0 15%, 5% 95%, 100% 70%, 100% 0);
+    cursor: pointer;
+    text-align: center; }
+  .logs-include .log {
+    width: 100%;
+    background-color: #caf2fd;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box; }
+    .logs-include .log .head {
+      display: flex;
+      justify-content: space-between;
+      font-size: 60%; }
+      .logs-include .log .head .time-of-creation {
+        display: flex; }
+        .logs-include .log .head .time-of-creation .date {
+          margin-right: 10px; }
+    .logs-include .log .message {
+      font-size: 60%;
+      font-family: Neue; }

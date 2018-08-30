@@ -15,7 +15,9 @@
 
         return model;
 
-        function dateConverter(timestamp) {
+        function dateConverter(timestamp, minimize) {
+            timestamp = Number(timestamp);
+            if (minimize) {timestamp = timestamp * 1000}
 
             if (date() === date(timestamp)) { return 'Today' } else { return date(timestamp) }
 
@@ -29,6 +31,7 @@
 
                 if (day < 10) { day = '0' + day }
                 if (month < 10) { month = '0' + month }
+                if (minimize) { year = year.toString().substr(-2)}
 
                 return day + '.' + month + '.' + year;
 

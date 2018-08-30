@@ -1,0 +1,50 @@
+.kid-detail {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  .half {
+    width: calc(50% - 5px);
+    height: 100%;
+    overflow-y: auto;
+
+    .title {
+      font-family: American;
+      font-size: 120%;
+    }
+
+    .parent {
+      margin-bottom: 40px;
+    }
+    .parent:last-child {
+      margin-bottom: 0;
+    }
+
+    .section {
+      display: flex;
+      border-bottom: 1px solid #0b1138;
+      margin-bottom: 10px;
+
+      .image {
+        margin-bottom: -5px;
+        width: 50px;
+      }
+
+      .info-pole{
+        font-size: 60%;
+        margin: 10px 0 0 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: calc(100% - 50px);
+      }
+    }
+  }
+  .kid {
+
+  }
+  .parent {
+
+  }
+}

@@ -47,12 +47,17 @@
                 send
             </div>
         </div>
+        <div class="detail-and-logs">
+            <div class="half" ng-include="'../../components/kid-detail/kid-detail.html'"></div>
+
+            <div class="half" ng-include="'../../components/logs/logs.html'"></div>
+        </div>
     </div>
 
 
     <div class="user-panel">
         <!--<div class="title">Users</div>-->
-        <div ng-repeat="user in vm.users track by $index" class="user" ng-click="vm.selectUser(user)">
+        <div ng-repeat="user in vm.users track by $index" class="user" ng-click="vm.selectUser(user, $index)">
             <div class="info">
                 <div class="offline-status" ng-class="vm.userOnlineStatus($index)"></div>
                 <img src="../../content/img/tabs/profile-ico.png" class="man-ico">
