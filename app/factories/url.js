@@ -21,6 +21,21 @@
             },
             parents: {
                 list: baseUrl + 'api/list-parents',
+            },
+            create_content: baseUrl + 'api/create-content',
+            password: {
+                forgot: baseUrl + 'api/password/forgot',
+                reset: baseUrl + 'api/password/reset'
+            },
+            schedule: {
+              create: baseUrl + 'api/schedule/create',
+              update: baseUrl + 'api/schedule/update',
+              delete: baseUrl + 'api/schedule/delete',
+              approve: baseUrl + 'api/schedule/approve',
+              visible: baseUrl + 'api/schedule/visible',
+              getMySchedules: baseUrl +'api/schedules/my',
+              getSchedules: baseUrl + 'api/schedules',
+              getMySchedulesWeeks: baseUrl +'api/schedules/my/weeks'
             }
 
         };

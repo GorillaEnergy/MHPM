@@ -2,6 +2,8 @@
 
     <div class="header" id="tabs-header">
         <img src="../../content/img/tabs/logo.png" class="logo outline pointer" ng-click="vm.toStatistic()">
+        <div class="timeReal">
+        </div>
         <div class="logout-name-block">
             <div class="name outline" ng-click="vm.profile()">
                 <img src="../../content/img/tabs/profile-ico.png" class="name-logo">
@@ -14,7 +16,10 @@
         </div>
     </div>
     <div class="body" id="tabs-body">
-        <div class="tabs">
+        <div class="tabs" ng-class="{'tabs--hide' : !vm.menuOpen }">
+            <button class="tabs-btn" ng-click="vm.toggleMenu()">
+               <img src="../../content/img/tabs/arrow-point-to-right.svg" ng-class="{'img-scale': vm.menuOpen}">
+            </button>
             <div class="tab-item outline" ng-click="vm.toSchedule()">
                 <div class="wrapper">
                     <img src="../../content/img/tabs/schedule-ico.png" class="schedule-logo">

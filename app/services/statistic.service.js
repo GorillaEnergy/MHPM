@@ -11,8 +11,13 @@
         let model = {};
 
         model.schedule = schedule;
+        model.createContent = createContent;
 
         return model;
+
+        function createContent(data) {
+            return http.post(url.create_content, data)
+        }
 
         function schedule() {
             let data = [

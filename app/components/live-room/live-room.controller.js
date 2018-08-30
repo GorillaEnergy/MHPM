@@ -4,70 +4,76 @@
         .module('app')
         .controller('LiveRoomController', LiveRoomController);
 
-    LiveRoomController.$inject = ['$mdDialog', '$timeout', '$window', 'data', 'toastr'];
+    LiveRoomController.$inject = ['$mdDialog', '$timeout', '$window', 'data', 'toastr', 'statisticService'];
 
-    function LiveRoomController($mdDialog, $timeout, $window, data, toastr) {
+    function LiveRoomController($mdDialog, $timeout, $window, data, toastr, statisticService) {
         let vm = this;
 
-        vm.editRoom = editRoom;
+        vm.saveRoom = saveRoom;
         vm.createRoom = createRoom;
         vm.removeRoom = removeRoom;
         vm.close = close;
 
-        vm.showEditButton = showEditButton;
-        vm.showCreateButton = showCreateButton;
-        vm.showRemoveButton = showRemoveButton;
-        vm.showCloseButton = showCloseButton;
-
-        console.log(data);
         let image = document.getElementById('file');
+        vm.data = {
+            date: '04.03.2021',
+            time: '09:20',
+            name: '',
+            img: ''
+        };
+        resizer();
+        checkType(data.type);
 
-        initialize();
-
-        function initialize() {
-            popupType();
-            resizer();
-
-            bgTest();
+        function checkType(type) {
+            if (type === 'create') {
+                vm.update = false;
+            } else {
+                vm.update = true;
+            }
         }
 
-
-        function editRoom() {
-            console.log('updateRoom');
+        function saveRoom() {
+            if(!validation()){
+                return
+            }
+            console.log(vm.data)
         }
+
         function createRoom() {
-            console.log('createRoom');
-            let date = new Date(vm.date);
-            let time = new Date(vm.time);
-
-            console.log(vm.name);
-            console.log(date);
-            console.log(time.getHours() + ':' + time.getMinutes());
+            if(!validation()){
+                return
+            }
+            console.log(vm.data)
+            // statisticService.createContent(data)
         }
+
         function removeRoom() {
             console.log('removeRoom');
         }
+
         function close() {
-            console.log('close');
             $mdDialog.hide('close...')
         }
 
-        function showEditButton() {
-            return vm.type === 'update';
-        }
-        function showCreateButton() {
-            return vm.type === 'create';
-        }
-        function showRemoveButton() {
-            return vm.type === 'update';
-        }
-        function showCloseButton() {
-            return vm.type === 'create';
+        function validation() {
+            if (!vm.data.date){
+                toastr.error('check date')
+            }
+            if (!vm.data.time){
+                toastr.error('check time')
+            }
+            if (vm.data.name === ''){
+                toastr.error('check name')
+            }
+            if (vm.data.date && vm.data.time && vm.data.name !== ''){
+                prepareDate();
+                return true;
+            }
         }
 
-        function popupType() {
-            data.type === 'create' ? vm.type = 'create' : vm.type = 'update';
-            console.log(vm.type);
+        function prepareDate(){
+            vm.data.time = $(".input-time")[0].value;
+            vm.data.date = moment(vm.data.date).format('DD.MM.YYYY');
         }
 
         function resizer() {
@@ -83,15 +89,17 @@
                 let buttonBlock = $("#button-block");
                 photoBlock.height(photoBlock.width() * 0.75);
                 buttonBlock.width(photoBlock.width());
+                // let url = 'http://2.bp.blogspot.com/-j4CaDgx5OR4/T38vw1ULCJI/AAAAAAAABzE/U6sRh4RAK8M/s1600/17992935.jpg';
+                // photoBlock.css("background-image", "url(" + url + ")");
             }
         }
 
-        function bgTest() {
-            $timeout(function () {
-                let url = 'http://2.bp.blogspot.com/-j4CaDgx5OR4/T38vw1ULCJI/AAAAAAAABzE/U6sRh4RAK8M/s1600/17992935.jpg';
-                $("#photo-block").css("background-image","url(" + url + ")");
-            });
-        }
+        // function bgTest() {
+        //     $timeout(function () {
+        //         let url = 'http://2.bp.blogspot.com/-j4CaDgx5OR4/T38vw1ULCJI/AAAAAAAABzE/U6sRh4RAK8M/s1600/17992935.jpg';
+        //         $("#photo-block").css("background-image","url(" + url + ")");
+        //     });
+        // }
 
     }
 })();

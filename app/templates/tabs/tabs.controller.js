@@ -6,18 +6,28 @@
     TabsController.$inject = ['$localStorage', '$state', '$timeout', '$window', 'tabsService', 'authService'];
 
     function TabsController($localStorage, $state, $timeout, $window, tabsService, authService) {
-       let vm = this;
-       console.log('TabsController start');
+        let vm = this;
+        console.log('TabsController start');
 
-       vm.logout = logout;
-       vm.profile = profile;
+        vm.logout = logout;
+        vm.profile = profile;
 
-       vm.toStatistic = toStatistic;
-       vm.toSchedule = toSchedule;
-       vm.toChat = toChat;
-       vm.toVideoChatTest = toVideoChatTest;
+        vm.toStatistic = toStatistic;
+        vm.toSchedule = toSchedule;
+        vm.toChat = toChat;
+        vm.toVideoChatTest = toVideoChatTest;
+        vm.toggleMenu = toggleMenu;
+        vm.menuOpen = true;
 
+        setInterval(function () {
+            vm.timeReal = moment().format('HH:mm:ss');
 
+            $('.timeReal').text(vm.timeReal);
+        }, 1000 );
+
+        function toggleMenu(){
+            vm.menuOpen = !vm.menuOpen;
+        }
 
        $timeout(function () { resizeBody(); });
        angular.element($window).bind("resize",function(e){ resizeBody(true); });

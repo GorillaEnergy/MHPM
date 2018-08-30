@@ -1,7 +1,7 @@
 .tabs-block {
   font-family: AmericanPatrius;
   color: #0b1138;
-  min-width: 1150px;
+  //min-width: 1150px;
   height: 100vh;
 
   .header {
@@ -65,12 +65,36 @@
     .tabs {
       //width: 255px;
       width: 25%;
-      max-width: 450px;
-      min-width: 230px;
       height: 100%;
       background-color: white;
       box-sizing: border-box;
       border-right: 1px solid #0b1138;
+      transition: all 0.3s ease;
+      position: relative;
+
+      &--hide {
+        margin-left: -25%;
+      }
+
+      .tabs-btn {
+        position: absolute;
+        right: -26px;
+        border: none;
+        padding: 0;
+        background: #64CAE2;
+        z-index: 1;
+        height: 56px;
+        border-radius: 0 50% 50% 0;
+        img {
+          height:25px;
+        }
+        .img-scale{
+          transform: scale(-1);
+        }
+      }
+      .tabs-btn:focus{
+        outline: none;
+      }
 
       .tab-item {
         cursor: pointer;
@@ -108,4 +132,12 @@
       background-size: cover;
     }
   }
+}
+
+.timeReal{
+  position: absolute;
+  top: 30px;
+  right: 40%;
+  color: #48ff06;
+  font-size: 30px;
 }

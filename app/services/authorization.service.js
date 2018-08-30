@@ -17,7 +17,8 @@
         model.getUser = getUser;
         model.setUser = setUser;
 
-        model.forgot = forgot;
+        model.forgotPass = forgotPass;
+        model.resetPass = resetPass;
         model.updateInfo = updateInfo;
         model.updatePass = updatePass;
 
@@ -58,8 +59,11 @@
         function setUser(user) {
             $localStorage.user = user;
         }
-        function forgot(data) {
-            return http.post(url.user.forgot, data);
+        function forgotPass(data) {
+            return http.post(url.password.forgot, data);
+        }
+        function resetPass(data) {
+            return http.post(url.password.reset, data);
         }
         function updateInfo(id , data) {
             return http.post(url.user_func(id).updateProfile , data);

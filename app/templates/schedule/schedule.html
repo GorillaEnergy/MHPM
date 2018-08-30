@@ -1,219 +1,38 @@
 <div class="schedule">
 
-    <div class="main">
-        <p class="title">december</p>
+    <div ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar" id="calendar"></div>
 
-        <div class="calendar">
-
-            <table cellspacing="0">
-                <tr class="calendar-header">
-                    <td><p>time</p></td>
-                    <td><p>1<span>sun</span></p></td>
-                    <td><p>2<span>mon</span></p></td>
-                    <td><p>3<span>tue</span></p></td>
-                    <td><p>4<span>wed</span></p></td>
-                    <td><p>5<span>thu</span></p></td>
-                    <td><p>6<span>fri</span></p></td>
-                    <td><p>7<span>sat</span></p></td>
-                </tr>
-
-                <tr>
-                    <td>06:00</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>07:00</td>
-                    <td class="busy"></td>
-                    <td></td>
-                    <td></td>
-                    <td class="busy"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>08:00</td>
-                    <td class="busy"></td>
-                    <td></td>
-                    <td></td>
-                    <td class="busy"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>09:00</td>
-                    <td class="busy"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="busy"></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>10:00</td>
-                    <td class="busy"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="busy"></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>11:00</td>
-                    <td></td>
-                    <td></td>
-                    <td class="busy"></td>
-                    <td></td>
-                    <td></td>
-                    <td class="busy"></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>12:00</td>
-                    <td></td>
-                    <td></td>
-                    <td class="busy"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>13:00</td>
-                    <td></td>
-                    <td></td>
-                    <td class="busy"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>14:00</td>
-                    <td></td>
-                    <td></td>
-                    <td class="busy"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>15:00</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="busy"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>16:00</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="busy"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>17:00</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="busy"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>18:00</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td class="busy"></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>19:00</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>20:00</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>21:00</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>22:00</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>23:00</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </table>
-        </div>
+    <div class="schedule-tbn">
+        <!--<div class="update" ng-click="vm.update()">Update</div>-->
+        <button class="send" ng-click="vm.send()">Send</button>
+        <!--<button class="send" ng-click="vm.approve()">approve</button>-->
     </div>
+
+    <!--<div class="fc-event-active" ng-if="vm.isEventActive">-->
+        <!--<div class="text">-->
+            <!--<p>{{vm.show.date}}</p>-->
+            <!--<p>{{vm.show.time}}</p>-->
+        <!--</div>-->
+        <!--<div class="delete" ng-click="vm.deleteEvent(vm.event.id)">delete</div>-->
+    <!--</div>-->
 
 
     <div class="sidebar">
-        <p class="title">This week</p>
-
-        <div ng-repeat="day in vm.busyOnWeek" class="busy-on-day">
+        <div class="title">
+            <img src="../../content/img/left-arrow.svg" ng-if="vm.isNextWeek" ng-click="vm.nextWeek()">
+            <span>This week</span>
+            <img src="../../content/img/right-arrow.svg" ng-if="vm.isShowNextBtm && !vm.isNextWeek" ng-click="vm.nextWeek()">
+        </div>
+        <div ng-repeat="day in vm.weeks" class="busy-on-day">
             <div class="day-name-block">
                 <div class="day-name">
-                    <span>{{day.day}}</span>
+                    <span>{{day.name}}</span>
                 </div>
-
-                <div class="day-line-block">
-                    <div class="day-line"></div>
-                    <div></div>
+                <div class="day-line"></div>
+            </div>
+            <div class="day-time-block">
+                <div class="day-time" ng-repeat="time in day.time">
+                    <p> {{time.start}} - {{time.end}}</p>
                 </div>
             </div>
         </div>

@@ -1,7 +1,9 @@
 <p class="title">forgot password</p>
 <div class="input-block">
     <div class="description disable-selection"><p>e-mail</p></div>
-    <input class="input" ng-model="vm.email">
+    <input type="email" class="input" ng-model="vm.email"
+           ng-class="{'warning': vm.warning.email && !vm.email}"
+           ng-pattern="/^([a-zA-Z0-9_\.-]+)@([a-zA-Z0-9_\.-]+)\.([a-zA-Z\.]{2,6})$/">
 </div>
 
 <div class="button-zone">
