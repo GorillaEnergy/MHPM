@@ -307,6 +307,13 @@ body {
       background: url("../../content/img/tabs/dots.png") no-repeat left center;
       background-size: cover; }
 
+.timeReal {
+  position: absolute;
+  top: 30px;
+  right: 40%;
+  color: #48ff06;
+  font-size: 30px; }
+
 .statistic-block {
   font-family: AmericanPatrius;
   color: #0b1138;
@@ -527,7 +534,9 @@ body {
         flex-direction: column;
         align-items: center;
         font-size: 16px;
-        padding: 10px 0; }
+        padding: 5px 0; }
+        .schedule .sidebar .busy-on-day .day-time-block p {
+          padding: 5px 0; }
   .schedule .fc-unthemed th, .schedule .fc-unthemed td, .schedule .fc-unthemed thead, .schedule .fc-unthemed tbody, .schedule .fc-unthemed .fc-divider, .schedule .fc-unthemed .fc-row, .schedule .fc-unthemed .fc-content, .schedule .fc-unthemed .fc-popover {
     border-color: #7F8397; }
   .schedule .fc {
@@ -579,7 +588,7 @@ body {
       -webkit-clip-path: polygon(0 15%, 10% 100%, 100% 65%, 100% 0%);
       font-family: AmericanPatrius; }
 
-.md-dialog-content {
+md-list {
   font-family: AmericanPatrius;
   color: #0b1138;
   font-size: 22px;

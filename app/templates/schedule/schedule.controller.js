@@ -9,43 +9,69 @@
         let vm = this;
         console.log('ScheduleController start');
 
-        vm.busyOnWeek = scheduleService.busyOnWeek();
-        console.log(vm.busyOnWeek);
-
         $scope.SelectedEvent = null;
         $scope.events = [];
         $scope.eventSources = [$scope.events];
         $scope.NewEvent = {};
+        let isNextWeek = false;
+        let currentWeek;
 
-
-        getSchedules();
-        function getSchedules() {
-        scheduleService.getMySchedule().then(function (data) {
-            vm.newEvents = data.data || [];
-            populate(vm.newEvents);
-        });
+        init();
+        function init() {
+            getMySchedules();
+            // getAllSchedules()
         }
 
-        // if (!$localStorage.id) {
-        //     $localStorage.id = 1;
-        // }
+        vm.nextWeek = function () {
+            isNextWeek = true;
+            prepareScheduleWeeks();
+        };
 
-        // function getDate(datetime) {
-        //     if (datetime != null) {
-        //         var mili = datetime.replace(/\/Date\((-?\d+)\)\//, '$1');
-        //         return new Date(parseInt(mili))
-        //     } else {
-        //         return "";
-        //     }
-        // }
+        function getMySchedules() {
+            scheduleService.getMySchedule().then(function (data) {
+                vm.newEvents = data.data || [];
+                populate(vm.newEvents);
+                prepareScheduleWeeks();
+            });
+        }
+        function getAllSchedules() {
+            scheduleService.getAllSchedules().then(function (data) {
+                vm.newEvents = data.data || [];
+                populate(vm.newEvents);
+                prepareScheduleWeeks()
+            });
+        }
 
-        // function clearCalendar() {
-        //     if (uiCalendarConfig.calendars.myCalendar != null) {
-        //         uiCalendarConfig.calendars.myCalendar.fullCalendar('removeEvents');
-        //         uiCalendarConfig.calendars.myCalendar.fullCalendar('unselect');
-        //     }
-        // }
+        function prepareScheduleWeeks() {
+            vm.weeks = [];
+            scheduleService.getMyScheduleWeeks().then(function (data) {
+                if (data.data.current_week && data.data.next_week){
+                    if(data.data.next_week.length !== 0){
+                        vm.isShowNext = true;
+                    } else{
+                        vm.isShowNext = false;
+                    }
+                    if (isNextWeek){
+                        currentWeek = data.data.next_week;
+                    } else {
+                        currentWeek = data.data.current_week;
+                    }
+                }
 
+                // let currentWeek = data.data.next_week; // при кліки на след
+                angular.forEach(currentWeek, function (el, name) {
+                    let day = {time:[], name: name};
+                    angular.forEach(el, function (time) {
+                        let t = {};
+                        t.end = moment(time.time_to).format('HH:mm');
+                        t.start = moment(time.time_from).format('HH:mm');
+                        day.time.push(t)
+                    });
+                    vm.weeks.push(day);
+                });
+                console.log(vm.weeks);
+            });
+        }
 
         function populate(data) {
             // clearCalendar();
@@ -62,11 +88,12 @@
 
         vm.prepDate = function () {
             // 2018, 2, 5, 19, 0, 0, 0
-            let dt = new Date();
-            let y = dt.getFullYear();
-            let m = dt.getMonth();
-            let d = dt.getDate() + 7;
-            return new Date(y,m,d);
+            // let dt = new Date();
+            // let y = dt.getFullYear();
+            // let m = dt.getMonth();
+            // let d = dt.getDate();
+            // return new Date(y,m,d);
+            return moment().add(7, 'days').calendar();
         };
 
         $scope.uiConfig = {
@@ -91,6 +118,7 @@
                         ]
                     },
                 },
+                timeFormat: 'HH:mm',
                 displayEventTime: true,
                 selectable: true,
                 selectHelper: true,
@@ -115,11 +143,6 @@
                     };
                     $scope.ShowAlert(event, jsEvent, view);
                 },
-                // eventAfterAllRender: function () {
-                //     if ($scope.events.length > 0) {
-                //         uiCalendarConfig.calendars.myCalendar.fullCalendar('gotoDate', $scope.events[0].start)
-                //     }
-                // },
                 eventDrop: function (event, delta) {
                     angular.forEach(vm.newEvents, function (el, index) {
 
@@ -157,7 +180,7 @@
             };
             scheduleService.createSchedule(data).then(function (data) {
                 if(data.status = 'success'){
-                    getSchedules();
+                    getMySchedules();
                 }
             });
             // vm.newEvents.push($scope.NewEvent);
@@ -170,37 +193,55 @@
                 time: jsEvent.currentTarget.innerText
             };
             vm.event = event;
-
-                var dialogAlert = $mdDialog.alert()
-                    .parent(angular.element($('fc-view-container')))
-                    .clickOutsideToClose(true)
-                    .title(vm.show.date)
-                    .textContent(vm.show.time)
-                    .ok('Delete')
-                    .targetEvent(event);
-
-                $mdDialog.show(dialogAlert).then(function () {
-                    let data = {
-                        schedule_id: vm.event.id
-                    };
-                    scheduleService.deleteSchedule(data).then(function (data) {
-                        if(data.status = 'success'){
-                            getSchedules();
-                        }
-                    });
-                });
+            var parentEl = $('.fc-view-container');
+            $mdDialog.show({
+                parent: parentEl,
+                targetEvent: vm.event,
+                clickOutsideToClose: true,
+                template:
+                '<md-dialog>' +
+                '  <md-dialog-content>'+
+                '    <md-list>'+
+                '      <md-list-item>'+
+                '           <p>{{date}}</p>' +
+                '       </md-list-item>' +
+                '      <md-list-item>'+
+                '           <p>{{time}}</p>' +
+                '       </md-list-item>' +
+                '    </md-list>'+
+                '  </md-dialog-content>' +
+                '  <md-dialog-actions>' +
+                '    <md-button ng-click="closeDialog()" class="md-primary">' +
+                '      Delete' +
+                '    </md-button>' +
+                '  </md-dialog-actions>' +
+                '</md-dialog>',
+                locals: {
+                    date: vm.show.date,
+                    time: vm.show.time
+                },
+                controller: DialogController
+            });
+            function DialogController($scope, $mdDialog, date, time) {
+                $scope.date = date;
+                $scope.time = time;
+                $scope.closeDialog = function() {
+                    vm.deleteEvent();
+                    $mdDialog.hide();
+                }
+            }
 
         };
 
-
-        vm.deleteEvent = function (id) {
-            angular.forEach(vm.newEvents, function (el, index) {
-                if (el.id === id) {
-                    vm.newEvents.splice(index, 1);
+        vm.deleteEvent = function () {
+            let data = {
+                schedule_id: vm.event.id
+            };
+            scheduleService.deleteSchedule(data).then(function (data) {
+                if (data.status = 'success') {
+                    getMySchedules();
                 }
             });
-            vm.update();
-            vm.showDetailEvent = false;
         };
 
         vm.update = function(ev) {
@@ -211,10 +252,37 @@
             };
             scheduleService.updateSchedule(data).then(function (data) {
                 if(data.status = 'success'){
-                    getSchedules();
+                    getMySchedules();
                 }
             });
+        };
 
+        vm.send  = function () {
+            let schedule_ids = [];
+            angular.forEach(vm.newEvents, function (el) {
+                schedule_ids.push(el.id);
+            });
+
+            let data = {
+                schedule_id: schedule_ids
+            };
+
+            scheduleService.visibleSchedule(data);
+        };
+
+        vm.approve  = function () {
+            let schedule_ids = [];
+            angular.forEach(vm.newEvents, function (el) {
+                schedule_ids.push(el.id);
+            });
+            let data = {
+                schedule_id: schedule_ids
+            };
+            scheduleService.approveSchedule(data).then(function (data) {
+                if(data.status = 'success'){
+                    prepareScheduleWeeks();
+                }
+            });
         }
     }
 

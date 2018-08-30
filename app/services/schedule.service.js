@@ -14,7 +14,11 @@
         model.createSchedule = createSchedule;
         model.updateSchedule = updateSchedule;
         model.deleteSchedule = deleteSchedule;
+        model.approveSchedule = approveSchedule;
+        model.visibleSchedule = visibleSchedule;
         model.getMySchedule = getMySchedule;
+        model.getAllSchedules = getAllSchedules;
+        model.getMyScheduleWeeks = getMyScheduleWeeks;
 
         return model;
 
@@ -27,8 +31,20 @@
         function deleteSchedule(data) {
             return http.post(url.schedule.delete, data)
         }
+        function approveSchedule(data) {
+            return http.post(url.schedule.approve, data)
+        }
+        function visibleSchedule(data) {
+            return http.post(url.schedule.visible, data)
+        }
         function getMySchedule() {
             return http.get(url.schedule.getMySchedules)
+        }
+        function getAllSchedules() {
+            return http.get(url.schedule.getSchedules)
+        }
+        function getMyScheduleWeeks() {
+            return http.get(url.schedule.getMySchedulesWeeks)
         }
 
         function busyOnWeek() {

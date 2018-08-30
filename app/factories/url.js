@@ -36,6 +36,7 @@
                     sendContractToEmail: baseUrl + 'api/report/' + idReport + '/contract/' + idContract + '/send-contract/' + filename
                 };
             },
+            create_content: baseUrl + 'api/create-content',
             password: {
                 forgot: baseUrl + 'api/password/forgot',
                 reset: baseUrl + 'api/password/reset'
@@ -44,9 +45,12 @@
               create: baseUrl + 'api/schedule/create',
               update: baseUrl + 'api/schedule/update',
               delete: baseUrl + 'api/schedule/delete',
-              getMySchedules: baseUrl +'api/schedules/my'
+              approve: baseUrl + 'api/schedule/approve',
+              visible: baseUrl + 'api/schedule/visible',
+              getMySchedules: baseUrl +'api/schedules/my',
+              getSchedules: baseUrl + 'api/schedules',
+              getMySchedulesWeeks: baseUrl +'api/schedules/my/weeks'
             }
         };
     }
-
 })();

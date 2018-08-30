@@ -46,7 +46,10 @@
         flex-direction: column;
         align-items: center;
         font-size: 16px;
-        padding: 10px 0;
+        padding: 5px 0;
+        p {
+          padding:5px 0;
+        };
       }
     }
 
@@ -117,7 +120,7 @@
     }
   }
 }
-.md-dialog-content{
+md-list{
   font-family: AmericanPatrius;
   color: #0b1138;
   font-size: 22px;
