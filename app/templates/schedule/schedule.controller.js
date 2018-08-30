@@ -13,7 +13,6 @@
         $scope.events = [];
         $scope.eventSources = [$scope.events];
         $scope.NewEvent = {};
-        let isNextWeek = false;
         let currentWeek;
 
         init();
@@ -23,7 +22,7 @@
         }
 
         vm.nextWeek = function () {
-            isNextWeek = true;
+            vm.isNextWeek = !vm.isNextWeek;
             prepareScheduleWeeks();
         };
 
@@ -47,11 +46,11 @@
             scheduleService.getMyScheduleWeeks().then(function (data) {
                 if (data.data.current_week && data.data.next_week){
                     if(data.data.next_week.length !== 0){
-                        vm.isShowNext = true;
+                        vm.isShowNextBtm = true;
                     } else{
-                        vm.isShowNext = false;
+                        vm.isShowNextBtm = false;
                     }
-                    if (isNextWeek){
+                    if (vm.isNextWeek){
                         currentWeek = data.data.next_week;
                     } else {
                         currentWeek = data.data.current_week;

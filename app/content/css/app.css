@@ -508,10 +508,17 @@ body {
     padding: 0 15px;
     border-left: 1px solid #0b1138; }
     .schedule .sidebar .title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
       font-family: American;
       font-size: 40px;
       padding-top: 20px; }
+      .schedule .sidebar .title span {
+        padding: 0 20px; }
+      .schedule .sidebar .title img {
+        height: 40px; }
     .schedule .sidebar .busy-on-day {
       width: 100%; }
       .schedule .sidebar .busy-on-day .day-name-block {

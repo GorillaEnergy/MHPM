@@ -14,10 +14,19 @@
     border-left: 1px solid #0b1138;
 
     .title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
       font-family: American;
       font-size: 40px;
       padding-top: 20px;
+      span {
+        padding: 0 20px;
+      }
+      img{
+        height: 40px;
+      }
     }
 
     .busy-on-day {

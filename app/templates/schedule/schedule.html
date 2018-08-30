@@ -18,8 +18,11 @@
 
 
     <div class="sidebar">
-        <p class="title">This week</p>
-        <button ng-if="vm.isShowNext" ng-click="vm.nextWeek()">-></button>
+        <div class="title">
+            <img src="../../content/img/left-arrow.svg" ng-if="vm.isNextWeek" ng-click="vm.nextWeek()">
+            <span>This week</span>
+            <img src="../../content/img/right-arrow.svg" ng-if="vm.isShowNextBtm && !vm.isNextWeek" ng-click="vm.nextWeek()">
+        </div>
         <div ng-repeat="day in vm.weeks" class="busy-on-day">
             <div class="day-name-block">
                 <div class="day-name">
