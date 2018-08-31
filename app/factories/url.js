@@ -37,6 +37,7 @@
                 };
             },
             create_content: baseUrl + 'api/create-content',
+            delete_content: baseUrl + 'api/delete-content',
             password: {
                 forgot: baseUrl + 'api/password/forgot',
                 reset: baseUrl + 'api/password/reset'

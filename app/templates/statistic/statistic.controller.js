@@ -14,12 +14,14 @@
         vm.createLiveRoom = createLiveRoom;
 
         vm.schedule = statisticService.schedule();
+        vm.data = $localStorage.data;
         console.log(vm.schedule);
 
-        function editLiveRoom(event_data) {
-            // console.log(event_data);
+        function editLiveRoom(el) {
+            console.log(el);
             let data = {
                 type: 'update',
+                el: el
             };
             showLiveRoomDialog(data)
         }
@@ -29,7 +31,7 @@
 
         function createLiveRoom() {
             let data = { type: 'create' };
-            showLiveRoomDialog(data)
+            showLiveRoomDialog(data, el)
         }
 
         function showLiveRoomDialog(data) {

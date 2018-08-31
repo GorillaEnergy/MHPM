@@ -18,6 +18,9 @@
         function createContent(data) {
             return http.post(url.create_content, data)
         }
+        function deleteContent(data) {
+            return http.post(url.delete_content, data)
+        }
 
         function schedule() {
             let data = [

@@ -4,30 +4,44 @@
         .module('app')
         .controller('LiveRoomController', LiveRoomController);
 
-    LiveRoomController.$inject = ['$mdDialog', '$timeout', '$window', 'data', 'toastr', 'statisticService'];
+    LiveRoomController.$inject = ['$mdDialog', '$timeout', '$window', 'data', 'toastr', 'statisticService', '$localStorage'];
 
-    function LiveRoomController($mdDialog, $timeout, $window, data, toastr, statisticService) {
+    function LiveRoomController($mdDialog, $timeout, $window, data, toastr, statisticService, $localStorage) {
         let vm = this;
 
         vm.saveRoom = saveRoom;
         vm.createRoom = createRoom;
         vm.removeRoom = removeRoom;
         vm.close = close;
-
+        let prep_date = $localStorage.data;
+        let send = {};
         let image = document.getElementById('file');
+
         vm.data = {
-            date: '04.03.2021',
-            time: '09:20',
+            date: null,
+            time: null,
             name: '',
             img: ''
         };
-        resizer();
-        checkType(data.type);
 
-        function checkType(type) {
-            if (type === 'create') {
+        init();
+        function init() {
+            resizer();
+            checkType(data);
+        }
+
+        function checkType(data) {
+            if (data.type === 'create') {
                 vm.update = false;
             } else {
+                let g = moment(data.el.date, 'DD.MM.YYYY').format('YYYY-MM-DD');
+                let t = moment(g + 'T' + data.el.time, 'YYYY-MM-DDTHH:mm:SS').format('YYYY-MM-DDTHH:mm:SS');
+                vm.data = {
+                    date: new Date(t),
+                    time: new Date(t),
+                    name: data.el.name,
+                    img: ''
+                };
                 vm.update = true;
             }
         }
@@ -36,19 +50,28 @@
             if(!validation()){
                 return
             }
-            console.log(vm.data)
+            prepareData();
+            statisticService.createContent(send).then(function (res) {
+                console.log(res);
+            });
         }
 
         function createRoom() {
             if(!validation()){
                 return
             }
-            console.log(vm.data)
-            // statisticService.createContent(data)
+            prepareData();
+            statisticService.createContent(send).then(function (res) {
+                $localStorage.data = res.data;
+                $mdDialog.hide('close...')
+            });
         }
 
         function removeRoom() {
             console.log('removeRoom');
+            statisticService.deleteComment(data.el.id).then(function (res) {
+                console.log(res);
+            })
         }
 
         function close() {
@@ -66,14 +89,14 @@
                 toastr.error('check name')
             }
             if (vm.data.date && vm.data.time && vm.data.name !== ''){
-                prepareDate();
                 return true;
             }
         }
 
-        function prepareDate(){
-            vm.data.time = $(".input-time")[0].value;
-            vm.data.date = moment(vm.data.date).format('DD.MM.YYYY');
+        function prepareData(){
+            send.date = moment(vm.data.date).format('DD.MM.YYYY');
+            send.time = moment(vm.data.time).format('HH:mm');
+            send.name = vm.data.name;
         }
 
         function resizer() {
