@@ -63,10 +63,14 @@
 
     .photo {
       margin: 31% auto 0;
-      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
       img {
         height: 30px;
+        width: 40px;
+        padding-bottom:5px;
       }
       span {
         text-decoration: underline;

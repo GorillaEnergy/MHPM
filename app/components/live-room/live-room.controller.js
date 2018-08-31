@@ -13,18 +13,19 @@
         vm.createRoom = createRoom;
         vm.removeRoom = removeRoom;
         vm.close = close;
-        let prep_date = $localStorage.data;
         let send = {};
-        let image = document.getElementById('file');
+        // let image = document.getElementById('file');
+        let fd = new FormData();
 
         vm.data = {
             date: null,
             time: null,
             name: '',
-            img: ''
+            image: null
         };
 
         init();
+
         function init() {
             resizer();
             checkType(data);
@@ -40,37 +41,44 @@
                     date: new Date(t),
                     time: new Date(t),
                     name: data.el.name,
-                    img: ''
+                    image:  data.el.image
                 };
                 vm.update = true;
             }
         }
 
         function saveRoom() {
-            if(!validation()){
+            if (!validation()) {
                 return
             }
             prepareData();
-            statisticService.createContent(send).then(function (res) {
-                console.log(res);
-            });
+            // statisticService.createContent(fd).then(function (res) {
+            //     console.log(res);
+            // });
         }
 
         function createRoom() {
-            if(!validation()){
+            if (!validation()) {
                 return
             }
             prepareData();
-            statisticService.createContent(send).then(function (res) {
-                $localStorage.data = res.data;
-                $mdDialog.hide('close...')
+            statisticService.createContent(fd).then(function (res) {
+                if (res.status === 'success') {
+                    vm.data.img = res.data.image;
+                    $mdDialog.hide('close...')
+                }
             });
         }
 
         function removeRoom() {
             console.log('removeRoom');
-            statisticService.deleteComment(data.el.id).then(function (res) {
-                console.log(res);
+            let send_id = {
+                content_id: data.el.id
+            };
+            statisticService.deleteContent(send_id).then(function (res) {
+                if (res.status === 'success') {
+                    $mdDialog.hide('close...')
+                }
             })
         }
 
@@ -79,24 +87,30 @@
         }
 
         function validation() {
-            if (!vm.data.date){
+            if (!vm.data.date) {
                 toastr.error('check date')
             }
-            if (!vm.data.time){
+            if (!vm.data.time) {
                 toastr.error('check time')
             }
-            if (vm.data.name === ''){
+            if (vm.data.name === '') {
                 toastr.error('check name')
             }
-            if (vm.data.date && vm.data.time && vm.data.name !== ''){
+            if (vm.data.date && vm.data.time && vm.data.name !== '') {
                 return true;
             }
         }
 
-        function prepareData(){
+        function prepareData() {
+            // prepImg();
             send.date = moment(vm.data.date).format('DD.MM.YYYY');
             send.time = moment(vm.data.time).format('HH:mm');
             send.name = vm.data.name;
+            fd.append('date', send.date);
+            fd.append('time', send.time);
+            fd.append('name', send.name);
+            let img = $('#file')[0].files[0];
+            fd.append('image', img);
         }
 
         function resizer() {
@@ -117,12 +131,10 @@
             }
         }
 
-        // function bgTest() {
-        //     $timeout(function () {
-        //         let url = 'http://2.bp.blogspot.com/-j4CaDgx5OR4/T38vw1ULCJI/AAAAAAAABzE/U6sRh4RAK8M/s1600/17992935.jpg';
-        //         $("#photo-block").css("background-image","url(" + url + ")");
-        //     });
+        // function prepImg() {
+        //     let img = $('#file')[0].files[0];
+        //     fd.append('image', img);
+        //      // send.image = fd;
         // }
-
     }
 })();

@@ -11,15 +11,16 @@
   
   .statistic {
     height: 100%;
-    width: 100%;
+    width: 78%;
     box-sizing: border-box;
     border-right: 1px solid #0b1138;
 
     .centered-block {
-      width: 520px;
+      width: 90%;
       margin: 10px auto 0;
       display: flex;
       flex-wrap: wrap;
+      justify-content: center;
     }
     
     .item {
@@ -114,23 +115,21 @@
 
   .live-room {
     height: 100%;
-    width: 25vw;
-    max-width: 450px;
-    min-width: 292px;
+    width: 30%;
+    max-width: 350px;
     font-size: 35px;
     cursor: context-menu;
+    overflow: scroll;
+    padding: 20px 30px;
 
     .title {
-      font-size: 85%;
-      margin: 20px auto 5px;
-      /* text-align: center; */
+      padding-bottom: 10px;
       font-family: American;
-      width: 90%;
+      width: 100%;
     }
 
     .event-day-block {
-      width: 90%;
-      margin: 0 auto 30px;
+      width: 100%;
     }
     .event-time-block {
       display: flex;
@@ -161,7 +160,7 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      font-size: 35%;
+      font-size: 16px;
     }
 
     .to-live {
@@ -229,13 +228,6 @@
 @media (min-width: 1900px) {
   .statistic-block .statistic .item:nth-child(1) {
     padding-top: 15px;
-  }
-  .statistic-block .statistic .item {
-    width: 400px;
-    height: 400px;
-    font-size: 50px;
-    margin: 5px;
-    padding: 15px 35px 20px;
   }
   .statistic-block .statistic .centered-block {
     width: 820px;

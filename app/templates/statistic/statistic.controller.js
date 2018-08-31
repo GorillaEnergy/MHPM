@@ -13,9 +13,13 @@
         vm.editLiveRoom = editLiveRoom;
         vm.createLiveRoom = createLiveRoom;
 
-        vm.schedule = statisticService.schedule();
-        vm.data = $localStorage.data;
-        console.log(vm.schedule);
+        getContent();
+
+        function getContent () {
+            statisticService.getMyContent().then(function (data) {
+                vm.schedule = data.data;
+            })
+        }
 
         function editLiveRoom(el) {
             console.log(el);
@@ -31,7 +35,7 @@
 
         function createLiveRoom() {
             let data = { type: 'create' };
-            showLiveRoomDialog(data, el)
+            showLiveRoomDialog(data)
         }
 
         function showLiveRoomDialog(data) {
@@ -44,6 +48,7 @@
                 templateUrl: 'components/live-room/live-room.html',
                 clickOutsideToClose: true,
             }).then(function (res) {
+                    getContent();
                     console.log('close dialog');
                     console.log('res', res);
                 },

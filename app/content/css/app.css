@@ -260,6 +260,7 @@ body {
     display: flex; }
     .tabs-block .body .tabs {
       width: 25%;
+      min-width: 220px;
       height: 100%;
       background-color: white;
       box-sizing: border-box;
@@ -324,14 +325,15 @@ body {
   display: flex; }
   .statistic-block .statistic {
     height: 100%;
-    width: 100%;
+    width: 78%;
     box-sizing: border-box;
     border-right: 1px solid #0b1138; }
     .statistic-block .statistic .centered-block {
-      width: 520px;
+      width: 90%;
       margin: 10px auto 0;
       display: flex;
-      flex-wrap: wrap; }
+      flex-wrap: wrap;
+      justify-content: center; }
     .statistic-block .statistic .item {
       width: 250px;
       height: 250px;
@@ -391,20 +393,18 @@ body {
       margin: 0 auto; }
   .statistic-block .live-room {
     height: 100%;
-    width: 25vw;
-    max-width: 450px;
-    min-width: 292px;
+    width: 30%;
+    max-width: 350px;
     font-size: 35px;
-    cursor: context-menu; }
+    cursor: context-menu;
+    overflow: scroll;
+    padding: 20px 30px; }
     .statistic-block .live-room .title {
-      font-size: 85%;
-      margin: 20px auto 5px;
-      /* text-align: center; */
+      padding-bottom: 10px;
       font-family: American;
-      width: 90%; }
+      width: 100%; }
     .statistic-block .live-room .event-day-block {
-      width: 90%;
-      margin: 0 auto 30px; }
+      width: 100%; }
     .statistic-block .live-room .event-time-block {
       display: flex;
       flex-direction: row;
@@ -428,7 +428,7 @@ body {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      font-size: 35%; }
+      font-size: 16px; }
     .statistic-block .live-room .to-live {
       position: absolute;
       top: -40%;
@@ -484,12 +484,6 @@ body {
 @media (min-width: 1900px) {
   .statistic-block .statistic .item:nth-child(1) {
     padding-top: 15px; }
-  .statistic-block .statistic .item {
-    width: 400px;
-    height: 400px;
-    font-size: 50px;
-    margin: 5px;
-    padding: 15px 35px 20px; }
   .statistic-block .statistic .centered-block {
     width: 820px;
     margin: 10px auto 0; } }
@@ -822,9 +816,13 @@ md-list {
     position: relative; }
     .live-room-popup .photo-block .photo {
       margin: 31% auto 0;
-      text-align: center; }
+      display: flex;
+      flex-direction: column;
+      align-items: center; }
       .live-room-popup .photo-block .photo img {
-        height: 30px; }
+        height: 30px;
+        width: 40px;
+        padding-bottom: 5px; }
       .live-room-popup .photo-block .photo span {
         text-decoration: underline;
         cursor: pointer; }

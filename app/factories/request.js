@@ -13,6 +13,63 @@
     function http($http, $q, $localStorage , toastr) {
         console.log('create request service');
 
+        let requestFile = function (url, data) {
+            let token = $localStorage.token;
+            console.log(data);
+            let config = {
+                transformRequest: angular.identity,
+                headers: {
+                    'Content-Type': undefined
+                }
+            };
+
+            if(typeof token != 'undefined') {
+                config.headers.Authorization = 'Bearer ' + token;
+            }
+
+            return $http.post(url, data, config).then(
+                function (response) {
+                    let defer = $q.defer();
+
+                    // console.info('response', url, response);
+                    if (response.data.error) {
+                        toastr.error(response.data.error);
+                        defer.reject(response.data.error);
+                    }
+                    defer.resolve(response.data);
+                    return defer.promise;
+                },
+                function (response) {
+                    let defer = $q.defer();
+                    // console.info('error', url, response);
+
+                    if (response.status === 200) {
+                        toastr.error('Server Error: ' + response.data);
+                        defer.reject(response.data);
+                    }
+                    else if (response.status === -1) {
+                        toastr.error('Server unavailable');
+                        defer.reject(response.data);
+                    }
+                    else if (response.status === 500) {
+                        toastr.error(response.data.message);
+                        // toastr.error('Server Error: ' + response.status + ' ' + response.data.message);
+                        defer.reject(response.data);
+                    }
+                    else if (response.status === 403) {
+                        toastr.error('Access denied.');
+                        defer.reject(response.data);
+                    }
+                    else {
+                        toastr.error('Server Error: ' + response.status + ' ' + response.data.message);
+                        defer.reject(response.data);
+                    }
+                    defer.reject(response.data);
+                    return defer.promise;
+                }
+            );
+        };
+
         return {
             get: function (url, data) {
                 return request('GET', url, data);
@@ -25,10 +82,10 @@
             },
             delete: function (url, data) {
                 return request('DELETE', url, data);
+            },
+            file: function (url, data) {
+                return requestFile(url, data);
             }
-            // file: function (url, data) {
-            //     return requestFile(url, data);
-            // }
         };
 
 

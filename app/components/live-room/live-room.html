@@ -1,34 +1,31 @@
 <md-dialog class="live-room-popup">
 
+    <form enctype="multipart/form-data">
     <div class="name-block input-form">
         <div class="description">name</div>
-        <input ng-model="vm.data.name" class="input" type="text">
+        <input ng-model="vm.data.name" class="input" name="name" type="text">
     </div>
 
     <div class="date-time-block input-form">
         <div class="date-block">
             <div class="description">date</div>
-            <input ng-model="vm.data.date" class="input" type="date" >
+            <input ng-model="vm.data.date" class="input" name="date"  type="date" >
         </div>
         <div class="time-block">
             <div class="description">time</div>
-            <input ng-model="vm.data.time" class="input input-time" type="time">
+            <input ng-model="vm.data.time" class="input input-time" name="time" type="time">
         </div>
     </div>
 
     <div class="photo-block" id="photo-block">
-            <div class="photo" ng-if="!vm.update">
-                <img src="../../content/img/live-room-popup/photo_camera.png" class="blue-camera">
-
-                <form name="imgForm">
-                    <input type="file" class="ng-hide" id="file" ng-model="vm.data.img" name="imgFile" value="Select" accept="image/*"
-                       required>
-                    <label for="file"><span>add photo</span></label>
-                </form>
+            <div class="photo">
+                <img ng-if="!vm.update" src="../../content/img/live-room-popup/photo_camera.png" class="blue-camera">
+                    <input type="file" class="ng-hide" id="file" name="file" value="Select">
+                    <label ng-if="!vm.update" for="file"><span>add photo</span></label>
             </div>
         <div class="background-img">
-            <img src="../../content/img/authorization/bg.png" ng-src="vm.data.img" alt="">
-            <label for="file" ng-if="vm.update">
+            <img ng-if="vm.update" ng-src="{{vm.data.img}}" alt="">
+            <label ng-if="vm.update" for="file" >
                 <img src="../../content/img/live-room-popup/photo_camera_white.png" class="white-camera">
             </label>
         </div>
@@ -40,6 +37,6 @@
         <div ng-click="vm.removeRoom()" ng-if="vm.update" class="close-remove-button">remove</div>
         <div ng-click="vm.close()" ng-if="!vm.update" class="close-remove-button">close up</div>
     </div>
-
+    </form>
 
 </md-dialog>

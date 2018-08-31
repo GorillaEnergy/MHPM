@@ -38,6 +38,7 @@
             },
             create_content: baseUrl + 'api/create-content',
             delete_content: baseUrl + 'api/delete-content',
+            content_my: baseUrl + 'api/content/my',
             password: {
                 forgot: baseUrl + 'api/password/forgot',
                 reset: baseUrl + 'api/password/reset'

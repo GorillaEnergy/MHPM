@@ -12,14 +12,19 @@
 
         model.schedule = schedule;
         model.createContent = createContent;
+        model.deleteContent = deleteContent;
+        model.getMyContent = getMyContent;
 
         return model;
 
         function createContent(data) {
-            return http.post(url.create_content, data)
+            return http.file(url.create_content, data,);
         }
         function deleteContent(data) {
             return http.post(url.delete_content, data)
+        }
+        function getMyContent() {
+            return http.get(url.content_my)
         }
 
         function schedule() {
