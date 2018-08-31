@@ -135,6 +135,14 @@ md-toolbar{
   background: #0b1138;
 }
 
+md-dialog {
+  max-height: 100%;
+  max-width: 100%;
+  border-radius: 0;
+  box-sizing: border-box;
+  border: 2px solid #0b1138;
+}
+
 body {
   -ms-scrollbar-face-color: #0b1138;
   -ms-scrollbar-arrow-color: #0b1138;

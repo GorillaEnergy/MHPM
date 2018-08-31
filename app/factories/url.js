@@ -36,6 +36,9 @@
               getMySchedules: baseUrl +'api/schedules/my',
               getSchedules: baseUrl + 'api/schedules',
               getMySchedulesWeeks: baseUrl +'api/schedules/my/weeks'
+            },
+            logs: {
+                send: baseUrl + 'api/create-log'
             }
 
         };

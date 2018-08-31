@@ -11,6 +11,7 @@
         'service.rtcController',
         'service.dateConverter',
         'service.consultantService',
+        'service.logsService',
     ]);
 
 })();

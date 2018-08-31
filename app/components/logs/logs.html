@@ -4,12 +4,11 @@
     </div>
 
     <div ng-repeat="log in vm.logs" class="log">
-    <!--<div ng-repeat="log in [0, 1, 2, 3]" class="log">-->
         <div class="head">
             <div class="name">{{vm.consName(log)}}</div>
             <div class="time-of-creation">
                 <div class="date">{{vm.dateConvert(log.created_at, true)}}</div>
-                <div class="time">{{vm.timeConvert(log.created_at)}}</div>
+                <div class="time">{{vm.timeConvert(log.created_at, true)}}</div>
             </div>
         </div>
 

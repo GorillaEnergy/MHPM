@@ -4,88 +4,54 @@
         .module('app')
         .controller('SendLogController', SendLogController);
 
-    SendLogController.$inject = ['$mdDialog', '$timeout', '$window', 'data', 'toastr'];
+    SendLogController.$inject = ['$mdDialog', '$timeout', 'toastr', 'data', 'dateConverter', 'logsService'];
 
-    function SendLogController($mdDialog, $timeout, $window, data, toastr) {
+    function SendLogController($mdDialog, $timeout, toastr, data, dateConverter, logsService) {
         let vm = this;
 
         console.log(data);
-        vm.editRoom = editRoom;
-        vm.createRoom = createRoom;
-        vm.removeRoom = removeRoom;
-        vm.close = close;
-
-        vm.showEditButton = showEditButton;
-        vm.showCreateButton = showCreateButton;
-        vm.showRemoveButton = showRemoveButton;
-        vm.showCloseButton = showCloseButton;
 
         let kid_id = data.kid.id;
         let fb = firebase.database();
 
-        let image = document.getElementById('file');
+        vm.kidName = data.kid.name;
+        vm.logs = data.logs;
+        vm.text = '';
 
-        initialize();
+        vm.consName = consName;
+        vm.dateConvert = dateConverter.dateConverter;
+        vm.timeConvert = dateConverter.timeConverter;
 
-        function initialize() {
-            popupType();
-            resizer();
-        }
+        vm.send = send;
 
 
-        function editRoom() {
-            console.log('updateRoom');
-        }
-        function createRoom() {
-            console.log('createRoom');
-            let date = new Date(vm.date);
-            let time = new Date(vm.time);
-
-            console.log(vm.name);
-            console.log(date);
-            console.log(time.getHours() + ':' + time.getMinutes());
-        }
-        function removeRoom() {
-            console.log('removeRoom');
-        }
-        function close() {
-            console.log('close');
-            $mdDialog.hide('close...')
-        }
-
-        function showEditButton() {
-            return vm.type === 'update';
-        }
-        function showCreateButton() {
-            return vm.type === 'create';
-        }
-        function showRemoveButton() {
-            return vm.type === 'update';
-        }
-        function showCloseButton() {
-            return vm.type === 'create';
-        }
-
-        function popupType() {
-            data.type === 'new' ? vm.type = 'new' : vm.type = 'add';
-            console.log(vm.type);
-        }
-
-        function resizer() {
-            $timeout(function () {
-                photoBlockSizing();
-            });
-            angular.element($window).bind("resize", function () {
-                photoBlockSizing();
-            });
-
-            function photoBlockSizing() {
-                let photoBlock = $("#photo-block");
-                let buttonBlock = $("#button-block");
-                photoBlock.height(photoBlock.width() * 0.75);
-                buttonBlock.width(photoBlock.width());
+        function consName(consultant) {
+            if (data.consultants[consultant.consultant_id]) {
+                return data.consultants[consultant.consultant_id].name
+            } else {
+                return "No Name"
             }
         }
 
+        function send() {
+            let data = {
+                content: vm.text,
+                kid_id: kid_id,
+                status: "normal"
+            };
+
+            logsService.sendLog(data).then(function (res) {
+                if (res.status === 'success') {
+                    toastr.success('Successfully sent');
+                    close();
+                } else {
+                    toastr.error('Sending error')
+                }
+            })
+        }
+
+        function close() {
+            $mdDialog.hide()
+        }
     }
 })();

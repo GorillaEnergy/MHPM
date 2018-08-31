@@ -1,19 +1,112 @@
 .send-log-dialog {
+  width: 800px;
+  padding: 15px 20px;
+  font-family: AmericanPatrius;
+  font-size: 30px;
+  box-sizing: border-box;
 
   .recent-actions {
+    width: fit-content;
+    margin: 0 auto 10px;
+    background-color: #0b1138;
+    color: white;
+    font-size: 50%;
+    padding: 5px 10px 10px 10px;
+    -webkit-clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
+    clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
+    cursor: pointer;
 
   }
 
 
   .main {
 
+    .info {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      .kid-img {
+        width: 210px;
+        height: 280px;
+        box-sizing: border-box;
+        border: 1px solid #0b1138;
+      }
+      .kid-name {
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 50%;
+        margin: 15px 0;
+      }
+    }
+
+    .logs {
+      font-size: 100%;
+      width: 523px;
+      height: 280px;
+      box-sizing: border-box;
+      overflow-y: auto;
+
+      .log{
+        width: 100%;
+        background-color: #caf2fd;
+        padding: 5px 10px;
+        margin-bottom: 10px;
+        box-sizing: border-box;
+
+        .head {
+          display: flex;
+          justify-content: space-between;
+          font-size: 60%;
+
+          .time-of-creation {
+            display: flex;
+
+            .date {
+              margin-right: 10px;
+            }
+            .time {
+
+            }
+          }
+        }
+
+        .message {
+          font-size: 60%;
+          font-family: Neue;
+        }
+      }
+      .log:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .description {
+      padding: 10px;
+      width: 100%;
+      border: 1px solid #0b1138;
+      box-sizing: border-box;
+      resize: none;
+      font-family: Neue;
+      font-size: 60%;
+
+      overflow: auto;
+      outline: none;
+
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+    }
 
     .button {
-      margin: 0 0 0 auto;
-      background-color: #0b1138;
+      width: fit-content;
+      margin: 10px 0 0 auto;
+      background-color: #e31b4f;
       color: white;
       font-size: 50%;
-      padding: 5px 10px 5px 10px;
+      padding: 7px 12px 7px 12px;
       -webkit-clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
       clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
       cursor: pointer;

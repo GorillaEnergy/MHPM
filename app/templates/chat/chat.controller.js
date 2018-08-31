@@ -46,6 +46,7 @@
         let number_of_logs = 10;
         let download_more = 10;
 
+        let total_unread_kid = 0;
         let total_unread = 0;
         let local_unread = 0;
         let unreadMsgsKeysArr = [];
@@ -184,11 +185,12 @@
             let data = {};
             data.text = vm.message_input;
             data.date = new Date() * 1;
-            data.create_by_user_id = kid_id;
+            data.create_by_user_id = psy_id;
             data.create_by_user_role = 1;
             data.read = false;
 
             if (vm.message_input) {
+                fb.ref('/chats/' + kid_id + '/' + psy_id + '/total_unread_kid').set(total_unread_kid + 1);
                 fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').push(data);
                 vm.message_input = '';
             }
@@ -231,11 +233,7 @@
                     addScrollEvent()
                 }
 
-
-
                 unreadCalc(res, msgKeys);
-
-
 
                 if (type === 'primary_loading') {
                     return res;
@@ -253,13 +251,13 @@
             fb.ref('/chats/' + kid_id + '/' + psy_id + '/total_unread_psy').on('value', (snapshot) => {
                 $timeout(function () {
                     snapshot.val() ? total_unread = snapshot.val() : total_unread = 0;
-                    // console.log(total_unread);
+                    console.log(total_unread);
                 })
             });
         }
 
-        function unreadCalc(arr, keysArr, obj) {
-            if (arr) {
+        function unreadCalc(arr, keysArr, soloKey, obj) {
+            if (!soloKey) {
                 angular.forEach(arr, function (msg, index) {
                     if (msg.create_by_user_id === kid_id && !msg.read) {
                         local_unread++;
@@ -273,11 +271,14 @@
             }
 
             if (total_unread) {
-                markAsRead(unreadMsgsKeysArr);
-                fb.ref('/chats/' + kid_id + '/' + psy_id + '/total_unread_psy').set(total_unread - local_unread);
+                !soloKey ? markAsRead(unreadMsgsKeysArr) : markAsRead([soloKey]);
 
-                local_unread = 0;
-                unreadMsgsKeysArr = [];
+                $timeout(function () {
+                    fb.ref('/chats/' + kid_id + '/' + psy_id + '/total_unread_psy').set(total_unread - local_unread);
+
+                    local_unread = 0;
+                    unreadMsgsKeysArr = [];
+                }, 200);
             }
         }
         
@@ -322,6 +323,7 @@
                         }
                     }
                     if (push_status) {
+                        unreadCalc(null, null, snapshot.key, snapshot.val());
                         vm.messages.push(snapshot.val());
                         scrollToBottom(true)
                     }
@@ -350,13 +352,26 @@
             fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').on('child_changed', (snapshot) => {
                 $timeout(function () {
                     let changed_message = snapshot.val();
-                    console.log('message changed ', snapshot.val);
+                    console.log('message changed ', snapshot.val());
                     for (let i = 0; i < vm.messages.length; i++) {
                         if (vm.messages[i].date === changed_message.date) {
                             vm.messages[i] = changed_message;
                             break;
                         }
                     }
+                })
+            })
+        }
+        function checkMissedNumber() {
+            console.log('checkMissedNumber');
+            fb.ref('/chats/' + kid_id + '/' + psy_id + '/total_unread_psy').on('value', (snapshot) => {
+                $timeout(function () {
+                    snapshot.val() ? total_unread = Number(snapshot.val()) : total_unread = 0;
+                })
+            });
+            fb.ref('/chats/' + kid_id + '/' + psy_id + '/total_unread_kid').on('value', (snapshot) => {
+                $timeout(function () {
+                    snapshot.val() ? total_unread_kid = Number(snapshot.val()) : total_unread_kid = 0;
                 })
             })
         }
@@ -432,7 +447,8 @@
             console.log('add comment');
             let data = {
                 kid: vm.kid,
-                logs: vm.logs
+                logs: vm.logs,
+                consultants: consultantsObj
             };
 
             $mdDialog.show({

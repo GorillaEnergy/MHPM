@@ -21,6 +21,7 @@
 
             if (date() === date(timestamp)) { return 'Today' } else { return date(timestamp) }
 
+            // return date(timestamp);
             function date(timestamp) {
                 let date;
                 if (timestamp) { date = new Date(timestamp) } else { date = new Date(); }
@@ -38,7 +39,8 @@
             }
         }
 
-        function timeConverter(timestamp) {
+        function timeConverter(timestamp, miniString) {
+            if (miniString) {timestamp = timestamp * 1000}
             let hours = new Date(timestamp).getHours();
             let minutes = new Date(timestamp).getMinutes();
             if (hours < 10) {
