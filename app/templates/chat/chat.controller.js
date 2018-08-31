@@ -17,6 +17,7 @@
         vm.dateConvert = dateConverter.dateConverter;
         vm.timeConvert = dateConverter.timeConverter;
         vm.ownMessage = ownMessage;
+        vm.contactName = contactName;
 
         vm.selectUser = selectUser;
         vm.sendMessage = sendMessage;
@@ -38,8 +39,8 @@
         getParents(vm.kid.id);
 
         let user = authService.getUser();
-        let kid_id = 8;
-        // let kid_id = kids[0].id;
+        // let kid_id = 8;
+        let kid_id = kids[0].id;
         let psy_id = user.id;
         let number_of_posts = 10;
         let number_of_logs = 10;
@@ -170,6 +171,13 @@
                 return false
             }
         }
+        function contactName(index) {
+            if (vm.messages[index].create_by_user_id === kid_id) {
+                return vm.kid.name;
+            } else {
+                return user.name
+            }
+        }
 
         ///////////////// messages fb ///////////////////
         function sendMessage() {
@@ -190,8 +198,13 @@
             $timeout(function () {
                 if (newMsg) {
                     // тут добавить какоето условие для более корректной работы функции(возможно скролл и ненужно опускать)
+
+                    $timeout(function () {
+                        chat_body.scrollTop = angular.copy(chat_body.scrollHeight);
+                    }, 500);
+
                     // chat_body.scrollTo(0, chat_body.scrollHeight);
-                    chat_body.scrollTop = angular.copy(chat_body.scrollHeight);
+                    // chat_body.scrollTop = angular.copy(chat_body.scrollHeight);
                 } else {
                     // chat_body.scrollTo(0, chat_body.scrollHeight);
                     chat_body.scrollTop = angular.copy(chat_body.scrollHeight);

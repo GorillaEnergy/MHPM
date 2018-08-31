@@ -25,7 +25,7 @@
                 <div ng-class="vm.ownMessage(key) ? 'my-message-block' : 'other-message' ">
                     <div class="message-time" ng-if="vm.timeHeader($index)">
                         <div class="info">
-                            <p class="name">contact name</p>
+                            <p class="name">{{vm.contactName(key)}}</p>
                             <p>{{vm.timeConvert(message.date)}}</p>
                         </div>
 
