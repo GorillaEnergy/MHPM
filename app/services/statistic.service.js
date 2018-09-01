@@ -13,6 +13,9 @@
         model.createContent = createContent;
         model.deleteContent = deleteContent;
         model.getMyContent = getMyContent;
+        model.getMyChatStatistic = getMyChatStatistic;
+        model.getMyCallStatistic = getMyCallStatistic;
+        model.getMyWeeklyStatistic = getMyWeeklyStatistic ;
 
         return model;
 
@@ -24,6 +27,33 @@
         }
         function getMyContent() {
             return http.get(url.content_my)
+        }
+        function getMyChatStatistic () {
+            return http.get(url.statistics.chat_today).then(function (res) {
+                if (res.status === 'success') {
+                    return res.data;
+                } else {
+                    return []
+                }
+            })
+        }
+        function getMyCallStatistic () {
+            return http.get(url.statistics.call_today).then(function (res) {
+                if (res.status === 'success') {
+                    return res.data;
+                } else {
+                    return []
+                }
+            })
+        }
+        function getMyWeeklyStatistic () {
+            return http.get(url.statistics.weekly).then(function (res) {
+                if (res.status === 'success') {
+                    return res.data;
+                } else {
+                    return []
+                }
+            })
         }
     }
 })();

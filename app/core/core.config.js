@@ -44,7 +44,19 @@
                 url: '/statistic',
                 templateUrl: 'templates/statistic/statistic.html',
                 controller: 'StatisticController',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                resolve: {
+                    my_chat: function (statisticService) {
+                        return statisticService.getMyChatStatistic()
+                    },
+                    my_call: function (statisticService) {
+                        return statisticService.getMyCallStatistic()
+                    },
+                    my_weekly: function (statisticService) {
+                        return statisticService.getMyWeeklyStatistic()
+                    },
+
+                }
             })
             .state('tabs.schedule', {
                 url: '/schedule',

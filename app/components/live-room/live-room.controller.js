@@ -17,17 +17,11 @@
         // let image = document.getElementById('file');
         let fd = new FormData();
 
-        vm.data = {
-            date: null,
-            time: null,
-            name: '',
-            image: null
-        };
+        vm.data = {};
 
         init();
 
         function init() {
-            resizer();
             checkType(data);
         }
 
@@ -43,6 +37,7 @@
                     name: data.el.name,
                     image:  data.el.image
                 };
+                resizer();
                 vm.update = true;
             }
         }
@@ -65,7 +60,8 @@
             statisticService.createContent(fd).then(function (res) {
                 if (res.status === 'success') {
                     vm.data.img = res.data.image;
-                    $mdDialog.hide('close...')
+                    resizer();
+                    // $mdDialog.hide('close...')
                 }
             });
         }
@@ -126,8 +122,9 @@
                 let buttonBlock = $("#button-block");
                 photoBlock.height(photoBlock.width() * 0.75);
                 buttonBlock.width(photoBlock.width());
-                // let url = 'http://2.bp.blogspot.com/-j4CaDgx5OR4/T38vw1ULCJI/AAAAAAAABzE/U6sRh4RAK8M/s1600/17992935.jpg';
-                // photoBlock.css("background-image", "url(" + url + ")");
+                let str  = vm.data.image;
+                // let url  = str.slice(0, 4) + str.slice(5)
+                photoBlock.css("background-image", "url(" +  str + ")");
             }
         }
 
