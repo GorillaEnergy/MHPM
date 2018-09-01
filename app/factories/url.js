@@ -28,7 +28,6 @@
                     deleteImage: baseUrl + 'api/contract/image/' + id
                 };
             },
-
             contract_download_func: function (idReport, idContract, filename) {
                 return {
                     downloadPDF: baseUrl + 'api/report/' + idReport + '/contract/' + idContract + '/review/' + filename,

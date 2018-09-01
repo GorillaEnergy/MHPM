@@ -13,63 +13,6 @@
     function http($http, $q, $localStorage , toastr) {
         console.log('create request service');
 
-        let requestFile = function (url, data) {
-            let token = $localStorage.token;
-            console.log(data);
-            let config = {
-                transformRequest: angular.identity,
-                headers: {
-                    'Content-Type': undefined
-                }
-            };
-
-            if(typeof token != 'undefined') {
-                config.headers.Authorization = 'Bearer ' + token;
-            }
-
-            return $http.post(url, data, config).then(
-                function (response) {
-                    let defer = $q.defer();
-
-                    // console.info('response', url, response);
-                    if (response.data.error) {
-                        toastr.error(response.data.error);
-                        defer.reject(response.data.error);
-                    }
-                    defer.resolve(response.data);
-                    return defer.promise;
-                },
-                function (response) {
-                    let defer = $q.defer();
-                    // console.info('error', url, response);
-
-                    if (response.status === 200) {
-                        toastr.error('Server Error: ' + response.data);
-                        defer.reject(response.data);
-                    }
-                    else if (response.status === -1) {
-                        toastr.error('Server unavailable');
-                        defer.reject(response.data);
-                    }
-                    else if (response.status === 500) {
-                        toastr.error(response.data.message);
-                        // toastr.error('Server Error: ' + response.status + ' ' + response.data.message);
-                        defer.reject(response.data);
-                    }
-                    else if (response.status === 403) {
-                        toastr.error('Access denied.');
-                        defer.reject(response.data);
-                    }
-                    else {
-                        toastr.error('Server Error: ' + response.status + ' ' + response.data.message);
-                        defer.reject(response.data);
-                    }
-                    defer.reject(response.data);
-                    return defer.promise;
-                }
-            );
-        };
-
         return {
             get: function (url, data) {
                 return request('GET', url, data);
@@ -138,33 +81,62 @@
          * @returns {promise}
          */
 
-        // function requestFile(url, data) {
-        //
-        //     // if ($sessionStorage.auth_key) {
-        //     //     url = url + '?auth_key=' + $sessionStorage.auth_key;
-        //     // }
-        //
-        //     var ft = new FileTransfer();
-        //
-        //     var promise = $q.defer();
-        //     ft.upload(data.file.fullPath, encodeURI(url), function (response) {
-        //         console.info('response complete', JSON.parse(response.response));
-        //         promise.resolve(JSON.parse(response.response));
-        //     }, function (error) {
-        //         console.log('error', error);
-        //         promise.reject(error.body);
-        //     }, {
-        //         fileName: data.file.name,
-        //         fileKey: 'file',
-        //         mimeType: 'video/mp4',
-        //         httpMethod: 'POST',
-        //         chunkedMode: false,
-        //         params: data
-        //     });
-        //
-        //     return promise.promise;
-        // }
+        function requestFile (url, data) {
+            let token = $localStorage.token;
+            console.log(data);
+            let config = {
+                transformRequest: angular.identity,
+                headers: {
+                    'Content-Type': undefined
+                }
+            };
 
+            if(typeof token != 'undefined') {
+                config.headers.Authorization = 'Bearer ' + token;
+            }
+
+            return $http.post(url, data, config).then(
+                function (response) {
+                    let defer = $q.defer();
+
+                    // console.info('response', url, response);
+                    if (response.data.error) {
+                        toastr.error(response.data.error);
+                        defer.reject(response.data.error);
+                    }
+                    defer.resolve(response.data);
+                    return defer.promise;
+                },
+                function (response) {
+                    let defer = $q.defer();
+                    // console.info('error', url, response);
+
+                    if (response.status === 200) {
+                        toastr.error('Server Error: ' + response.data);
+                        defer.reject(response.data);
+                    }
+                    else if (response.status === -1) {
+                        toastr.error('Server unavailable');
+                        defer.reject(response.data);
+                    }
+                    else if (response.status === 500) {
+                        toastr.error(response.data.message);
+                        // toastr.error('Server Error: ' + response.status + ' ' + response.data.message);
+                        defer.reject(response.data);
+                    }
+                    else if (response.status === 403) {
+                        toastr.error('Access denied.');
+                        defer.reject(response.data);
+                    }
+                    else {
+                        toastr.error('Server Error: ' + response.status + ' ' + response.data.message);
+                        defer.reject(response.data);
+                    }
+                    defer.reject(response.data);
+                    return defer.promise;
+                }
+            );
+        };
 
         /**
          * Callback function for failed request
