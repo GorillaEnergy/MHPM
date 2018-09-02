@@ -15,7 +15,8 @@
         model.getMyContent = getMyContent;
         model.getMyChatStatistic = getMyChatStatistic;
         model.getMyCallStatistic = getMyCallStatistic;
-        model.getMyWeeklyStatistic = getMyWeeklyStatistic ;
+        model.getMyWeeklyStatistic = getMyWeeklyStatistic;
+        model.addStatistic = addStatistic;
 
         return model;
 
@@ -54,6 +55,9 @@
                     return []
                 }
             })
+        }
+        function addStatistic(data) {
+            return http.post(url.statistics.add, data)
         }
     }
 })();
