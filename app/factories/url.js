@@ -22,7 +22,14 @@
             parents: {
                 list: baseUrl + 'api/list-parents',
             },
+            statistics: {
+              chat_today: baseUrl + 'api/statistics/my/chat/today',
+              call_today: baseUrl + 'api/statistics/my/call/today',
+              weekly: baseUrl + 'api/statistics/my/weekly'
+            },
             create_content: baseUrl + 'api/create-content',
+            delete_content: baseUrl + 'api/delete-content',
+            content_my: baseUrl + 'api/content/my',
             password: {
                 forgot: baseUrl + 'api/password/forgot',
                 reset: baseUrl + 'api/password/reset'

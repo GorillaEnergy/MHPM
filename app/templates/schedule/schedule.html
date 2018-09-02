@@ -20,7 +20,8 @@
     <div class="sidebar">
         <div class="title">
             <img src="../../content/img/left-arrow.svg" ng-if="vm.isNextWeek" ng-click="vm.nextWeek()">
-            <span>This week</span>
+            <span ng-if="vm.isNextWeek">Next week</span>
+            <span ng-if="vm.isShowNextBtm && !vm.isNextWeek">This week</span>
             <img src="../../content/img/right-arrow.svg" ng-if="vm.isShowNextBtm && !vm.isNextWeek" ng-click="vm.nextWeek()">
         </div>
         <div ng-repeat="day in vm.weeks" class="busy-on-day">
