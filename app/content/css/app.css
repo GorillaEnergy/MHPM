@@ -1092,6 +1092,38 @@ md-list {
       text-decoration: underline;
       cursor: pointer; }
 
+.incoming-call {
+  width: 600px;
+  box-sizing: border-box;
+  padding: 20px 20px 5px; }
+  .incoming-call .info {
+    margin: 0 auto;
+    width: 290px; }
+    .incoming-call .info .image {
+      width: 290px;
+      height: 290px;
+      box-sizing: border-box;
+      border: 1px solid #0b1138; }
+    .incoming-call .info .name {
+      margin-top: 24px;
+      font-family: AmericanPatrius;
+      font-size: 28px;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis; }
+  .incoming-call .buttons {
+    margin-top: -70px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; }
+    .incoming-call .buttons img {
+      padding: 15px;
+      height: 70px; }
+    .incoming-call .buttons .reject {
+      height: 65px;
+      margin-top: 5px; }
+
 .createTemplateTitle {
   min-width: 291px; }
   .createTemplateTitle .createTop p {
@@ -1149,7 +1181,7 @@ md-list {
   border-left: 1px solid #0b1138; }
   .logs-include .button {
     margin: 7px 10px 7px auto;
-    width: 125px;
+    width: 160px;
     width: fit-content;
     background-color: #0b1138;
     color: white;

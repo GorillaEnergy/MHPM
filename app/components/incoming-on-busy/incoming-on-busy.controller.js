@@ -3,26 +3,44 @@
     angular.module('app')
         .controller('IncomingOnBusyController', IncomingOnBusyController);
 
-    IncomingOnBusyController.$inject = ['$mdDialog', 'opponent_name'];
+    IncomingOnBusyController.$inject = ['$mdDialog', 'dateConverter', 'data'];
 
-    function IncomingOnBusyController($mdDialog, opponent_name) {
+    function IncomingOnBusyController($mdDialog, dateConverter, data) {
         let vm = this;
 
-        vm.opponent_name = opponent_name;
-
-        vm.newConnect = newConnect;
-        vm.addToCurrent = addToCurrent;
-        vm.close = close;
-
-        function newConnect() {
-            close('new')
-        }
-        function addToCurrent() {
-            close('add')
-        }
-
-        function close(data) {
-            $mdDialog.hide(data);
-        }
+        console.log(data);
+        // vm.opponent_name = data.opponent_name;
+        // vm.logs = data.logs;
+        // let consultantsObj = data.consultantsObj || [];
+        //
+        // vm.consName = consName;
+        // vm.dateConvert = dateConverter.dateConverter;
+        // vm.timeConvert = dateConverter.timeConverter;
+        // vm.addToCurrent = addToCurrent;
+        // vm.toChat = toChat;
+        // vm.reject = reject;
+        //
+        // function consName(consultant) {
+        //     if (consultantsObj[consultant.consultant_id]) {
+        //         return consultantsObj[consultant.consultant_id].name
+        //     } else {
+        //         return "No Name"
+        //     }
+        // }
+        //
+        // function addToCurrent() {
+        //     close({accept: true})
+        // }
+        // function toChat() {
+        //     close({accept: 'chat'})
+        // }
+        // function reject() {
+        //     close({accept: false})
+        //
+        // }
+        //
+        // function close(data) {
+        //     $mdDialog.hide(data);
+        // }
     }
 })();

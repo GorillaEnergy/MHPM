@@ -10,9 +10,9 @@
         ])
         .run(runBlock);
 
-    runBlock.$inject = ['webrtc', 'rtcController'];
+    runBlock.$inject = ['webrtc', 'rtcController', 'RTCService'];
 
-    function runBlock(webrtc, rtcController) {
+    function runBlock(webrtc, rtcController, RTCService) {
         // console.log('runBlock start');
 
         let config = {

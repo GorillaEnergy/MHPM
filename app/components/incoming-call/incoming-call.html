@@ -1,3 +1,13 @@
 <div class="incoming-call">
-    incomming call
+
+    <div class="info">
+        <div class="image"></div>
+        <div class="name">{{vm.name}}</div>
+    </div>
+
+    <div class="buttons">
+        <img src="../../content/img/video-calls/answer-a-call.png" class="accept" ng-click="vm.accept()">
+        <img src="../../content/img/video-calls/hang-up.png" class="reject" ng-click="vm.reject()">
+    </div>
+
 </div>
