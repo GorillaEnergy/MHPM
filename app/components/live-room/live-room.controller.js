@@ -4,24 +4,27 @@
         .module('app')
         .controller('LiveRoomController', LiveRoomController);
 
-    LiveRoomController.$inject = ['$mdDialog', '$timeout', '$window', 'data', 'toastr', 'statisticService', '$localStorage'];
+    LiveRoomController.$inject = ['$mdDialog', '$timeout', '$window', 'data', 'toastr', 'statisticService', '$localStorage', '$scope'];
 
-    function LiveRoomController($mdDialog, $timeout, $window, data, toastr, statisticService, $localStorage) {
+    function LiveRoomController($mdDialog, $timeout, $window, data, toastr, statisticService, $localStorage, $scope) {
         let vm = this;
 
         vm.saveRoom = saveRoom;
         vm.createRoom = createRoom;
         vm.removeRoom = removeRoom;
         vm.close = close;
+
         let send = {};
         // let image = document.getElementById('file');
         let fd = new FormData();
 
         vm.data = {};
+        vm.photoBlock = $('#photo-block');
 
         init();
 
         function init() {
+            resizer();
             checkType(data);
         }
 
@@ -37,7 +40,7 @@
                     name: data.el.name,
                     image:  data.el.image
                 };
-                resizer();
+                vm.photoBlock.css("background-image", "url(" +  vm.data.image + ")");
                 vm.update = true;
             }
         }
@@ -59,8 +62,6 @@
             prepareData();
             statisticService.createContent(fd).then(function (res) {
                 if (res.status === 'success') {
-                    vm.data.img = res.data.image;
-                    resizer();
                     // $mdDialog.hide('close...')
                 }
             });
@@ -109,6 +110,19 @@
             fd.append('image', img);
         }
 
+        // function readURL(input) {
+        //     if (input.files && input.files[0]) {
+        //         let reader = new FileReader();
+        //
+        //         reader.onload = function (e) {
+        //             $('#blah')
+        //                 .attr('src', e.target.result);
+        //         };
+        //         let img =input.files[0];
+        //         reader.readAsDataURL(img);
+        //     }
+        // }
+
         function resizer() {
             $timeout(function () {
                 photoBlockSizing();
@@ -118,20 +132,24 @@
             });
 
             function photoBlockSizing() {
-                let photoBlock = $("#photo-block");
+                vm.photoBlock = $("#photo-block");
                 let buttonBlock = $("#button-block");
-                photoBlock.height(photoBlock.width() * 0.75);
-                buttonBlock.width(photoBlock.width());
-                let str  = vm.data.image;
+                vm.photoBlock.height(vm.photoBlock.width() * 0.75);
+                buttonBlock.width(vm.photoBlock.width());
+                // let str  = vm.data.image;
                 // let url  = str.slice(0, 4) + str.slice(5)
-                photoBlock.css("background-image", "url(" +  str + ")");
-            }
+                }
         }
 
-        // function prepImg() {
-        //     let img = $('#file')[0].files[0];
-        //     fd.append('image', img);
-        //      // send.image = fd;
-        // }
+        $scope.prepImg = function() {
+            let reader = new FileReader();
+
+            reader.onload = function (e) {
+               vm.photoBlock.css("background-image", "url(" +  e.target.result + ")");
+                $('.photo').css("display", "none")
+            };
+            let img = $('#file')[0].files[0];
+            reader.readAsDataURL(img);
+        }
     }
 })();
