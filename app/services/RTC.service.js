@@ -4,9 +4,9 @@
     angular.module('service.RTCService', [])
         .service('RTCService', RTCService);
 
-    RTCService.$inject = ['$localStorage', '$timeout', '$rootScope', '$window', '$mdDialog'];
+    RTCService.$inject = ['$localStorage', '$timeout', '$rootScope', '$window', '$mdDialog', 'consultantService'];
 
-    function RTCService($localStorage, $timeout, $rootScope, $window, $mdDialog) {
+    function RTCService($localStorage, $timeout, $rootScope, $window, $mdDialog, consultantService) {
         console.log('RTCService start');
 
         let user;
@@ -439,6 +439,7 @@
         $timeout(function () {
             // incomingCallMsg('some_opponent_name');
             // incomingOnBusy('some_opponent_name', 11);
+            $rootScope.$broadcast('chat-type', { type: 1 })
         }, 5000);
         /////////////////////////////////////////////////
         let model = {};
@@ -508,17 +509,30 @@
             let fb = firebase.database();
 
             let data = {
-                opponent_name: opponent_name
+                opponent_name: opponent_name,
+                kid_id: opponent_id
             };
 
-            fb.ref('/WebRTC/users/' + opponent_id + '/metadata/invite_from').limitToLast(10).once('value', (snapshot) => {
-                $timeout(function () {
-                    console.log(snapshot.val());
-                    snapshot.val() ? data.logs = convertToArray(snapshot.val()) : data.logs = [];
-                    console.log(data);
-                    showDialog();
-                })
+            consultantService.list().then(function (res) {
+                if (res.status === 'success') {
+                    data.consultants = res.data;
+                    loadLogs()
+                } else {
+                    data.consultants = [];
+                    loadLogs()
+                }
             });
+
+            function loadLogs() {
+                fb.ref('/logs/' + opponent_id).limitToLast(10).once('value', (snapshot) => {
+                    $timeout(function () {
+                        console.log(angular.copy(snapshot.val()));
+                        snapshot.val() ? data.logs = convertToArray(snapshot.val()) : data.logs = [];
+                        showDialog(data);
+                    })
+                });
+            }
+
             function convertToArray(data) {
                 let res = [];
                 let arrOfKeys = Object.keys(data);
@@ -530,6 +544,7 @@
             }
 
             function showDialog(data) {
+                console.log(data);
                 $mdDialog.show({
                     controller: 'IncomingOnBusyController',
                     controllerAs: 'vm',

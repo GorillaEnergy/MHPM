@@ -4,10 +4,10 @@
         .controller('ChatController', ChatController);
 
     ChatController.$inject = ['$localStorage', '$state', '$timeout', 'consultants', 'kids', 'authService', 'dateConverter',
-                              'consultantService', 'userService', '$mdDialog'];
+                              'consultantService', 'userService', '$mdDialog', '$rootScope'];
 
     function ChatController($localStorage, $state, $timeout, consultants, kids, authService, dateConverter,
-                            consultantService, userService, $mdDialog) {
+                            consultantService, userService, $mdDialog, $rootScope) {
         let vm = this;
         console.log('ChatController start');
 
@@ -52,15 +52,19 @@
         let unreadMsgsKeysArr = [];
 
         let chat_body = document.getElementById("chat");
-        let visible_parts_of_logs_block = chat_body.clientHeight;
-        let visible_parts_of_logs_block_with_KB = null;
-        let scrollPosionBeforeChange = null;
         let post_is_last = false;
         let scrollEventEnabled;
 
         let chatHeightOld = null;
         let chatHeightNew = null;
+        ///////////////////////////////////////////////////////////////////////////
 
+        $rootScope.$on('chat-type', function (event, data) {
+            vm.viewType = data.type;
+            console.log('view type = ', vm.viewType);
+        });
+
+        ///////////////////////////////////////////////////////////////////////////////////////
         initializeFB();
         function initializeFB() {
             // psychologistAccess();

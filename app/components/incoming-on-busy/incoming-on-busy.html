@@ -1,8 +1,4 @@
-<!--<div class="incoming-on-busy">-->
-
-<!--</div>-->
-
-<div class="send-log-dialog">
+<div class="incoming-on-busy">
 
     <div class="recent-actions">recent actions</div>
 
@@ -33,10 +29,20 @@
                 </div>
             </div>
 
-            <div>
-                <img src="../../content/img/video-calls/add-to-call.png" class="accept" ng-click="vm.accept()">
-                <img src="../../content/img/video-calls/go-to-chat.png" class="reject" ng-click="vm.toChat()">
-                <img src="../../content/img/video-calls/hang-up.png" class="reject" ng-click="vm.reject()">
+        </div>
+
+        <div class="buttons">
+            <div class="accept cell">
+                <img src="../../content/img/video-calls/add-to-call.png" ng-click="vm.accept()">
+                <p>add to call</p>
+            </div>
+            <div class="chat cell">
+                <img src="../../content/img/video-calls/go-to-chat.png" ng-click="vm.toChat()">
+                <p>go to chat</p>
+            </div>
+            <div class="reject cell">
+                <img src="../../content/img/video-calls/hang-up.png" ng-click="vm.reject()">
+                <p>hang up</p>
             </div>
         </div>
 

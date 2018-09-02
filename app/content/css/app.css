@@ -1126,23 +1126,90 @@ md-list {
       height: 65px;
       margin-top: 5px; }
 
-.createTemplateTitle {
-  min-width: 291px; }
-  .createTemplateTitle .createTop p {
-    text-align: center;
+.incoming-on-busy {
+  width: 800px;
+  padding: 15px 20px;
+  font-family: AmericanPatrius;
+  font-size: 30px;
+  box-sizing: border-box; }
+  .incoming-on-busy .recent-actions {
+    width: fit-content;
+    margin: 0 auto 10px;
+    background-color: #0b1138;
     color: white;
-    padding: 12px; }
-  .createTemplateTitle .createTop {
-    background: #3f51b5; }
-  .createTemplateTitle .content {
-    padding: 0 30px 20px 30px;
-    text-align: center; }
-  .createTemplateTitle .name {
-    margin: 10px 0; }
-  .createTemplateTitle md-input-container {
+    font-size: 50%;
+    padding: 5px 10px 10px 10px;
+    -webkit-clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
+    clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
+    cursor: pointer; }
+  .incoming-on-busy .main .info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; }
+    .incoming-on-busy .main .info .kid-img {
+      width: 210px;
+      height: 280px;
+      box-sizing: border-box;
+      border: 1px solid #0b1138; }
+    .incoming-on-busy .main .info .kid-name {
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-size: 55%;
+      margin: 15px 0; }
+  .incoming-on-busy .main .logs {
+    font-size: 100%;
+    width: 523px;
+    height: 280px;
+    box-sizing: border-box;
+    overflow-y: auto; }
+    .incoming-on-busy .main .logs .log {
+      width: 100%;
+      background-color: #caf2fd;
+      padding: 5px 10px;
+      margin-bottom: 10px;
+      box-sizing: border-box; }
+      .incoming-on-busy .main .logs .log .head {
+        display: flex;
+        justify-content: space-between;
+        font-size: 60%; }
+        .incoming-on-busy .main .logs .log .head .time-of-creation {
+          display: flex; }
+          .incoming-on-busy .main .logs .log .head .time-of-creation .date {
+            margin-right: 10px; }
+      .incoming-on-busy .main .logs .log .message {
+        font-size: 60%;
+        font-family: Neue; }
+    .incoming-on-busy .main .logs .log:last-child {
+      margin-bottom: 0; }
+  .incoming-on-busy .main .description {
+    padding: 10px;
     width: 100%;
-    margin-bottom: 25px;
-    margin-top: 40px; }
+    border: 1px solid #0b1138;
+    box-sizing: border-box;
+    resize: none;
+    font-family: Neue;
+    font-size: 60%;
+    overflow: auto;
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none; }
+  .incoming-on-busy .main .buttons {
+    width: 523px;
+    margin: -25px 0 0 auto;
+    display: flex;
+    flex-direction: row; }
+    .incoming-on-busy .main .buttons img {
+      padding: 15px;
+      height: 50px;
+      width: auto; }
+    .incoming-on-busy .main .buttons .cell {
+      display: block;
+      width: calc(100% / 3);
+      font-size: 20px;
+      text-align: center; }
 
 .kid-detail {
   width: 100%;
