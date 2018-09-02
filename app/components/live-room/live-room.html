@@ -18,7 +18,6 @@
     </div>
 
     <div class="photo-block" id="photo-block">
-        <!--<img  ng-if="vm.data.image" alt="" src="{{vm.data.image}}">-->
         <div class="photo" ng-if="!vm.showImg">
             <img ng-if="!vm.update" src="../../content/img/live-room-popup/photo_camera.png" class="blue-camera">
                 <input type="file" class="ng-hide" id="file" name="file" value="Select" onchange="angular.element(this).scope().prepImg()">

@@ -131,7 +131,6 @@
 
             reader.onload = function (e) {
                vm.photoBlock.css("background-image", "url(" +  e.target.result + ")");
-                console.log(vm.data.image);
                 $('.photo').css("display", "none")
             };
             let img = $('#file')[0].files[0];
