@@ -19,7 +19,7 @@
         let fd = new FormData();
 
         vm.data = {};
-        vm.photoBlock = $('#photo-block');
+        // vm.photoBlock = $('#photo-block');
 
         init();
 
@@ -38,9 +38,8 @@
                     date: new Date(t),
                     time: new Date(t),
                     name: data.el.name,
-                    image:  data.el.image
+                    image: data.el.image
                 };
-                vm.photoBlock.css("background-image", "url(" +  vm.data.image + ")");
                 vm.update = true;
             }
         }
@@ -110,19 +109,6 @@
             fd.append('image', img);
         }
 
-        // function readURL(input) {
-        //     if (input.files && input.files[0]) {
-        //         let reader = new FileReader();
-        //
-        //         reader.onload = function (e) {
-        //             $('#blah')
-        //                 .attr('src', e.target.result);
-        //         };
-        //         let img =input.files[0];
-        //         reader.readAsDataURL(img);
-        //     }
-        // }
-
         function resizer() {
             $timeout(function () {
                 photoBlockSizing();
@@ -136,9 +122,8 @@
                 let buttonBlock = $("#button-block");
                 vm.photoBlock.height(vm.photoBlock.width() * 0.75);
                 buttonBlock.width(vm.photoBlock.width());
-                // let str  = vm.data.image;
-                // let url  = str.slice(0, 4) + str.slice(5)
-                }
+                vm.photoBlock.css("background-image", "url(" +  vm.data.image + ")");
+            }
         }
 
         $scope.prepImg = function() {
@@ -146,6 +131,7 @@
 
             reader.onload = function (e) {
                vm.photoBlock.css("background-image", "url(" +  e.target.result + ")");
+                console.log(vm.data.image);
                 $('.photo').css("display", "none")
             };
             let img = $('#file')[0].files[0];
