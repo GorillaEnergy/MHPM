@@ -13,12 +13,12 @@
 
        function save() {
            if(validation()){
-               if ($localStorage.email){
-                    vm.email = $localStorage.email;
+               if ($localStorage.user){
+                    vm.email = $localStorage.user.email;
                }
-               let url = window.location.href + '/$2y$10$QpmMjJVCLcoljtjUlsCJre8DdIudGsoiwYx7nKtvzY3CYj/.Bviay';
-               let key = url.substring(url.indexOf('new-password/') + 13);
-               console.log(key);
+               console.log($state.current);
+               let url = window.location.href;
+               let key = url.substring(url.indexOf('key=') + 4);
                let data = {
                    password: vm.new_password,
                    password_confirmation: vm.new_password_repeat,
