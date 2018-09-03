@@ -87,11 +87,14 @@
 
         function dialing(type, your_name, opponent_nick, opponent_name) {
             //initRTC   joinRTC
+            //your_room
+            //opponent_nick
+            //opponent_room
             console.log(user);
 
             $timeout(function () {
-                video_out = document.getElementById("vid-box");
-                vid_thumb = document.getElementById("vid-thumb");
+                video_out = document.getElementById("vid-box");   //remote stream
+                vid_thumb = document.getElementById("vid-thumb"); // local stream
 
                 console.log(your_name, opponent_nick, opponent_name);
 
@@ -99,19 +102,20 @@
                     errWrap(login, your_name);
                 }
 
-                if (type === 'joinRTC') {
-                    $timeout(function () {
-                        // console.log('makeCall to ', opponent_nick);
-                        errWrap(makeCall, opponent_nick);
-                    }, 3000)
-                }
+                // if (type === 'joinRTC') {
+                //     $timeout(function () {
+                //         // console.log('makeCall to ', opponent_nick);
+                //         errWrap(makeCall, opponent_nick);
+                //     }, 3000)
+                // }
+
             }, 1000);
 
-            function hangUp() {
-                console.log('hangUp');
-                popup = false;
-                end();
-            }
+            // function hangUp() {
+            //     console.log('hangUp');
+            //     popup = false;
+            //     end();
+            // }
         }
 
 
@@ -174,6 +178,7 @@
             ctrl.receive(function (session) {
                 // session.connected(function(session){ video_out.appendChild(session.video); addLog(session.number + " has joined."); vidCount++; });
                 // session.ended(function(session) { ctrl.getVideoElement(session.number).remove(); addLog(session.number + " has left.");    vidCount--;});
+
                 session.connected(function (session) {
                     video_out.appendChild(session.video);
                     addLog(session.number + " has joined.");
@@ -229,12 +234,14 @@
 
                     console.log('User arr', userActivityArr);
                     console.log('User count', vidCount);
+
                     if (!vidCount) {
                         remoteStream = false;
                         channelName = null;
                     } else {
                         remoteStream = name;
                         console.log('remoteStream = ', remoteStream);
+
                         $timeout(function () {
                             console.log('меняем блоки');
                             // $rootScope.$broadcast('chat-type', { type: 2 })

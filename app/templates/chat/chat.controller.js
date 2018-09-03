@@ -11,7 +11,6 @@
         let vm = this;
         console.log('ChatController start');
 
-        vm.viewType = viewType;
 
         vm.userOnlineStatus = userOnlineStatus;
         vm.dateHeader = dateHeader;
@@ -31,36 +30,36 @@
         let fb = firebase.database();
 
         // vm.users = usersFilter(kids, consultants);
-        vm.users = kids;
-        vm.kid = kids[0];
-        vm.parents = [];
+        vm.users = kids;                //kid_list
+        vm.kid = kids[0];               //active_kid
+        vm.parents = [];                //active_parents for logs
         vm.userOnlineStatusArr = [];
-        vm.messages = [];
-        let msgKeys = [];
-        vm.logs = [];
+        vm.messages = [];               //messages in current chat
+        let msgKeys = [];               //keys of unread messages
+        vm.logs = [];                   //active logs
         watchOnline(vm.users);
         getParents(vm.kid.id);
 
-        let viewCurrent = 1;
-        let user = authService.getUser();
-        // let kid_id = 8;
-        let kid_id = kids[0].id;
-        let psy_id = user.id;
-        let number_of_posts = 10;
-        let number_of_logs = 10;
-        let download_more = 10;
+        let viewCurrent = 1;                //VIEW type -> 1,2,3,4( default chat, 1vs1, 1vs1vsChat, multi )
+        let user = authService.getUser();   //psy info obj
+        let kid_id = kids[0].id;            //active kid id
+        let psy_id = user.id;               //psy id
+        let number_of_posts = 10;           //number of messages on controller startup
+        let number_of_logs = 10;            //number of logs on controller startup
+        let download_more = 10;             //number of download more messages (event)
 
-        let total_unread_kid = 0;
-        let total_unread = 0;
-        let local_unread = 0;
-        let unreadMsgsKeysArr = [];
+        let total_unread_kid = 0;           //number of unread messages on current kid
+        let total_unread = 0;               //number of unread messages on psy (YOU)
+        let local_unread = 0;               //tmp unread
+        let unreadMsgsKeysArr = [];         //tmp keys unread messages arr
 
         let chat_body = document.getElementById("chat");
-        let post_is_last = false;
-        let scrollEventEnabled;
+        let post_is_last = false;           //destroy scroll event(download more off)
+        let scrollEventEnabled;             //add scroll event(download more on)
 
-        let chatHeightOld = null;
-        let chatHeightNew = null;
+        let chatHeightOld = null;           //chat height before download new messages
+        let chatHeightNew = null;           //chat height after download new messages
+
         ///////////////////////////////////////////////////////////////////////////
 
         $rootScope.$on('chat-type', function (event, data) {
@@ -98,12 +97,10 @@
                 document.getElementById("userPanel").style.display = "none";
                 document.getElementById("oneVSone").style.display = "flex";
                 viewCurrent = data.type;
+
+                //добавить функциюю изменения деталей о ребёнке и логи
             }
         });
-
-        function viewType(type) {
-            if (viewCurrent === type) { return true } else { return false }
-        }
 
         $timeout(function () {
             // console.log('7 lost');
