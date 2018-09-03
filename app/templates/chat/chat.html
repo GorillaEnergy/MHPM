@@ -1,10 +1,6 @@
 <div class="chat">
 
-    <div class="chat-body">
-
-        <!--<md-progress-linear md-mode="indeterminate" class="load-linear" ng-show="vm.loadMessages"></md-progress-linear>-->
-        <!--<md-progress-circular md-mode="indeterminate" class="load-circular" ng-show="vm.loadMessages"></md-progress-circular>-->
-
+    <div class="chat-body" id="chatBody">
         <div class="messages" id="chat">
 
             <div ng-repeat="(key, message) in vm.messages track by $index">
@@ -54,8 +50,7 @@
         </div>
     </div>
 
-
-    <div class="user-panel">
+    <div class="user-panel" id="userPanel">
         <!--<div class="title">Users</div>-->
         <div ng-repeat="user in vm.users track by $index" class="user" ng-click="vm.selectUser(user, $index)">
             <div class="info">
@@ -64,6 +59,51 @@
                 <div class="name">{{user.name}}</div>
             </div>
         </div>
+    </div>
+
+
+
+    <div class="one-vs-one" id="oneVSone">
+        <!--<div id="redB" style="width: 120px; height: 120px; background-color: red;">-->
+            <!--red block-->
+        <!--</div>-->
+
+        <!--<div class = "bodyDiv" id="rootBlock">-->
+            <!--<div id="vid-box" class="video2"></div>-->
+            <!--<div id="vid-thumb" class="video1"></div>-->
+        <!--</div>-->
+
+        <!--<div class = "bodyDiv" id="rootBlock2">-->
+        <!--</div>-->
+
+        <div class="kid half">
+            <div class="video">
+                <div id="vid-box" class="video2"></div>
+            </div>
+
+            <div class="detail-and-logs">
+                <div class="detail-incl" ng-include="'../../components/kid-detail/kid-detail.html'"></div>
+            </div>
+        </div>
+
+        <div class="psy half">
+            <div class="video">
+                <div id="vid-thumb" class="video1"></div>
+            </div>
+
+            <div class="detail-and-logs">
+                <div class="logs-incl" ng-include="'../../components/logs/logs.html'"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="one-vs-one-vs-chat" id="oneVSoneVSchat">
+
+    </div>
+
+    <div class="multi" id="multi">
+
     </div>
 
 </div>

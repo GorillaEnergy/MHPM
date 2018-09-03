@@ -11,6 +11,8 @@
         let vm = this;
         console.log('ChatController start');
 
+        vm.viewType = viewType;
+
         vm.userOnlineStatus = userOnlineStatus;
         vm.dateHeader = dateHeader;
         vm.timeHeader = timeHeader;
@@ -25,6 +27,7 @@
         vm.consName = consName;
         vm.addComment = addComment;
 
+
         let fb = firebase.database();
 
         // vm.users = usersFilter(kids, consultants);
@@ -38,6 +41,7 @@
         watchOnline(vm.users);
         getParents(vm.kid.id);
 
+        let viewCurrent = 1;
         let user = authService.getUser();
         // let kid_id = 8;
         let kid_id = kids[0].id;
@@ -60,10 +64,51 @@
         ///////////////////////////////////////////////////////////////////////////
 
         $rootScope.$on('chat-type', function (event, data) {
-            vm.viewType = data.type;
-            console.log('view type = ', vm.viewType);
+            console.log('EVENT!');
+            // viewCurrent = data.type;
+            // console.log('view type = ', viewCurrent);
+            //
+            // let itmB = document.getElementById("vid-box").lastChild;
+            // let clnB = itmB.cloneNode(true);
+            // document.getElementById("rootBlock2").appendChild(clnB);
+            //
+            // let itmT = document.getElementById("vid-thumb").lastChild;
+            // let clnT = itmT.cloneNode(true);
+            // document.getElementById("rootBlock2").appendChild(clnT);
+            //
+            // $timeout(function () {
+            //     console.log('remove');
+            //     let itm = document.getElementById("rootBlock");
+            //     let root = document.getElementById("chatBody");
+            //     root.removeChild(itm);
+            // }, 2000);
+            // $timeout(function () {
+            //     console.log('paste');
+            //     let parentElement = document.getElementById("rootBlock2");
+            //     let itm = document.getElementById("redB");
+            //     let cln = itm.cloneNode(true);
+            //
+            //     // root.appendChild(cln).index(1);
+            //
+            //     parentElement.insertBefore(itm, parentElement.children[1]);
+            // }, 4000);
+
+            if (data.type === 2) {
+                document.getElementById("chatBody").style.display = "none";
+                document.getElementById("userPanel").style.display = "none";
+                document.getElementById("oneVSone").style.display = "flex";
+                viewCurrent = data.type;
+            }
         });
 
+        function viewType(type) {
+            if (viewCurrent === type) { return true } else { return false }
+        }
+
+        $timeout(function () {
+            // console.log('7 lost');
+            // $rootScope.$broadcast('chat-type', { type: 2, kid_id: 11 })
+        }, 7000);
         ///////////////////////////////////////////////////////////////////////////////////////
         initializeFB();
         function initializeFB() {

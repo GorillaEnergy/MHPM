@@ -823,6 +823,36 @@ md-list {
       margin-right: 5px; }
     .chat .user-panel .online-status {
       background-color: #e31b4f; }
+  .chat .one-vs-one {
+    display: none;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto; }
+    .chat .one-vs-one .half {
+      width: 50%;
+      height: 100%;
+      box-sizing: border-box;
+      padding: 20px; }
+    .chat .one-vs-one .detail-and-logs {
+      height: calc(100% - 530px); }
+    .chat .one-vs-one .video {
+      text-align: center; }
+      .chat .one-vs-one .video video {
+        border: 5px solid #0b1138;
+        background: black;
+        width: 100%;
+        height: 500px;
+        margin: 0 auto;
+        box-sizing: border-box; }
+  .chat .one-vs-one-vs-chat {
+    display: none; }
+  .chat .multi {
+    display: none; }
+  .chat .detail {
+    width: 100%; }
+  .chat .logs {
+    width: 100%; }
 
 .call {
   font-family: AmericanPatrius;
