@@ -91,24 +91,25 @@
             if (!vm.data.time) {
                 toastr.error('check time')
             }
-            if (vm.data.name === '') {
+            if (!vm.data.name) {
                 toastr.error('check name')
             }
-            if (vm.data.date && vm.data.time && vm.data.name !== '') {
+            if (vm.data.date && vm.data.time && vm.data.name) {
                 return true;
             }
         }
 
         function prepareData() {
-            // prepImg();
             let date = moment(vm.data.date).format('DD.MM.YYYY');
             let time = moment(vm.data.time).format('HH:mm');
             let name = vm.data.name;
-            let img = $('#file')[0].files[0];
+            let img = $('#file')[0].files[0] || vm.data.image;
+            if(img && img !== vm.data.image){
+                fd.append('image', img);
+            }
             fd.append('date', date);
             fd.append('time', time);
             fd.append('name', name);
-            fd.append('image', img);
         }
 
         function resizer() {

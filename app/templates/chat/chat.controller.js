@@ -202,10 +202,10 @@
                 fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').push(data);
                 vm.message_input = '';
             }
-            addStatisticChat(data)
+                addStatisticChat(data)
         }
 
-        function addStatisticChat(data) {
+        function addStatisticChat() {
             let s = false;
             let date = new Date().getDate();
             if (sendUsers.ids.length && sendUsers.date === date) {
@@ -230,7 +230,7 @@
                     type: 'chat',
                     add_info: {
                         interlocutor_id: kid_id,
-                        time: "01:00"
+                        time: "00:00"
                     }
                 };
                 statisticService.addStatistic(data).then(function (res) {
