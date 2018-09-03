@@ -17,7 +17,7 @@
                console.log('forgot');
                let data = { email: vm.email };
                authService.forgotPass(data).then(function (res) {
-                   if(res.message === "success"){
+                   if(res.status === "success"){
                        toastr.success(res.message);
                        $localStorage.email = vm.email;
                    }else {
