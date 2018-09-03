@@ -64,6 +64,7 @@
 
         $rootScope.$on('chat-type', function (event, data) {
             console.log('EVENT!');
+            console.log(data);
             // viewCurrent = data.type;
             // console.log('view type = ', viewCurrent);
             //
@@ -92,13 +93,52 @@
             //     parentElement.insertBefore(itm, parentElement.children[1]);
             // }, 4000);
 
-            if (data.type === 2) {
+            viewCurrent = data.type;
+
+            if (data.type === 1) {
+                console.log('view type = ', viewCurrent);
+
+            } else if (data.type === 2) {
+                console.log('view type = ', viewCurrent);
                 document.getElementById("chatBody").style.display = "none";
                 document.getElementById("userPanel").style.display = "none";
+                //disabled chat view
                 document.getElementById("oneVSone").style.display = "flex";
-                viewCurrent = data.type;
 
                 //добавить функциюю изменения деталей о ребёнке и логи
+                $timeout(function () {
+
+                    // transfer();
+                    // cloneRemove();
+
+                    function transfer() {
+                        //transfer
+                        let parentElement = document.getElementById("vid-thumb");
+                        let videoElement = document.getElementById("11mhuser");
+                        console.log(parentElement);
+                        console.log(videoElement);
+                        parentElement.insertBefore(videoElement, parentElement.children[0]);
+                    }
+                    function cloneRemove() {
+                        //clone + remove
+                        let parentElement = document.getElementById("vid-thumb");
+                        let itm = document.getElementById("11mhuser");
+                        let cln = itm.cloneNode(true);
+                        parentElement.appendChild(cln);
+                        document.getElementById("vid-box").removeChild(itm);
+                    }
+
+
+                    // console.dir($('video').data-number)
+                    // console.dir($("[data-number='11mhuser']"));
+                    // console.dir($("[data-number='8mhuser']"));
+                }, 5000)
+            } else if (data.type === 3) {
+                console.log('view type = ', viewCurrent);
+
+            } else if (data.type === 4) {
+                console.log('view type = ', viewCurrent);
+
             }
         });
 
