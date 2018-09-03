@@ -117,6 +117,7 @@
                         console.log(videoElement);
                         parentElement.insertBefore(videoElement, parentElement.children[0]);
                     }
+
                     function cloneRemove() {
                         //clone + remove
                         let parentElement = document.getElementById("vid-thumb");

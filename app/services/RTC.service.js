@@ -4,9 +4,9 @@
     angular.module('service.RTCService', [])
         .service('RTCService', RTCService);
 
-    RTCService.$inject = ['$localStorage', '$timeout', '$rootScope', '$window', '$mdDialog', 'consultantService'];
+    RTCService.$inject = ['$localStorage', '$timeout', '$rootScope', '$window', '$mdDialog', 'consultantService', '$state'];
 
-    function RTCService($localStorage, $timeout, $rootScope, $window, $mdDialog, consultantService) {
+    function RTCService($localStorage, $timeout, $rootScope, $window, $mdDialog, consultantService, $state) {
         console.log('RTCService start');
 
         let user;
@@ -236,8 +236,31 @@
                     console.log('User count', vidCount);
 
                     if (!vidCount) {
-                        remoteStream = false;
-                        channelName = null;
+                        if (remoteStream) {
+                            remoteStream = false;
+                            channelName = null;
+                            userActivityArr = [];
+                            vidCount = 0;
+
+                            // $('video').remove();
+                            // var node = document.getElementById("vid-box");
+
+
+                            // var element = document.getElementById('11mhuser');
+                            // element.remove();
+
+                            // while (node.firstChild) {
+                            //     node.removeChild(node.firstChild);
+                            // }
+                            // console.log(node.child);
+                            // while (node.hasChildNodes()) {
+                            //     node.removeChild(node.lastChild);
+                            // }
+                            // $state.reload();
+                            end();
+                        }
+
+                        localStream = null;
                     } else {
                         remoteStream = name;
                         console.log('remoteStream = ', remoteStream);
@@ -294,6 +317,7 @@
             // $("vid-box").empty();
             $window.location.reload();
             ctrl.hangup();
+            // $state.reload();
         }
 
         function softEnd() {

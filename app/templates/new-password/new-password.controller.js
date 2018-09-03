@@ -11,23 +11,23 @@
        vm.save = save;
        vm.warning = {};
 
-       function save() {
-           if(validation()){
-               if ($localStorage.email){
+        function save() {
+            if(validation()){
+                if ($localStorage.email){
                     vm.email = $localStorage.email;
-               }
-               let url = window.location.href;
-               let key = url.substring(url.indexOf('new-password/') + 13);
-               console.log(key);
-               let data = {
-                   password: vm.new_password,
-                   password_confirmation: vm.new_password_repeat,
-                   key: key,
-                   email: vm.email
-               };
-               authService.resetPass(data)
-           }
-       }
+                }
+                console.log($state.current);
+                let url = window.location.href;
+                let key = url.substring(url.indexOf('key=') + 4);
+                let data = {
+                    password: vm.new_password,
+                    password_confirmation: vm.new_password_repeat,
+                    key: key,
+                    email: vm.email
+                };
+                authService.resetPass(data)
+            }
+        }
 
        function validation() {
            if(!vm.new_password){
