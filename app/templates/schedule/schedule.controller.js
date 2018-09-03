@@ -17,8 +17,8 @@
 
         init();
         function init() {
-            getMySchedules();
-            // getAllSchedules()
+            // getMySchedules();
+            getAllSchedules()
         }
 
         vm.nextWeek = function () {
@@ -87,11 +87,8 @@
 
         vm.prepDate = function () {
             // 2018, 2, 5, 19, 0, 0, 0
-            // let dt = new Date();
-            // let y = dt.getFullYear();
-            // let m = dt.getMonth();
-            // let d = dt.getDate();
-            // return new Date(y,m,d);
+            // 2018-09-02T08:00:00+03:00
+            // return new Date(2018,9,2);
             return moment().add(7, 'days').calendar();
         };
 

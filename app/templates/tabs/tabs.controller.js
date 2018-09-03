@@ -18,13 +18,6 @@
         vm.toVideoChatTest = toVideoChatTest;
         vm.toggleMenu = toggleMenu;
         vm.menuOpen = true;
-
-        setInterval(function () {
-            vm.timeReal = moment().format('HH:mm:ss');
-
-            $('.timeReal').text(vm.timeReal);
-        }, 1000 );
-
         function toggleMenu(){
             vm.menuOpen = !vm.menuOpen;
         }

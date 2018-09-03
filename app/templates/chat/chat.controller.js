@@ -4,13 +4,12 @@
         .controller('ChatController', ChatController);
 
     ChatController.$inject = ['$localStorage', '$state', '$timeout', 'consultants', 'kids', 'authService', 'dateConverter',
-                              'consultantService', 'userService', '$mdDialog', '$rootScope'];
+                              'consultantService','statisticService',  'userService', '$mdDialog', '$rootScope'];
 
     function ChatController($localStorage, $state, $timeout, consultants, kids, authService, dateConverter,
-                            consultantService, userService, $mdDialog, $rootScope) {
+                            consultantService, statisticService, userService, $mdDialog, $rootScope) {
         let vm = this;
         console.log('ChatController start');
-
 
         vm.userOnlineStatus = userOnlineStatus;
         vm.dateHeader = dateHeader;
@@ -25,7 +24,6 @@
 
         vm.consName = consName;
         vm.addComment = addComment;
-
 
         let fb = firebase.database();
 
@@ -107,7 +105,10 @@
             // $rootScope.$broadcast('chat-type', { type: 2, kid_id: 11 })
         }, 7000);
         ///////////////////////////////////////////////////////////////////////////////////////
+        let sendUsers = angular.copy($localStorage.sendUsers) || {date: null, ids: []};
+
         initializeFB();
+
         function initializeFB() {
             // psychologistAccess();
             checkUnreadAmount();
@@ -130,7 +131,7 @@
             });
             return kids.concat(consultants)
         }
-        
+
         function watchOnline(users) {
             angular.forEach(users, function (user, key) {
                 fb.ref('/WebRTC/users/' + user.id + '/online').on('value', (snapshot) => {
@@ -144,6 +145,7 @@
                 });
             });
         }
+
         function userOnlineStatus(index) {
             if (vm.userOnlineStatusArr[index]) {
                 return 'online-status'
@@ -163,6 +165,7 @@
             destroyScrollEvent();
             initializeFB()
         }
+
         function getParents(kid_id) {
             userService.getParents({kid_id: kid_id}).then(function (res) {
                 if (res.status === 'success') {
@@ -191,6 +194,7 @@
                 return true;
             }
         }
+
         function timeHeader(index) {
             if (index) {
                 let userPre = vm.messages[index - 1].create_by_user_id;
@@ -211,6 +215,7 @@
                 return true;
             }
         }
+
         function ownMessage(index) {
             if (vm.messages[index].create_by_user_id === kid_id) {
                 return true
@@ -218,6 +223,7 @@
                 return false
             }
         }
+
         function contactName(index) {
             if (vm.messages[index].create_by_user_id === kid_id) {
                 return vm.kid.name;
@@ -239,6 +245,45 @@
                 fb.ref('/chats/' + kid_id + '/' + psy_id + '/total_unread_kid').set(total_unread_kid + 1);
                 fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').push(data);
                 vm.message_input = '';
+            }
+                addStatisticChat(data)
+        }
+
+        function addStatisticChat() {
+            let s = false;
+            let date = new Date().getDate();
+            if (sendUsers.ids.length && sendUsers.date === date) {
+                for (let i = 0; i < sendUsers.ids.length; i++) {
+                    if (sendUsers.ids[i] === kid_id) {
+                        s = false;
+                        return false;
+                    } else {
+                        s = true;
+                    }
+                }
+                if (s) {
+                    pushUser();
+                }
+            } else {
+                pushUser();
+            }
+
+
+            function pushUser() {
+                let data = {
+                    type: 'chat',
+                    add_info: {
+                        interlocutor_id: kid_id,
+                        time: "00:00"
+                    }
+                };
+                statisticService.addStatistic(data).then(function (res) {
+                    if(res.status==='success'){
+                        sendUsers.date = date;
+                        sendUsers.ids.push(kid_id);
+                        $localStorage.sendUsers = sendUsers;
+                    }
+                })
             }
         }
 
@@ -263,14 +308,16 @@
         function convertToArray(data, type, logs) {
             let res = [];
             let arrOfKeys = Object.keys(data);
-            angular.forEach(arrOfKeys ,function (key) {
+            angular.forEach(arrOfKeys, function (key) {
                 res.push(data[key]);
             });
 
             if (!logs) {
                 msgKeys = msgKeys.concat(arrOfKeys);
 
-                if (res.length < number_of_posts) { post_is_last = true }
+                if (res.length < number_of_posts) {
+                    post_is_last = true
+                }
                 console.log('post_is_last', post_is_last);
 
                 if (post_is_last) {
@@ -327,10 +374,10 @@
                 }, 200);
             }
         }
-        
+
         function markAsRead(keys) {
             angular.forEach(keys, function (key) {
-                fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages/'+ key + '/read').set(true);
+                fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages/' + key + '/read').set(true);
             })
         }
 
@@ -339,6 +386,7 @@
             fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').off();
             fb.ref('/logs/' + kid_id).off();
         }
+
         function downloadMessages() {
             fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').limitToLast(number_of_posts).once('value', (snapshot) => {
                 $timeout(function () {
@@ -348,6 +396,7 @@
                 })
             });
         }
+
         function downloadMoreMessages() {
             vm.loadMessages = true;
             let last = vm.messages[0].date;
@@ -356,6 +405,7 @@
                 vm.loadMessages = false;
             })
         }
+
         function addMessagesEvent() {
             console.log('addMessagesEvent');
             fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').limitToLast(1).on('child_added', (snapshot) => {
@@ -376,6 +426,7 @@
                 })
             })
         }
+
         function removeMessagesEvent() {
             console.log('removeMessagesEvent');
             fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').on('child_removed', (snapshot) => {
@@ -393,6 +444,7 @@
                 })
             })
         }
+
         function changeMessagesEvent() {
             console.log('changeMessagesEvent');
             fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').on('child_changed', (snapshot) => {
@@ -408,6 +460,7 @@
                 })
             })
         }
+
         function checkMissedNumber() {
             console.log('checkMissedNumber');
             fb.ref('/chats/' + kid_id + '/' + psy_id + '/total_unread_psy').on('value', (snapshot) => {
@@ -434,17 +487,19 @@
         function addScrollEvent() {
             scrollEventEnabled = true;
             console.log('addScrollEvent');
-            angular.element(chat_body).bind('scroll', function(){
+            angular.element(chat_body).bind('scroll', function () {
                 if (chat_body.scrollTop === 0) {
                     console.log('scroll position top');
                     downloadMoreMessages();
                 }
             });
         }
+
         function destroyScrollEvent() {
             console.log('destroyScrollEvent');
             angular.element(chat_body).unbind('scroll');
         }
+
         function anchorScroll(data) {
             console.log('anchorScroll');
             $timeout(function () {
@@ -456,7 +511,9 @@
                 }
                 // console.log('chatHeightOld = ', chatHeightOld);
 
-                if (data) { vm.messages = convertToArray(data, 'secondary_loading') }
+                if (data) {
+                    vm.messages = convertToArray(data, 'secondary_loading')
+                }
 
                 $timeout(function () {
 
@@ -473,6 +530,7 @@
         /////////////////////////// Consultants /////////////////////////
 
         let consultantsObj = consultantService.convert(consultants);
+
         // console.log(consultantsObj);
 
         function consName(consultant) {
@@ -506,10 +564,11 @@
                 templateUrl: 'components/send-log/send-log.html',
                 clickOutsideToClose: true,
             }).then(function (res) {
-                console.log('close dialog');
-                console.log('res', res);
-            },
-                function () {}
+                    console.log('close dialog');
+                    console.log('res', res);
+                },
+                function () {
+                }
             );
         }
     }
