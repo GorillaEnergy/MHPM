@@ -11,6 +11,7 @@
         let model = {};
 
         model.createContent = createContent;
+        model.updateContent = updateContent;
         model.deleteContent = deleteContent;
         model.getMyContent = getMyContent;
         model.getMyChatStatistic = getMyChatStatistic;
@@ -21,7 +22,10 @@
         return model;
 
         function createContent(data) {
-            return http.file(url.create_content, data,);
+            return http.file(url.create_content, data);
+        }
+        function updateContent(data) {
+            return http.file(url.update_content, data);
         }
         function deleteContent(data) {
             return http.post(url.delete_content, data)

@@ -29,6 +29,7 @@
                 add: baseUrl + 'api/statistics/add'
             },
             create_content: baseUrl + 'api/create-content',
+            update_content: baseUrl + 'api/update-content',
             delete_content: baseUrl + 'api/delete-content',
             content_my: baseUrl + 'api/content/my',
             password: {
