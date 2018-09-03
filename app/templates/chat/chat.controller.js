@@ -28,39 +28,83 @@
         let fb = firebase.database();
 
         // vm.users = usersFilter(kids, consultants);
-        vm.users = kids;
-        vm.kid = kids[0];
-        vm.parents = [];
+        vm.users = kids;                //kid_list
+        vm.kid = kids[0];               //active_kid
+        vm.parents = [];                //active_parents for logs
         vm.userOnlineStatusArr = [];
-        vm.messages = [];
-        let msgKeys = [];
-        vm.logs = [];
+        vm.messages = [];               //messages in current chat
+        let msgKeys = [];               //keys of unread messages
+        vm.logs = [];                   //active logs
         watchOnline(vm.users);
         getParents(vm.kid.id);
 
-        let user = authService.getUser();
-        // let kid_id = 8;
-        let kid_id = kids[0].id;
-        let psy_id = user.id;
-        let number_of_posts = 10;
-        let number_of_logs = 10;
-        let download_more = 10;
+        let viewCurrent = 1;                //VIEW type -> 1,2,3,4( default chat, 1vs1, 1vs1vsChat, multi )
+        let user = authService.getUser();   //psy info obj
+        let kid_id = kids[0].id;            //active kid id
+        let psy_id = user.id;               //psy id
+        let number_of_posts = 10;           //number of messages on controller startup
+        let number_of_logs = 10;            //number of logs on controller startup
+        let download_more = 10;             //number of download more messages (event)
 
-        let total_unread_kid = 0;
-        let total_unread = 0;
-        let local_unread = 0;
-        let unreadMsgsKeysArr = [];
+        let total_unread_kid = 0;           //number of unread messages on current kid
+        let total_unread = 0;               //number of unread messages on psy (YOU)
+        let local_unread = 0;               //tmp unread
+        let unreadMsgsKeysArr = [];         //tmp keys unread messages arr
 
         let chat_body = document.getElementById("chat");
-        let visible_parts_of_logs_block = chat_body.clientHeight;
-        let visible_parts_of_logs_block_with_KB = null;
-        let scrollPosionBeforeChange = null;
-        let post_is_last = false;
-        let scrollEventEnabled;
+        let post_is_last = false;           //destroy scroll event(download more off)
+        let scrollEventEnabled;             //add scroll event(download more on)
 
-        let chatHeightOld = null;
-        let chatHeightNew = null;
+        let chatHeightOld = null;           //chat height before download new messages
+        let chatHeightNew = null;           //chat height after download new messages
 
+        ///////////////////////////////////////////////////////////////////////////
+
+        $rootScope.$on('chat-type', function (event, data) {
+            console.log('EVENT!');
+            // viewCurrent = data.type;
+            // console.log('view type = ', viewCurrent);
+            //
+            // let itmB = document.getElementById("vid-box").lastChild;
+            // let clnB = itmB.cloneNode(true);
+            // document.getElementById("rootBlock2").appendChild(clnB);
+            //
+            // let itmT = document.getElementById("vid-thumb").lastChild;
+            // let clnT = itmT.cloneNode(true);
+            // document.getElementById("rootBlock2").appendChild(clnT);
+            //
+            // $timeout(function () {
+            //     console.log('remove');
+            //     let itm = document.getElementById("rootBlock");
+            //     let root = document.getElementById("chatBody");
+            //     root.removeChild(itm);
+            // }, 2000);
+            // $timeout(function () {
+            //     console.log('paste');
+            //     let parentElement = document.getElementById("rootBlock2");
+            //     let itm = document.getElementById("redB");
+            //     let cln = itm.cloneNode(true);
+            //
+            //     // root.appendChild(cln).index(1);
+            //
+            //     parentElement.insertBefore(itm, parentElement.children[1]);
+            // }, 4000);
+
+            if (data.type === 2) {
+                document.getElementById("chatBody").style.display = "none";
+                document.getElementById("userPanel").style.display = "none";
+                document.getElementById("oneVSone").style.display = "flex";
+                viewCurrent = data.type;
+
+                //добавить функциюю изменения деталей о ребёнке и логи
+            }
+        });
+
+        $timeout(function () {
+            // console.log('7 lost');
+            // $rootScope.$broadcast('chat-type', { type: 2, kid_id: 11 })
+        }, 7000);
+        ///////////////////////////////////////////////////////////////////////////////////////
         let sendUsers = angular.copy($localStorage.sendUsers) || {date: null, ids: []};
 
         initializeFB();
@@ -87,7 +131,7 @@
             });
             return kids.concat(consultants)
         }
-        
+
         function watchOnline(users) {
             angular.forEach(users, function (user, key) {
                 fb.ref('/WebRTC/users/' + user.id + '/online').on('value', (snapshot) => {
@@ -101,6 +145,7 @@
                 });
             });
         }
+
         function userOnlineStatus(index) {
             if (vm.userOnlineStatusArr[index]) {
                 return 'online-status'
@@ -120,6 +165,7 @@
             destroyScrollEvent();
             initializeFB()
         }
+
         function getParents(kid_id) {
             userService.getParents({kid_id: kid_id}).then(function (res) {
                 if (res.status === 'success') {
@@ -148,6 +194,7 @@
                 return true;
             }
         }
+
         function timeHeader(index) {
             if (index) {
                 let userPre = vm.messages[index - 1].create_by_user_id;
@@ -168,6 +215,7 @@
                 return true;
             }
         }
+
         function ownMessage(index) {
             if (vm.messages[index].create_by_user_id === kid_id) {
                 return true
@@ -175,6 +223,7 @@
                 return false
             }
         }
+
         function contactName(index) {
             if (vm.messages[index].create_by_user_id === kid_id) {
                 return vm.kid.name;
@@ -259,14 +308,16 @@
         function convertToArray(data, type, logs) {
             let res = [];
             let arrOfKeys = Object.keys(data);
-            angular.forEach(arrOfKeys ,function (key) {
+            angular.forEach(arrOfKeys, function (key) {
                 res.push(data[key]);
             });
 
             if (!logs) {
                 msgKeys = msgKeys.concat(arrOfKeys);
 
-                if (res.length < number_of_posts) { post_is_last = true }
+                if (res.length < number_of_posts) {
+                    post_is_last = true
+                }
                 console.log('post_is_last', post_is_last);
 
                 if (post_is_last) {
@@ -323,10 +374,10 @@
                 }, 200);
             }
         }
-        
+
         function markAsRead(keys) {
             angular.forEach(keys, function (key) {
-                fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages/'+ key + '/read').set(true);
+                fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages/' + key + '/read').set(true);
             })
         }
 
@@ -335,6 +386,7 @@
             fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').off();
             fb.ref('/logs/' + kid_id).off();
         }
+
         function downloadMessages() {
             fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').limitToLast(number_of_posts).once('value', (snapshot) => {
                 $timeout(function () {
@@ -344,6 +396,7 @@
                 })
             });
         }
+
         function downloadMoreMessages() {
             vm.loadMessages = true;
             let last = vm.messages[0].date;
@@ -352,6 +405,7 @@
                 vm.loadMessages = false;
             })
         }
+
         function addMessagesEvent() {
             console.log('addMessagesEvent');
             fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').limitToLast(1).on('child_added', (snapshot) => {
@@ -372,6 +426,7 @@
                 })
             })
         }
+
         function removeMessagesEvent() {
             console.log('removeMessagesEvent');
             fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').on('child_removed', (snapshot) => {
@@ -389,6 +444,7 @@
                 })
             })
         }
+
         function changeMessagesEvent() {
             console.log('changeMessagesEvent');
             fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').on('child_changed', (snapshot) => {
@@ -404,6 +460,7 @@
                 })
             })
         }
+
         function checkMissedNumber() {
             console.log('checkMissedNumber');
             fb.ref('/chats/' + kid_id + '/' + psy_id + '/total_unread_psy').on('value', (snapshot) => {
@@ -430,17 +487,19 @@
         function addScrollEvent() {
             scrollEventEnabled = true;
             console.log('addScrollEvent');
-            angular.element(chat_body).bind('scroll', function(){
+            angular.element(chat_body).bind('scroll', function () {
                 if (chat_body.scrollTop === 0) {
                     console.log('scroll position top');
                     downloadMoreMessages();
                 }
             });
         }
+
         function destroyScrollEvent() {
             console.log('destroyScrollEvent');
             angular.element(chat_body).unbind('scroll');
         }
+
         function anchorScroll(data) {
             console.log('anchorScroll');
             $timeout(function () {
@@ -452,7 +511,9 @@
                 }
                 // console.log('chatHeightOld = ', chatHeightOld);
 
-                if (data) { vm.messages = convertToArray(data, 'secondary_loading') }
+                if (data) {
+                    vm.messages = convertToArray(data, 'secondary_loading')
+                }
 
                 $timeout(function () {
 
@@ -469,6 +530,7 @@
         /////////////////////////// Consultants /////////////////////////
 
         let consultantsObj = consultantService.convert(consultants);
+
         // console.log(consultantsObj);
 
         function consName(consultant) {
@@ -502,10 +564,11 @@
                 templateUrl: 'components/send-log/send-log.html',
                 clickOutsideToClose: true,
             }).then(function (res) {
-                console.log('close dialog');
-                console.log('res', res);
-            },
-                function () {}
+                    console.log('close dialog');
+                    console.log('res', res);
+                },
+                function () {
+                }
             );
         }
     }
