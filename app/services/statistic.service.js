@@ -11,16 +11,21 @@
         let model = {};
 
         model.createContent = createContent;
+        model.updateContent = updateContent;
         model.deleteContent = deleteContent;
         model.getMyContent = getMyContent;
         model.getMyChatStatistic = getMyChatStatistic;
         model.getMyCallStatistic = getMyCallStatistic;
-        model.getMyWeeklyStatistic = getMyWeeklyStatistic ;
+        model.getMyWeeklyStatistic = getMyWeeklyStatistic;
+        model.addStatistic = addStatistic;
 
         return model;
 
         function createContent(data) {
-            return http.file(url.create_content, data,);
+            return http.file(url.create_content, data);
+        }
+        function updateContent(data) {
+            return http.file(url.update_content, data);
         }
         function deleteContent(data) {
             return http.post(url.delete_content, data)
@@ -54,6 +59,9 @@
                     return []
                 }
             })
+        }
+        function addStatistic(data) {
+            return http.post(url.statistics.add, data)
         }
     }
 })();

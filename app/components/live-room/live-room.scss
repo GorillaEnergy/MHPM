@@ -58,8 +58,17 @@
     //min-height: 176px;
     margin: 0 auto 20px;
     border: 1px solid #0b1138;
-    background-size: cover;
+    //background-size: cover;
     position: relative;
+
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: 50%;
+    //min-width: 235px;
+    //width: 70%;
+    //margin: 0 auto 20px;
+    //border: 1px solid #0b1138;
+    //position: relative;
 
     .photo {
       margin: 31% auto 0;

@@ -652,7 +652,9 @@ md-list {
     width: 100%;
     height: calc((100% - 50px) / 2);
     overflow-y: scroll;
-    position: relative; }
+    position: relative;
+    padding-left: 20px;
+    box-sizing: border-box; }
     .chat .messages .load {
       margin-top: 10px;
       color: #0b1138;
@@ -1085,8 +1087,10 @@ md-list {
     width: 70%;
     margin: 0 auto 20px;
     border: 1px solid #0b1138;
-    background-size: cover;
-    position: relative; }
+    position: relative;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: 50%; }
     .live-room-popup .photo-block .photo {
       margin: 31% auto 0;
       display: flex;

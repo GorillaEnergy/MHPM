@@ -16,7 +16,7 @@
                if ($localStorage.email){
                     vm.email = $localStorage.email;
                }
-               let url = window.location.href + '/$2y$10$QpmMjJVCLcoljtjUlsCJre8DdIudGsoiwYx7nKtvzY3CYj/.Bviay';
+               let url = window.location.href;
                let key = url.substring(url.indexOf('new-password/') + 13);
                console.log(key);
                let data = {

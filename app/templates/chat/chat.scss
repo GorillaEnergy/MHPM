@@ -41,7 +41,8 @@
     height: calc((100% - 50px) / 2);
     overflow-y: scroll;
     position: relative;
-
+    padding-left: 20px;
+    box-sizing: border-box;
 
     .load {
       margin-top: 10px;

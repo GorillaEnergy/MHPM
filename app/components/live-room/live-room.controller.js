@@ -14,7 +14,6 @@
         vm.removeRoom = removeRoom;
         vm.close = close;
 
-        let send = {};
         // let image = document.getElementById('file');
         let fd = new FormData();
 
@@ -38,7 +37,8 @@
                     date: new Date(t),
                     time: new Date(t),
                     name: data.el.name,
-                    image: data.el.image
+                    image: data.el.image,
+                    id: data.el.id
                 };
                 vm.update = true;
             }
@@ -49,9 +49,11 @@
                 return
             }
             prepareData();
-            // statisticService.createContent(fd).then(function (res) {
-            //     console.log(res);
-            // });
+            fd.append('content_id', vm.data.id);
+            statisticService.updateContent(fd).then(function (res) {
+                console.log(res);
+                $mdDialog.hide('close...')
+            });
         }
 
         function createRoom() {
@@ -61,7 +63,7 @@
             prepareData();
             statisticService.createContent(fd).then(function (res) {
                 if (res.status === 'success') {
-                    // $mdDialog.hide('close...')
+                    $mdDialog.hide('close...')
                 }
             });
         }
@@ -89,24 +91,25 @@
             if (!vm.data.time) {
                 toastr.error('check time')
             }
-            if (vm.data.name === '') {
+            if (!vm.data.name) {
                 toastr.error('check name')
             }
-            if (vm.data.date && vm.data.time && vm.data.name !== '') {
+            if (vm.data.date && vm.data.time && vm.data.name) {
                 return true;
             }
         }
 
         function prepareData() {
-            // prepImg();
-            send.date = moment(vm.data.date).format('DD.MM.YYYY');
-            send.time = moment(vm.data.time).format('HH:mm');
-            send.name = vm.data.name;
-            fd.append('date', send.date);
-            fd.append('time', send.time);
-            fd.append('name', send.name);
-            let img = $('#file')[0].files[0];
-            fd.append('image', img);
+            let date = moment(vm.data.date).format('DD.MM.YYYY');
+            let time = moment(vm.data.time).format('HH:mm');
+            let name = vm.data.name;
+            let img = $('#file')[0].files[0] || vm.data.image;
+            if(img && img !== vm.data.image){
+                fd.append('image', img);
+            }
+            fd.append('date', date);
+            fd.append('time', time);
+            fd.append('name', name);
         }
 
         function resizer() {
