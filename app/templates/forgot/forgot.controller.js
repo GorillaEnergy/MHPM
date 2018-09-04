@@ -19,7 +19,6 @@
                authService.forgotPass(data).then(function (res) {
                    if(res.status === "success"){
                        toastr.success(res.message);
-                       $localStorage.email = vm.email;
                    }else {
                        toastr.error(res.message)
                    }

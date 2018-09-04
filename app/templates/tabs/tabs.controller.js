@@ -10,14 +10,14 @@
         console.log('TabsController start');
 
         vm.logout = logout;
-        vm.profile = profile;
-
+        // vm.profile = profile;
         vm.toStatistic = toStatistic;
         vm.toSchedule = toSchedule;
         vm.toChat = toChat;
         vm.toVideoChatTest = toVideoChatTest;
         vm.toggleMenu = toggleMenu;
         vm.menuOpen = true;
+        vm.user = authService.getUser();
         function toggleMenu(){
             vm.menuOpen = !vm.menuOpen;
         }
@@ -40,9 +40,9 @@
        function logout() {
            authService.logout()
        }
-       function profile() {
-           tabsService.profile()
-       }
+       // function profile() {
+       //     tabsService.profile()
+       // }
 
        function toStatistic() {
           tabsService.route('tabs.statistic');

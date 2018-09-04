@@ -11,7 +11,7 @@
         let model = {};
 
         model.logout = logout;
-        model.profile = profile;
+        // model.profile = profile;
         model.startTab = startTab;
         model.route = route;
 
@@ -25,9 +25,9 @@
             $state.go('authorization.login')
             // return http.get(url.logout_func($localStorage.token).logout);
         }
-        function profile() {
-            console.log('profile');
-        }
+        // function profile() {
+        //     console.log('profile');
+        // }
 
         function startTab(activeTab) {
             $mdDialog.cancel();

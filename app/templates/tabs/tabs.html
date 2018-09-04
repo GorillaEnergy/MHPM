@@ -3,9 +3,9 @@
     <div class="header" id="tabs-header">
         <img src="../../content/img/tabs/logo.png" class="logo outline pointer" ng-click="vm.toStatistic()">
         <div class="logout-name-block">
-            <div class="name outline" ng-click="vm.profile()">
+            <div class="name outline">
                 <img src="../../content/img/tabs/profile-ico.png" class="name-logo">
-                <p>my name</p>
+                <p>{{vm.user.name}}</p>
             </div>
             <div class="logout outline" ng-click="vm.logout()">
                 <img src="../../content/img/tabs/logout-ico.png" class="logout-logo">

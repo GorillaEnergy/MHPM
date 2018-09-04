@@ -1,17 +1,20 @@
 <div class="logs-include">
-    <div class="button disable-selection" ng-click="vm.addComment()">
-        add comment
-    </div>
-
-    <div ng-repeat="log in vm.logs" class="log">
-        <div class="head">
-            <div class="name">{{vm.consName(log)}}</div>
-            <div class="time-of-creation">
-                <div class="date">{{vm.dateConvert(log.created_at, true)}}</div>
-                <div class="time">{{vm.timeConvert(log.created_at, true)}}</div>
-            </div>
+    <div class="button-block">
+        <div class="button disable-selection" ng-click="vm.addComment()">
+            add comment
         </div>
+    </div>
+    <div class="logs-list">
+        <div ng-repeat="log in vm.logs" class="log">
+            <div class="head">
+                <div class="name">{{vm.consName(log)}}</div>
+                <div class="time-of-creation">
+                    <div class="date">{{vm.dateConvert(log.created_at, true)}}</div>
+                    <div class="time">{{vm.timeConvert(log.created_at, true)}}</div>
+                </div>
+            </div>
 
-        <div class="message">{{log.content}}</div>
+            <div class="message">{{log.content}}</div>
+        </div>
     </div>
 </div>
