@@ -194,14 +194,14 @@
             </div>
 
             <div class="buttons">
-                <div class="leave">leave this chat</div>
-                <div class="add-comment">add comment</div>
+                <div class="leave" ng-click="vm.leaveThisChat()">leave this chat</div>
+                <div class="add-comment" ng-click="vm.addComment(true)">add comment</div>
             </div>
         </div>
 
         <div class="top-lvl-half">
             <div class="video">
-                <div id="vid-box" class="video2"></div>
+                <div id="tmp-vid-box" class="video2"></div>
             </div>
 
             <div class="info">
@@ -242,7 +242,7 @@
                 </div>
 
                 <div class="video">
-                    <div id="vid-thumb" class="video1"></div>
+                    <div id="tmp-vid-thumb" class="video1"></div>
                 </div>
             </div>
         </div>

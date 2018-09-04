@@ -4,10 +4,10 @@
         .controller('ChatController', ChatController);
 
     ChatController.$inject = ['$localStorage', '$state', '$timeout', 'consultants', 'kids', 'authService', 'dateConverter',
-                              'consultantService','statisticService',  'userService', '$mdDialog', '$rootScope'];
+                              'consultantService','statisticService',  'userService', '$mdDialog', '$rootScope', 'toastr'];
 
     function ChatController($localStorage, $state, $timeout, consultants, kids, authService, dateConverter,
-                            consultantService, statisticService, userService, $mdDialog, $rootScope) {
+                            consultantService, statisticService, userService, $mdDialog, $rootScope, toastr) {
         let vm = this;
         console.log('ChatController start');
 
@@ -24,6 +24,8 @@
 
         vm.consName = consName;
         vm.addComment = addComment;
+
+        vm.leaveThisChat = leaveThisChat;
 
         let fb = firebase.database();
 
@@ -63,33 +65,35 @@
         $rootScope.$on('chat-type', function (event, data) {
             console.log('EVENT!');
             console.log(data);
-            // viewCurrent = data.type;
-            // console.log('view type = ', viewCurrent);
-            //
-            // let itmB = document.getElementById("vid-box").lastChild;
-            // let clnB = itmB.cloneNode(true);
-            // document.getElementById("rootBlock2").appendChild(clnB);
-            //
-            // let itmT = document.getElementById("vid-thumb").lastChild;
-            // let clnT = itmT.cloneNode(true);
-            // document.getElementById("rootBlock2").appendChild(clnT);
-            //
+
             // $timeout(function () {
-            //     console.log('remove');
-            //     let itm = document.getElementById("rootBlock");
-            //     let root = document.getElementById("chatBody");
-            //     root.removeChild(itm);
-            // }, 2000);
-            // $timeout(function () {
-            //     console.log('paste');
-            //     let parentElement = document.getElementById("rootBlock2");
-            //     let itm = document.getElementById("redB");
-            //     let cln = itm.cloneNode(true);
             //
-            //     // root.appendChild(cln).index(1);
+            //     // transfer();
+            //     // cloneRemove();
             //
-            //     parentElement.insertBefore(itm, parentElement.children[1]);
-            // }, 4000);
+            //     function transfer() {
+            //         //transfer
+            //         let parentElement = document.getElementById("vid-thumb");
+            //         let videoElement = document.getElementById("11mhuser");
+            //         console.log(parentElement);
+            //         console.log(videoElement);
+            //         parentElement.insertBefore(videoElement, parentElement.children[0]);
+            //     }
+            //
+            //     function cloneRemove() {
+            //         //clone + remove
+            //         let parentElement = document.getElementById("vid-thumb");
+            //         let itm = document.getElementById("11mhuser");
+            //         let cln = itm.cloneNode(true);
+            //         parentElement.appendChild(cln);
+            //         document.getElementById("vid-box").removeChild(itm);
+            //     }
+            //
+            //
+            //     // console.dir($('video').data-number)
+            //     // console.dir($("[data-number='11mhuser']"));
+            //     // console.dir($("[data-number='8mhuser']"));
+            // }, 5000)
 
 
             if (data.type === 1) {
@@ -112,9 +116,8 @@
                     upgradeTo3(data);
                 } else if (data.type < viewCurrent) {
                     downgradeTo3(data);
-
                 } else {
-                    console.log('wtf?!');
+                    console.log('---> changed chat here <--');
                 }
 
             } else if (data.type === 4) {
@@ -143,57 +146,84 @@
         }
 
         function downgradeTo2(data) {
-
             viewCurrent = data.type;
+
+            console.log(data);
             console.log('view type = ', viewCurrent);
+
+            let opponent_id = Number(data.users[0].user.substr(0 , data.users[0].user.length - 6));
+
+            document.getElementById("oneVSone").style.display = "flex";
+
+            transferVideoElem(opponent_id);
+            transferVideoElem(user.id);
+
             document.getElementById("chatBody").style.display = "none";
             document.getElementById("userPanel").style.display = "none";
-            document.getElementById("oneVSone").style.display = "none";
+            document.getElementById("oneVSoneVSchat").style.display = "none";
             document.getElementById("multi").style.display = "none";
-            //disabled chat view
-            document.getElementById("oneVSoneVSchat").style.display = "flex";
+
+            function transferVideoElem(id) {
+                let itm = document.getElementById(id + "mhuser");
+                let cln = itm.cloneNode(true);
+
+                if ( id !== user.id ) {
+                    document.getElementById("tmp-vid-box").appendChild(cln);
+                    document.getElementById("vid-box").removeChild(itm);
+
+                    document.getElementById("tmp-vid-box").id = "renamed-vid-box";
+                    document.getElementById("vid-box").id = "tmp-vid-box";
+                    document.getElementById("renamed-vid-box").id = "vid-box";
+                } else {
+                    document.getElementById("tmp-vid-thumb").appendChild(cln);
+                    document.getElementById("vid-thumb").removeChild(itm);
+
+                    document.getElementById("tmp-vid-thumb").id = "renamed-vid-thumb";
+                    document.getElementById("vid-thumb").id = "tmp-vid-thumb";
+                    document.getElementById("renamed-vid-thumb").id = "vid-thumb";
+                }
+            }
+
         }
 
         function upgradeTo3(data) {
-            console.log(data);
-
             viewCurrent = data.type;
+
+            console.log(data);
             console.log('view type = ', viewCurrent);
+
+            let opponent_id = Number(data.users[0].user.substr(0 , data.users[0].user.length - 6));
+
+            document.getElementById("oneVSoneVSchat").style.display = "flex";
+
+            transferVideoElem(opponent_id);
+            transferVideoElem(user.id);
+
             document.getElementById("chatBody").style.display = "none";
             document.getElementById("userPanel").style.display = "none";
             document.getElementById("oneVSone").style.display = "none";
             document.getElementById("multi").style.display = "none";
-            //disabled chat view
-            document.getElementById("oneVSoneVSchat").style.display = "flex";
 
-            $timeout(function () {
+            function transferVideoElem(id) {
+                let itm = document.getElementById(id + "mhuser");
+                let cln = itm.cloneNode(true);
 
-                // transfer();
-                // cloneRemove();
-
-                function transfer() {
-                    //transfer
-                    let parentElement = document.getElementById("vid-thumb");
-                    let videoElement = document.getElementById("11mhuser");
-                    console.log(parentElement);
-                    console.log(videoElement);
-                    parentElement.insertBefore(videoElement, parentElement.children[0]);
-                }
-
-                function cloneRemove() {
-                    //clone + remove
-                    let parentElement = document.getElementById("vid-thumb");
-                    let itm = document.getElementById("11mhuser");
-                    let cln = itm.cloneNode(true);
-                    parentElement.appendChild(cln);
+                if ( id !== user.id ) {
+                    document.getElementById("tmp-vid-box").appendChild(cln);
                     document.getElementById("vid-box").removeChild(itm);
+
+                    document.getElementById("tmp-vid-box").id = "renamed-vid-box";
+                    document.getElementById("vid-box").id = "tmp-vid-box";
+                    document.getElementById("renamed-vid-box").id = "vid-box";
+                } else {
+                    document.getElementById("tmp-vid-thumb").appendChild(cln);
+                    document.getElementById("vid-thumb").removeChild(itm);
+
+                    document.getElementById("tmp-vid-thumb").id = "renamed-vid-thumb";
+                    document.getElementById("vid-thumb").id = "tmp-vid-thumb";
+                    document.getElementById("renamed-vid-thumb").id = "vid-thumb";
                 }
-
-
-                // console.dir($('video').data-number)
-                // console.dir($("[data-number='11mhuser']"));
-                // console.dir($("[data-number='8mhuser']"));
-            }, 5000)
+            }
         }
 
         function downgradeTo3(data) {
@@ -201,9 +231,19 @@
         }
 
         function upgradeTo4(data) {
-
+            toastr.info('On development stage');
         }
 
+        function leaveThisChat() {
+            console.log('leaveThisChat');
+            let data = {
+                type: 2,
+                kid_id: null,
+                join: false,
+                users: $localStorage.userActivityArr
+            };
+            $rootScope.$broadcast('chat-type', data)
+        }
         // $timeout(function () {
         //     console.log('handled event start');
         //     $rootScope.$broadcast('chat-type', { type: 3, kid_id: 11 })

@@ -233,6 +233,7 @@
                     console.log(name);
                     vidCount = userActivityArr.length;
 
+                    $localStorage.userActivityArr = userActivityArr;
                     console.log('User arr', userActivityArr);
                     console.log('User count', vidCount);
 
@@ -526,7 +527,7 @@
 
                     let data = {
                         type: 3,
-                        kid_id: Number(name.substr(0 , name.length - 6)),
+                        kid_id: id,
                         join: false,
                         users: userActivityArr
                     };
