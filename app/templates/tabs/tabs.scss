@@ -33,12 +33,7 @@
       right: 17px;
     }
     .name {
-      position: relative;
-      cursor: pointer;
-      width: 116px;
-      display: flex;
-      //margin-right: 133px;
-      margin-right: 9vw;
+      margin-right: 8vw;
     }
     .logout {
       position: relative;
@@ -47,11 +42,13 @@
       display: flex;
     }
     .name, .logout {
+      position: relative;
+      cursor: pointer;
+      width: max-content;
+      align-items: baseline;
+      display: flex;
       p{
-        position: absolute;
-        bottom: -4px;
-        right: 0;
-        font-size: 13px;
+        padding-left: 10px;
       }
     }
 

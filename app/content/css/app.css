@@ -252,21 +252,20 @@ body {
       bottom: 12px;
       right: 17px; }
     .tabs-block .header .name {
-      position: relative;
-      cursor: pointer;
-      width: 116px;
-      display: flex;
-      margin-right: 9vw; }
+      margin-right: 8vw; }
     .tabs-block .header .logout {
       position: relative;
       cursor: pointer;
       width: 100px;
       display: flex; }
-    .tabs-block .header .name p, .tabs-block .header .logout p {
-      position: absolute;
-      bottom: -4px;
-      right: 0;
-      font-size: 13px; }
+    .tabs-block .header .name, .tabs-block .header .logout {
+      position: relative;
+      cursor: pointer;
+      width: max-content;
+      align-items: baseline;
+      display: flex; }
+      .tabs-block .header .name p, .tabs-block .header .logout p {
+        padding-left: 10px; }
   .tabs-block .body {
     display: flex; }
     .tabs-block .body .tabs {
@@ -338,7 +337,8 @@ body {
     height: 100%;
     width: 78%;
     box-sizing: border-box;
-    border-right: 1px solid #0b1138; }
+    border-right: 1px solid #0b1138;
+    overflow: auto; }
     .statistic-block .statistic .centered-block {
       width: 90%;
       margin: 10px auto 0;
@@ -403,12 +403,11 @@ body {
       height: 29%;
       margin: 0 auto; }
   .statistic-block .live-room {
-    height: 100%;
     width: 30%;
     max-width: 350px;
     font-size: 35px;
     cursor: context-menu;
-    overflow: scroll;
+    overflow: auto;
     padding: 20px 30px; }
     .statistic-block .live-room .title {
       padding-bottom: 10px;
@@ -471,10 +470,6 @@ body {
       color: white;
       -webkit-clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
       clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0); }
-
-@media (max-width: 1100px) {
-  .statistic {
-    overflow: scroll; } }
 
 @media (min-width: 1500px) {
   .statistic-block .statistic .item {
@@ -555,11 +550,14 @@ body {
         padding: 5px 0; }
         .schedule .sidebar .busy-on-day .day-time-block p {
           padding: 5px 0; }
+  .schedule .schedule-fullcalendar {
+    width: 78%;
+    overflow: auto; }
   .schedule .fc-unthemed th, .schedule .fc-unthemed td, .schedule .fc-unthemed thead, .schedule .fc-unthemed tbody, .schedule .fc-unthemed .fc-divider, .schedule .fc-unthemed .fc-row, .schedule .fc-unthemed .fc-content, .schedule .fc-unthemed .fc-popover {
     border-color: #7F8397; }
   .schedule .fc {
     font-size: 1em;
-    width: 78%; }
+    width: 100%; }
     .schedule .fc tr {
       height: 30px;
       line-height: 30px; }
@@ -588,16 +586,13 @@ body {
     font-size: 12px; }
   .schedule .schedule-tbn {
     display: flex;
-    align-items: center;
-    cursor: pointer;
-    position: absolute;
-    right: 25%;
-    bottom: 30px; }
+    justify-content: flex-end;
+    cursor: pointer; }
     .schedule .schedule-tbn .update {
       text-decoration: underline; }
     .schedule .schedule-tbn .send {
       cursor: pointer;
-      margin: 0 40px;
+      margin: 20px 40px;
       width: 80px;
       height: 40px;
       background-color: #0b1138;
@@ -786,6 +781,8 @@ md-list {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
       box-sizing: border-box; }
+    .chat .detail-and-logs .kid-detail {
+      overflow: auto; }
     .chat .detail-and-logs .half:first-child {
       padding: 0 10px 0; }
   .chat .user-panel {
@@ -1252,8 +1249,7 @@ md-list {
   justify-content: space-between; }
   .kid-detail .half {
     width: calc(50% - 5px);
-    height: 100%;
-    overflow-y: auto; }
+    height: 100%; }
     .kid-detail .half .title {
       font-family: American;
       font-size: 120%; }
@@ -1279,27 +1275,33 @@ md-list {
 .logs-include {
   width: 100%;
   height: 100%;
-  overflow-y: auto;
-  box-sizing: border-box;
   border-left: 1px solid #0b1138; }
-  .logs-include .button {
-    margin: 7px 10px 7px auto;
-    width: 160px;
-    width: fit-content;
-    background-color: #0b1138;
-    color: white;
-    font-size: 60%;
-    padding: 9px 10px 12px 10px;
-    -webkit-clip-path: polygon(0 15%, 5% 95%, 100% 70%, 100% 0);
-    clip-path: polygon(0 15%, 5% 95%, 100% 70%, 100% 0);
-    cursor: pointer;
-    text-align: center; }
-  .logs-include .log {
+  .logs-include .button-block {
+    padding: 5px 20px;
+    display: flex;
+    justify-content: flex-end; }
+    .logs-include .button-block .button {
+      width: 160px;
+      width: fit-content;
+      background-color: #0b1138;
+      color: white;
+      font-size: 60%;
+      padding: 9px 10px 12px 10px;
+      -webkit-clip-path: polygon(0 15%, 5% 95%, 100% 70%, 100% 0);
+      clip-path: polygon(0 15%, 5% 95%, 100% 70%, 100% 0);
+      cursor: pointer;
+      text-align: center; }
+  .logs-include .logs-list {
+    overflow-y: auto;
     width: 100%;
+    height: calc(100% - 53px);
+    box-sizing: border-box; }
+  .logs-include .log {
+    width: 99%;
     background-color: #caf2fd;
     padding: 5px 10px;
-    margin-bottom: 10px;
-    box-sizing: border-box; }
+    box-sizing: border-box;
+    margin: 0 auto 10px auto; }
     .logs-include .log .head {
       display: flex;
       justify-content: space-between;

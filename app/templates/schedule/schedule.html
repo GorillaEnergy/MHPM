@@ -1,13 +1,13 @@
 <div class="schedule">
 
-    <div ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar" id="calendar"></div>
-
-    <div class="schedule-tbn">
-        <!--<div class="update" ng-click="vm.update()">Update</div>-->
-        <button class="send" ng-click="vm.send()">Send</button>
-        <!--<button class="send" ng-click="vm.approve()">approve</button>-->
+    <div class="schedule-fullcalendar">
+        <div ui-calendar="uiConfig.calendar" ng-model="eventSources" calendar="myCalendar" id="calendar"></div>
+        <div class="schedule-tbn">
+            <!--<div class="update" ng-click="vm.update()">Update</div>-->
+            <button class="send" ng-click="vm.send()">Send</button>
+            <!--<button class="send" ng-click="vm.approve()">approve</button>-->
+        </div>
     </div>
-
     <!--<div class="fc-event-active" ng-if="vm.isEventActive">-->
         <!--<div class="text">-->
             <!--<p>{{vm.show.date}}</p>-->
@@ -21,7 +21,7 @@
         <div class="title">
             <img src="../../content/img/left-arrow.svg" ng-if="vm.isNextWeek" ng-click="vm.nextWeek()">
             <span ng-if="vm.isNextWeek">Next week</span>
-            <span ng-if="vm.isShowNextBtm && !vm.isNextWeek">This week</span>
+            <span ng-if="!vm.isNextWeek">This week</span>
             <img src="../../content/img/right-arrow.svg" ng-if="vm.isShowNextBtm && !vm.isNextWeek" ng-click="vm.nextWeek()">
         </div>
         <div ng-repeat="day in vm.weeks" class="busy-on-day">
