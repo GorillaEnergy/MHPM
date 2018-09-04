@@ -836,8 +836,12 @@ md-list {
       height: 100%;
       box-sizing: border-box;
       padding: 20px; }
+    .chat .one-vs-one .logs-incl {
+      width: 100%; }
     .chat .one-vs-one .detail-and-logs {
       height: calc(100% - 530px); }
+      .chat .one-vs-one .detail-and-logs .half {
+        padding: 0 10px 0; }
     .chat .one-vs-one .video {
       text-align: center; }
       .chat .one-vs-one .video video {
@@ -848,9 +852,70 @@ md-list {
         margin: 0 auto;
         box-sizing: border-box; }
   .chat .one-vs-one-vs-chat {
-    display: none; }
+    display: none;
+    width: 100%;
+    box-sizing: border-box; }
+    .chat .one-vs-one-vs-chat .top-lvl-half {
+      width: 50%;
+      box-sizing: border-box;
+      padding: 20px; }
+      .chat .one-vs-one-vs-chat .top-lvl-half .kid-detail {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 10px;
+        height: calc(50% - 80px); }
+        .chat .one-vs-one-vs-chat .top-lvl-half .kid-detail .kid {
+          box-sizing: border-box;
+          padding-right: 10px; }
+      .chat .one-vs-one-vs-chat .top-lvl-half .buttons {
+        display: flex;
+        font-size: 18px; }
+        .chat .one-vs-one-vs-chat .top-lvl-half .buttons .leave {
+          text-decoration: underline; }
+        .chat .one-vs-one-vs-chat .top-lvl-half .buttons .add-comment {
+          margin: 0 10px 0 auto;
+          background-color: #0b1138;
+          color: white;
+          padding: 5px 10px 5px 10px;
+          -webkit-clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
+          clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
+          cursor: pointer; }
+      .chat .one-vs-one-vs-chat .top-lvl-half .video {
+        text-align: center;
+        display: flex; }
+        .chat .one-vs-one-vs-chat .top-lvl-half .video video {
+          border: 5px solid #0b1138;
+          background: black;
+          width: 150px;
+          height: 200px;
+          margin: 0 auto;
+          box-sizing: border-box; }
+        .chat .one-vs-one-vs-chat .top-lvl-half .video video:first-child {
+          width: 100%;
+          height: 500px; }
+      .chat .one-vs-one-vs-chat .top-lvl-half .info {
+        display: flex; }
+        .chat .one-vs-one-vs-chat .top-lvl-half .info .kid-detail {
+          width: calc(50% - 20px);
+          margin-right: 10px; }
+          .chat .one-vs-one-vs-chat .top-lvl-half .info .kid-detail .half {
+            width: 100%; }
+        .chat .one-vs-one-vs-chat .top-lvl-half .info .video {
+          width: calc(50% - 20px);
+          margin-left: 10px; }
+          .chat .one-vs-one-vs-chat .top-lvl-half .info .video video {
+            border: 5px solid #0b1138;
+            background: black;
+            width: 150px;
+            height: 200px;
+            margin: 0 auto;
+            box-sizing: border-box; }
+    .chat .one-vs-one-vs-chat .top-lvl-half:first-child {
+      border-right: 1px solid #0b1138;
+      padding: 0; }
   .chat .multi {
-    display: none; }
+    display: none;
+    width: 100%; }
   .chat .detail {
     width: 100%; }
   .chat .logs {

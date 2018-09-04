@@ -206,9 +206,9 @@
                 console.log(name, join);
                 let index;
 
-                search(name);
+                search(name, join);
 
-                function search(name) {
+                function search(name, join) {
                     for (let i = 0; i < userActivityArr.length; i++) {
                         if (userActivityArr[i].name == name) {
                             index = i;
@@ -216,20 +216,21 @@
                             break
                         }
                     }
-                    change(name);
+                    change(name, join);
                 }
 
-                function change(name) {
+                function change(name, join) {
                     if (join) {
                         userActivityArr.push({user: name})
                     } else {
                         userActivityArr.splice(index, 1)
                     }
 
-                    vidCalc(name)
+                    vidCalc(name, join)
                 }
 
-                function vidCalc(name) {
+                function vidCalc(name, join) {
+                    console.log(name);
                     vidCount = userActivityArr.length;
 
                     console.log('User arr', userActivityArr);
@@ -237,41 +238,33 @@
 
                     if (!vidCount) {
                         if (remoteStream) {
-                            remoteStream = false;
-                            channelName = null;
-                            userActivityArr = [];
-                            vidCount = 0;
+                            hardEnd();
 
-                            // $('video').remove();
-                            // var node = document.getElementById("vid-box");
-
-
-                            // var element = document.getElementById('11mhuser');
-                            // element.remove();
-
-                            // while (node.firstChild) {
-                            //     node.removeChild(node.firstChild);
-                            // }
-                            // console.log(node.child);
-                            // while (node.hasChildNodes()) {
-                            //     node.removeChild(node.lastChild);
-                            // }
-                            // $state.reload();
-                            end();
+                            // remoteStream = false;
+                            // channelName = null;
+                            // userActivityArr = [];
+                            // vidCount = 0;
                         }
 
-                        localStream = null;
+                        // localStream = null;
                     } else {
                         remoteStream = name;
                         console.log('remoteStream = ', remoteStream);
 
-                        $timeout(function () {
-                            console.log('меняем блоки');
-                            // $rootScope.$broadcast('chat-type', { type: 2 })
+                        let data = {
+                            type: null,
+                            kid_id: Number(name.substr(0 , name.length - 6)),
+                            join: join,
+                            users: userActivityArr
+                        };
 
-                            $rootScope.$broadcast('chat-type', { type: 2, kid_id: 11 })
-                        })
-                        // }, 2000)
+                        if (vidCount === 1) {
+                            data.type = 2;
+                            $rootScope.$broadcast('chat-type', data)
+                        } else if (vidCount > 1) {
+                            data.type = 4;
+                            $rootScope.$broadcast('chat-type', data)
+                        }
                     }
                 }
             }
@@ -314,10 +307,10 @@
         }
 
         function end() {
-            // $("vid-box").empty();
-            $window.location.reload();
             ctrl.hangup();
-            // $state.reload();
+        }
+        function hardEnd() {
+            $window.location.reload();
         }
 
         function softEnd() {
@@ -500,30 +493,53 @@
                     clickOutsideToClose: false,
                 }).then(function (res) {
                         if (res.accept === true) {
-                            accept(opponent_name)
+                            accept(opponent_name, opponent_id, null)
                         } else if (res.accept === 'chat') {
-                            chat(opponent_name)
+                            chat(opponent_name, opponent_id, null)
                         } else {
-                            reject(opponent_name)
+                            reject()
                         }
                     },
                     function () {}
                 );
 
-                function accept(opponent_name) {
+                function accept(nick, id, room) {
                     console.log("accept");
+                    console.log(nick, id, room);
+
+                    fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set(true);
+                    $timeout(function () {
+                        fb.ref('/WebRTC/users/' + user.id + '/metadata').remove();
+                    }, 100);
+
+                    let self_room = user.id + 'mhuser';
+                    // dialing(type, your_room, opponent_nick, opponent_room)
+                    dialing('initRTC', self_room, nick, room)
 
                 }
-                function chat(opponent_name) {
+                function chat(nick, id, room) {
                     console.log("chat");
+                    fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set('chat');
+                    $timeout(function () {
+                        fb.ref('/WebRTC/users/' + user.id + '/metadata').remove();
+                    }, 100);
+
+                    let data = {
+                        type: 3,
+                        kid_id: Number(name.substr(0 , name.length - 6)),
+                        join: false,
+                        users: userActivityArr
+                    };
+                    $rootScope.$broadcast('chat-type', data)
 
                 }
-                function reject(opponent_name) {
+                function reject() {
                     console.log("reject");
                     fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set(false);
                     $timeout(function () {
                         fb.ref('/WebRTC/users/' + user.id + '/metadata').remove();
-                    })
+                    }, 100);
+
 
                 }
             }

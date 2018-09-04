@@ -91,60 +91,123 @@
             //     parentElement.insertBefore(itm, parentElement.children[1]);
             // }, 4000);
 
-            viewCurrent = data.type;
 
             if (data.type === 1) {
+                viewCurrent = data.type;
                 console.log('view type = ', viewCurrent);
 
             } else if (data.type === 2) {
-                console.log('view type = ', viewCurrent);
-                document.getElementById("chatBody").style.display = "none";
-                document.getElementById("userPanel").style.display = "none";
-                //disabled chat view
-                document.getElementById("oneVSone").style.display = "flex";
 
-                //добавить функциюю изменения деталей о ребёнке и логи
-                $timeout(function () {
+                if (data.type > viewCurrent) {
+                    upgradeTo2(data);
+                } else if (data.type < viewCurrent) {
+                    downgradeTo2(data);
+                } else {
+                    console.log('wtf?!');
+                }
 
-                    // transfer();
-                    // cloneRemove();
-
-                    function transfer() {
-                        //transfer
-                        let parentElement = document.getElementById("vid-thumb");
-                        let videoElement = document.getElementById("11mhuser");
-                        console.log(parentElement);
-                        console.log(videoElement);
-                        parentElement.insertBefore(videoElement, parentElement.children[0]);
-                    }
-
-                    function cloneRemove() {
-                        //clone + remove
-                        let parentElement = document.getElementById("vid-thumb");
-                        let itm = document.getElementById("11mhuser");
-                        let cln = itm.cloneNode(true);
-                        parentElement.appendChild(cln);
-                        document.getElementById("vid-box").removeChild(itm);
-                    }
-
-
-                    // console.dir($('video').data-number)
-                    // console.dir($("[data-number='11mhuser']"));
-                    // console.dir($("[data-number='8mhuser']"));
-                }, 5000)
             } else if (data.type === 3) {
-                console.log('view type = ', viewCurrent);
+
+                if (data.type > viewCurrent) {
+                    upgradeTo3(data);
+                } else if (data.type < viewCurrent) {
+                    downgradeTo3(data);
+
+                } else {
+                    console.log('wtf?!');
+                }
 
             } else if (data.type === 4) {
-                console.log('view type = ', viewCurrent);
+
+                if (data.type > viewCurrent) {
+                    upgradeTo4(data);
+                } else if (data.type < viewCurrent) {
+                    console.log('wtf?!');
+                } else {
+                    console.log('wtf?!');
+                }
 
             }
         });
 
-        $timeout(function () {
-            // console.log('7 lost');
-            // $rootScope.$broadcast('chat-type', { type: 2, kid_id: 11 })
-        }, 7000);
+
+        function upgradeTo2(data) {
+            viewCurrent = data.type;
+            console.log('view type = ', viewCurrent);
+            document.getElementById("chatBody").style.display = "none";
+            document.getElementById("userPanel").style.display = "none";
+            document.getElementById("oneVSoneVSchat").style.display = "none";
+            document.getElementById("multi").style.display = "none";
+            //disabled chat view
+            document.getElementById("oneVSone").style.display = "flex";
+        }
+
+        function downgradeTo2(data) {
+
+            viewCurrent = data.type;
+            console.log('view type = ', viewCurrent);
+            document.getElementById("chatBody").style.display = "none";
+            document.getElementById("userPanel").style.display = "none";
+            document.getElementById("oneVSone").style.display = "none";
+            document.getElementById("multi").style.display = "none";
+            //disabled chat view
+            document.getElementById("oneVSoneVSchat").style.display = "flex";
+        }
+
+        function upgradeTo3(data) {
+            console.log(data);
+
+            viewCurrent = data.type;
+            console.log('view type = ', viewCurrent);
+            document.getElementById("chatBody").style.display = "none";
+            document.getElementById("userPanel").style.display = "none";
+            document.getElementById("oneVSone").style.display = "none";
+            document.getElementById("multi").style.display = "none";
+            //disabled chat view
+            document.getElementById("oneVSoneVSchat").style.display = "flex";
+
+            $timeout(function () {
+
+                // transfer();
+                // cloneRemove();
+
+                function transfer() {
+                    //transfer
+                    let parentElement = document.getElementById("vid-thumb");
+                    let videoElement = document.getElementById("11mhuser");
+                    console.log(parentElement);
+                    console.log(videoElement);
+                    parentElement.insertBefore(videoElement, parentElement.children[0]);
+                }
+
+                function cloneRemove() {
+                    //clone + remove
+                    let parentElement = document.getElementById("vid-thumb");
+                    let itm = document.getElementById("11mhuser");
+                    let cln = itm.cloneNode(true);
+                    parentElement.appendChild(cln);
+                    document.getElementById("vid-box").removeChild(itm);
+                }
+
+
+                // console.dir($('video').data-number)
+                // console.dir($("[data-number='11mhuser']"));
+                // console.dir($("[data-number='8mhuser']"));
+            }, 5000)
+        }
+
+        function downgradeTo3(data) {
+
+        }
+
+        function upgradeTo4(data) {
+
+        }
+
+        // $timeout(function () {
+        //     console.log('handled event start');
+        //     $rootScope.$broadcast('chat-type', { type: 3, kid_id: 11 })
+        // }, 5000);
         ///////////////////////////////////////////////////////////////////////////////////////
         let sendUsers = angular.copy($localStorage.sendUsers) || {date: null, ids: []};
 

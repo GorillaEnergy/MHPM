@@ -64,18 +64,6 @@
 
 
     <div class="one-vs-one" id="oneVSone">
-        <!--<div id="redB" style="width: 120px; height: 120px; background-color: red;">-->
-            <!--red block-->
-        <!--</div>-->
-
-        <!--<div class = "bodyDiv" id="rootBlock">-->
-            <!--<div id="vid-box" class="video2"></div>-->
-            <!--<div id="vid-thumb" class="video1"></div>-->
-        <!--</div>-->
-
-        <!--<div class = "bodyDiv" id="rootBlock2">-->
-        <!--</div>-->
-
         <div class="kid half">
             <div class="video">
                 <div id="vid-box" class="video2"></div>
@@ -99,7 +87,165 @@
     </div>
 
     <div class="one-vs-one-vs-chat" id="oneVSoneVSchat">
+        <div class="top-lvl-half">
 
+            <div class="messages" id="chat">
+                <div ng-repeat="(key, message) in vm.messages track by $index">
+                    <div class="day" ng-if="vm.dateHeader($index)">
+                        <div class="title-line-block">
+                            <div class="title-line"></div>
+                            <div></div>
+                        </div>
+
+                        <p>{{vm.dateConvert(message.date)}}</p>
+
+                        <div class="title-line-block">
+                            <div class="title-line"></div>
+                            <div></div>
+                        </div>
+                    </div>
+
+                    <div ng-class="vm.ownMessage(key) ? 'my-message-block' : 'other-message' ">
+                        <div class="message-time" ng-if="vm.timeHeader($index)">
+                            <div class="info">
+                                <p class="name">{{vm.contactName(key)}}</p>
+                                <p>{{vm.timeConvert(message.date)}}</p>
+                            </div>
+
+                            <div class="contact">
+                                <div class="avatar"></div>
+                                <div class="trigon"></div>
+                            </div>
+                        </div>
+                        <div class="my-message">
+                            <p>{{message.text}}</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="send-box">
+                <input type="text" ng-model="vm.message_input">
+                <div class="button disable-selection" ng-click="vm.sendMessage()">
+                    send
+                </div>
+            </div>
+
+            <div class="kid-detail">
+                <div class="kid half">
+                    <p class="title">kid details</p>
+                    <div class="section">
+                        <div class="image">
+                            <img src="../../content/img/chat/man-ico.png" class="ico">
+                        </div>
+                        <div class="info-pole">{{vm.kid.name}}</div>
+                    </div>
+                    <div class="section">
+                        <div class="image">
+                            <img src="../../content/img/chat/calendar-ico.png" class="ico">
+                        </div>
+                        <div class="info-pole">{{vm.dateConvert(vm.kid.birth_date)}}</div>
+                    </div>
+                    <div class="section">
+                        <div class="image">
+                            <img src="../../content/img/chat/phone-ico.png" class="ico">
+                        </div>
+                        <div class="info-pole">{{vm.kid.phone.code}}  {{vm.kid.phone.phone}}</div>
+                    </div>
+                    <div class="section">
+                        <div class="image">
+                            <img src="../../content/img/chat/id-ico.png" class="ico">
+                        </div>
+                        <div class="info-pole">{{vm.kid.id_number}}</div>
+                    </div>
+                    <div class="section">
+                        <div class="image">
+                            <img src="../../content/img/chat/grade-ico.png" class="ico">
+                        </div>
+                        <div class="info-pole">{{vm.kid.grade}}</div>
+                    </div>
+                </div>
+
+                <div class="parent half">
+                    <p class="title">parents details</p>
+                    <div ng-repeat="parent in vm.parents" class="parent">
+                        <div class="section">
+                            <div class="image">
+                                <img src="../../content/img/chat/man-ico.png" class="ico">
+                            </div>
+                            <div class="info-pole">{{parent.name}}</div>
+                        </div>
+                        <div class="section">
+                            <div class="image">
+                                <img src="../../content/img/chat/email-ico.png" class="ico">
+                            </div>
+                            <div class="info-pole">{{parent.email}}</div>
+                        </div>
+                        <div class="section">
+                            <div class="image">
+                                <img src="../../content/img/chat/phone-ico.png" class="ico">
+                            </div>
+                            <div class="info-pole">{{parent.phone.code}}  {{parent.phone.phone}}</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="buttons">
+                <div class="leave">leave this chat</div>
+                <div class="add-comment">add comment</div>
+            </div>
+        </div>
+
+        <div class="top-lvl-half">
+            <div class="video">
+                <div id="vid-box" class="video2"></div>
+            </div>
+
+            <div class="info">
+                <div class="kid-detail">
+                    <div class="kid half">
+                        <p class="title">kid details</p>
+                        <div class="section">
+                            <div class="image">
+                                <img src="../../content/img/chat/man-ico.png" class="ico">
+                            </div>
+                            <div class="info-pole">{{vm.kid.name}}</div>
+                        </div>
+                        <div class="section">
+                            <div class="image">
+                                <img src="../../content/img/chat/calendar-ico.png" class="ico">
+                            </div>
+                            <div class="info-pole">{{vm.dateConvert(vm.kid.birth_date)}}</div>
+                        </div>
+                        <div class="section">
+                            <div class="image">
+                                <img src="../../content/img/chat/phone-ico.png" class="ico">
+                            </div>
+                            <div class="info-pole">{{vm.kid.phone.code}}  {{vm.kid.phone.phone}}</div>
+                        </div>
+                        <div class="section">
+                            <div class="image">
+                                <img src="../../content/img/chat/id-ico.png" class="ico">
+                            </div>
+                            <div class="info-pole">{{vm.kid.id_number}}</div>
+                        </div>
+                        <div class="section">
+                            <div class="image">
+                                <img src="../../content/img/chat/grade-ico.png" class="ico">
+                            </div>
+                            <div class="info-pole">{{vm.kid.grade}}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="video">
+                    <div id="vid-thumb" class="video1"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="multi" id="multi">
