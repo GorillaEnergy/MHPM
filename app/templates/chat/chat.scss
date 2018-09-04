@@ -211,12 +211,14 @@
     width: 100%;
     height: calc((100% - 50px) / 2);
     display: flex;
-
     .half {
       width: 50%;
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
       box-sizing: border-box;
+    }
+    .kid-detail{
+      overflow: auto;
     }
     .half:first-child {
       padding: 0 10px 0;

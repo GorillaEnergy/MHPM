@@ -13,7 +13,7 @@
 
 
        vm.email = 'tkalenko.yura15@gmail.com';
-       vm.password = 'Test1234!';
+       vm.password = '111111111';
        vm.warning = {};
 
 

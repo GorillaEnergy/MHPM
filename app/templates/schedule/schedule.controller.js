@@ -17,8 +17,8 @@
 
         init();
         function init() {
-            // getMySchedules();
-            getAllSchedules()
+            getMySchedules();
+            // getAllSchedules()
         }
 
         vm.nextWeek = function () {
