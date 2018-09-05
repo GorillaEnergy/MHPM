@@ -88,7 +88,7 @@
             }
         }
 
-        ///////////////////////////////////////////////////////////////////////////
+        ///////////////////////// RTCservice watcher //////////////////////////
 
         $rootScope.$on('chat-type', function (event, data) {
             console.log('EVENT!');
@@ -187,6 +187,7 @@
 
             transferVideoElem(opponent_id);
             transferVideoElem(user.id);
+            dataDependencies();
 
             document.getElementById("chatBody").style.display = "none";
             document.getElementById("userPanel").style.display = "none";
@@ -214,6 +215,13 @@
                 }
             }
 
+            function dataDependencies() {
+                destroyScrollEvent();
+                offFBWatchers();
+                vm.kid = angular.copy(vm.kidShort);
+                vm.messagesShort = angular.copy(vm.messages);
+                vm.logsShort = angular.copy(vm.logs);
+            }
         }
 
         function upgradeTo3(data) {
@@ -254,6 +262,9 @@
                     document.getElementById("renamed-vid-thumb").id = "vid-thumb";
                 }
             }
+
+            console.log(data.kid_id);
+            videoPlusChatDependencies(data.kid_id)
         }
 
         function downgradeTo3(data) {
@@ -355,6 +366,13 @@
             destroyScrollEvent();
             initializeFB(true, true)
         }
+        function videoPlusChatDependencies(id) {
+            vm.kidShort = angular.copy(vm.kid);
+            vm.messagesShort = angular.copy(vm.messages);
+            vm.logsShort = angular.copy(vm.logs);
+
+            selectUser(null, null, id);
+        }
 
         function getParents(kid_id) {
             userService.getParents({kid_id: kid_id}).then(function (res) {
@@ -428,7 +446,7 @@
             data.text = vm.message_input;
             data.date = new Date() * 1;
             data.create_by_user_id = psy_id;
-            data.create_by_user_role = 1;
+            data.create_by_user_role = 3;
             data.read = false;
 
             if (vm.message_input) {
@@ -478,6 +496,7 @@
         }
 
         function scrollToBottom(newMsg) {
+            chat_body = document.getElementById("chat");
             $timeout(function () {
                 if (newMsg) {
                     // тут добавить какоето условие для более корректной работы функции(возможно скролл и ненужно опускать)
@@ -578,6 +597,7 @@
         }
 
         function downloadMessages() {
+            post_is_last = false;
             fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').limitToLast(number_of_posts).once('value', (snapshot) => {
                 $timeout(function () {
                     snapshot.val() ? vm.messages = convertToArray(snapshot.val(), 'primary_loading') : vm.messages = [];
