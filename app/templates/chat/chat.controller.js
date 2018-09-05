@@ -60,6 +60,34 @@
         let chatHeightOld = null;           //chat height before download new messages
         let chatHeightNew = null;           //chat height after download new messages
 
+        /////////////////////////// last chat loader //////////////////////////
+        loadLastChat();
+        function loadLastChat() {
+            let last_chat_id = $localStorage.last_chat;
+
+            if (last_chat_id) {
+                checkUser(last_chat_id)
+            }
+
+            function checkUser(last_chat_id) {
+                let status = false;
+                let kid_index;
+                for (let i = 0; i < kids.length; i++) {
+                    if (kids[i].id === last_chat_id) {
+                        kid_index = i;
+                        status = true;
+                        break
+                    }
+                }
+
+                if (status) {
+                    console.log('last chat is = ', last_chat_id);
+                    vm.kid = kids[kid_index];
+                    kid_id = kids[kid_index].id;
+                }
+            }
+        }
+
         ///////////////////////////////////////////////////////////////////////////
 
         $rootScope.$on('chat-type', function (event, data) {
@@ -143,6 +171,8 @@
             document.getElementById("multi").style.display = "none";
             //disabled chat view
             document.getElementById("oneVSone").style.display = "flex";
+
+            selectUser(null, null, data.kid_id)
         }
 
         function downgradeTo2(data) {
@@ -251,18 +281,21 @@
         ///////////////////////////////////////////////////////////////////////////////////////
         let sendUsers = angular.copy($localStorage.sendUsers) || {date: null, ids: []};
 
-        initializeFB();
+        initializeFB(true, true);
 
-        function initializeFB() {
-            // psychologistAccess();
-            checkUnreadAmount();
-            offFBWatchers();
-            downloadMessages();
-            addMessagesEvent();
-            removeMessagesEvent();
-            changeMessagesEvent();
-
-            downloadLogs();
+        function initializeFB(chats, logs) {
+            if (chats) {
+                // psychologistAccess();
+                checkUnreadAmount();
+                offFBWatchers();
+                downloadMessages();
+                addMessagesEvent();
+                removeMessagesEvent();
+                changeMessagesEvent();
+            }
+            if (logs) {
+                downloadLogs();
+            }
         }
 
 
@@ -297,17 +330,30 @@
         }
 
         ///////////////// change kid //////////////////
-        function selectUser(kid, index) {
-            // console.log(kid.id);
-            vm.kid = kids[index];
+        function selectUser(kid, index, id) {
+            //change active kid, load chats & parents info
+
+            if (!id) {
+                vm.kid = kids[index];
+                id = kid.id;
+            } else {
+                for (let i = 0; i<kids.length; i++) {
+                    if (id === kids[i].id) {
+                        vm.kid = kids[i];
+                        break;
+                    }
+                }
+            }
+            $localStorage.last_chat = id;
             vm.messages = [];
             vm.logs = [];
-            getParents(kid.id);
-            kid_id = kid.id;
+
+            getParents(id);
+            kid_id = id;
             post_is_last = false;
             scrollEventEnabled = false;
             destroyScrollEvent();
-            initializeFB()
+            initializeFB(true, true)
         }
 
         function getParents(kid_id) {

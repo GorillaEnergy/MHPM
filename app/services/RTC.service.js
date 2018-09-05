@@ -4,9 +4,11 @@
     angular.module('service.RTCService', [])
         .service('RTCService', RTCService);
 
-    RTCService.$inject = ['$localStorage', '$timeout', '$rootScope', '$window', '$mdDialog', 'consultantService', '$state'];
+    RTCService.$inject = ['$localStorage', '$timeout', '$rootScope', '$window', '$mdDialog', 'consultantService', '$state',
+                          'toastr'];
 
-    function RTCService($localStorage, $timeout, $rootScope, $window, $mdDialog, consultantService, $state) {
+    function RTCService($localStorage, $timeout, $rootScope, $window, $mdDialog, consultantService, $state,
+                        toastr) {
         console.log('RTCService start');
 
         let user;
@@ -427,20 +429,6 @@
                 }, 100)
 
             }
-            //////////// old code ////////////
-            function accept2() {
-                console.log("accept");
-                checkPermissions(opponent_name, null, 'initRTC');
-            }
-
-            function reject2() {
-                let fb = firebase.database();
-                console.log("reject");
-                fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set(false);
-                $timeout(function () {
-                    fb.ref('/WebRTC/users/' + user.id + '/metadata').remove();
-                })
-            }
 
         }
 
@@ -508,14 +496,16 @@
                     console.log("accept");
                     console.log(nick, id, room);
 
-                    fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set(true);
+                    fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set(false);
                     $timeout(function () {
                         fb.ref('/WebRTC/users/' + user.id + '/metadata').remove();
                     }, 100);
 
                     let self_room = user.id + 'mhuser';
+
+                    toastr.info('Under development')
                     // dialing(type, your_room, opponent_nick, opponent_room)
-                    dialing('initRTC', self_room, nick, room)
+                    // dialing('initRTC', self_room, nick, room)
 
                 }
                 function chat(nick, id, room) {
