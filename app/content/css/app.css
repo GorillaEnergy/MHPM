@@ -256,7 +256,6 @@ body {
     .tabs-block .header .logout {
       position: relative;
       cursor: pointer;
-      width: 100px;
       display: flex; }
     .tabs-block .header .name, .tabs-block .header .logout {
       position: relative;
@@ -302,9 +301,7 @@ body {
         position: relative;
         margin: auto; }
         .tabs-block .body .tabs .tab-item .wrapper {
-          position: absolute;
-          bottom: 16px;
-          left: 46px; }
+          padding: 20px 15px; }
           .tabs-block .body .tabs .tab-item .wrapper span {
             font-size: 18px;
             margin-left: 10px; }
@@ -312,18 +309,22 @@ body {
           height: auto; }
         .tabs-block .body .tabs .tab-item .chat-logo {
           height: auto; }
+    .tabs-block .body .base-width {
+      width: 75%; }
+    .tabs-block .body .full-width {
+      width: 100%; }
     .tabs-block .body .scope-view {
       height: 100%;
       width: 100%;
       background: url("../../content/img/tabs/dots.png") no-repeat left center;
       background-size: cover; }
 
-.timeReal {
-  position: absolute;
-  top: 30px;
-  right: 40%;
-  color: #48ff06;
-  font-size: 30px; }
+@media (max-width: 900px) {
+  .body .tabs {
+    min-width: 200px !important;
+    width: 200px !important; }
+    .body .tabs--hide {
+      margin-left: -200px !important; } }
 
 .statistic-block {
   font-family: AmericanPatrius;
@@ -621,7 +622,7 @@ md-list {
   display: flex;
   flex-direction: row; }
   .chat .chat-body {
-    width: calc(100% - 279px);
+    width: 78%;
     height: 100%;
     position: relative; }
     .chat .chat-body .load-linear {
@@ -786,7 +787,7 @@ md-list {
     .chat .detail-and-logs .half:first-child {
       padding: 0 10px 0; }
   .chat .user-panel {
-    width: 280px;
+    width: 22%;
     height: 100%;
     overflow-y: auto;
     padding: 0 10px;

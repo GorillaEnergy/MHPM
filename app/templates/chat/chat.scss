@@ -8,7 +8,7 @@
   flex-direction: row;
 
   .chat-body {
-    width: calc(100% - 279px);
+    width: 78%;
     height: 100%;
     position: relative;
 
@@ -227,7 +227,7 @@
   }
 
   .user-panel {
-    width: 280px;
+    width: 22%;
     height: 100%;
     overflow-y: auto;
     padding: 0 10px;

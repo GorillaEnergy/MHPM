@@ -38,7 +38,9 @@
             </div>
         </div>
 
-        <div ui-view class="scope-view"></div>
+        <div class="base-width" ng-class="{'full-width': !vm.menuOpen }">
+            <div ui-view class="scope-view"></div>
+        </div>
     </div>
 
 </div>

@@ -38,7 +38,6 @@
     .logout {
       position: relative;
       cursor: pointer;
-      width: 100px;
       display: flex;
     }
     .name, .logout {
@@ -47,7 +46,7 @@
       width: max-content;
       align-items: baseline;
       display: flex;
-      p{
+      p {
         padding-left: 10px;
       }
     }
@@ -84,13 +83,13 @@
         height: 56px;
         border-radius: 0 50% 50% 0;
         img {
-          height:25px;
+          height: 25px;
         }
-        .img-scale{
+        .img-scale {
           transform: scale(-1);
         }
       }
-      .tabs-btn:focus{
+      .tabs-btn:focus {
         outline: none;
       }
 
@@ -103,9 +102,7 @@
         margin: auto;
 
         .wrapper {
-          position: absolute;
-          bottom: 16px;
-          left: 46px;
+          padding: 20px 15px;
 
           span {
             font-size: 18px;
@@ -121,21 +118,31 @@
         }
       }
     }
+    .base-width {
+      width: 75%;
+    }
+    .full-width {
+      width: 100%;
+    }
     .scope-view {
       //background-color: white;
       height: 100%;
       width: 100%;
-      background: url('../../content/img/tabs/dots.png')
-                  no-repeat left center;
+      background: url('../../content/img/tabs/dots.png') no-repeat left center;
       background-size: cover;
     }
   }
 }
 
-.timeReal{
-  position: absolute;
-  top: 30px;
-  right: 40%;
-  color: #48ff06;
-  font-size: 30px;
+@media (max-width: 900px) {
+  .body {
+    .tabs {
+      min-width: 200px !important;
+      width: 200px !important;
+      &--hide {
+        margin-left: -200px !important;
+      }
+    }
+  }
+
 }
