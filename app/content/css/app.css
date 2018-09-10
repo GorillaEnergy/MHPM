@@ -1512,3 +1512,40 @@ md-list {
     -webkit-clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
     clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
     cursor: pointer; }
+
+.send-emergency-log-dialog {
+  width: 600px;
+  padding: 20px;
+  font-family: American;
+  font-size: 40px;
+  box-sizing: border-box; }
+  .send-emergency-log-dialog .title {
+    width: 100%;
+    text-align: center;
+    color: #0b1138;
+    cursor: default;
+    margin: 20px; }
+  .send-emergency-log-dialog .description {
+    padding: 10px;
+    width: 100%;
+    border: 1px solid #0b1138;
+    box-sizing: border-box;
+    resize: none;
+    font-family: Neue;
+    font-size: 60%;
+    overflow: auto;
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none; }
+  .send-emergency-log-dialog .button {
+    font-family: AmericanPatrius;
+    width: fit-content;
+    margin: 10px 0 0 auto;
+    background-color: #e31b4f;
+    color: white;
+    font-size: 50%;
+    padding: 7px 12px 7px 12px;
+    -webkit-clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
+    clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
+    cursor: pointer; }
