@@ -12,10 +12,8 @@
                             kidService) {
         let vm = this;
         console.log('ChatController start');
-        console.log($state);
 
         if ($state.params.to_call) {
-            console.log('------->');
             $rootScope.$broadcast('dialing')
         }
 
@@ -49,6 +47,7 @@
         watchOnline(vm.users);
         getParents(vm.kid.id);
 
+        let access = false;
         let viewCurrent = 1;                //VIEW type -> 1,2,3,4( default chat, 1vs1, 1vs1vsChat, multi )
         let user = authService.getUser();   //psy info obj
         let kid_id = kids[0].id;            //active kid id
@@ -382,23 +381,7 @@
                 document.getElementById("userPanel").style.display = "none";
                 document.getElementById("oneVSone").style.display = "none";
                 document.getElementById("oneVSoneVSchat").style.display = "none";
-
-                dataDependencies();
             }
-
-            function dataDependencies() {
-                console.log('dataDependencies');
-                // destroyScrollEvent();
-                // offFBWatchers();
-                // vm.kid = angular.copy(vm.kidShort);
-                // vm.messages = angular.copy(vm.messagesShort);
-                // vm.logs = angular.copy(vm.logsShort);
-                //
-                // vm.kidShort = angular.copy(vm.kid);
-                // vm.messagesShort = angular.copy(vm.messages);
-                // vm.logsShort = angular.copy(vm.logs);
-            }
-
         }
 
         function leaveThisChat() {
@@ -419,7 +402,7 @@
 
         function initializeFB(chats, logs) {
             if (chats) {
-                // psychologistAccess();
+                psychologistAccess();
                 checkUnreadAmount();
                 offFBWatchers();
                 downloadMessages();
@@ -432,6 +415,15 @@
             }
         }
 
+
+        ////////////////// access ///////////////////////
+        function psychologistAccess() {
+            fb.ref('/chats/' + kid_id + '/' + psy_id + '/access').on('value', (snapshot) => {
+                $timeout(function () {
+                    snapshot.val() === false ? access = false : access = true;
+                })
+            });
+        }
 
         ///////////////// user bar //////////////////////
         function usersFilter(kids, consultants) {
@@ -632,7 +624,6 @@
         }
 
         function scrollToBottom(newMsg) {
-            // $timeout(function () {
             if (newMsg) {
                 // тут добавить какоето условие для более корректной работы функции(возможно скролл и ненужно опускать)
 
@@ -640,13 +631,12 @@
                     chat_body.scrollTop = angular.copy(chat_body.scrollHeight);
                 }, 500);
 
-                // chat_body.scrollTo(0, chat_body.scrollHeight);
-                // chat_body.scrollTop = angular.copy(chat_body.scrollHeight);
             } else {
-                // chat_body.scrollTo(0, chat_body.scrollHeight);
-                chat_body.scrollTop = angular.copy(chat_body.scrollHeight);
+                // chat_body.scrollTop = angular.copy(chat_body.scrollHeight);
+                $timeout(function () {
+                    chat_body.scrollTop = angular.copy(chat_body.scrollHeight);
+                }, 500);
             }
-            // });
         }
 
         function convertToArray(data, type, logs) {
@@ -727,6 +717,7 @@
 
         function offFBWatchers() {
             console.log('offFBWatchers');
+            fb.ref('/chats/' + kid_id + '/' + psy_id + '/access').off();
             fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').off();
             fb.ref('/logs/' + kid_id).off();
         }
