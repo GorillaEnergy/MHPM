@@ -30,6 +30,7 @@
 
         vm.consName = consName;
         vm.addComment = addComment;
+        vm.addEmergencyComment = addEmergencyComment;
 
         vm.leaveThisChat = leaveThisChat;
         vm.selectUserInMulti = selectUserInMulti;
@@ -105,7 +106,8 @@
         };
 
         $rootScope.$on('emergency-log', function (event, id) {
-            console.log('kid id = ', id);
+            // console.log('kid id = ', id);
+            addEmergencyComment(kidsObj[id])
         });
 
         $rootScope.$on('chat-type', function (event, data) {
@@ -906,6 +908,27 @@
             }).then(function (res) {
                     console.log('close dialog');
                     console.log('res', res);
+                },
+                function () {
+                }
+            );
+        }
+
+        function addEmergencyComment(kid) {
+            let data = {
+                kid: kid
+            };
+
+            $mdDialog.show({
+                controller: 'SendEmergencyLogController',
+                controllerAs: 'vm',
+                locals: {
+                    data: data
+                },
+                templateUrl: 'components/send-emergency-log/send-emergency-log.html',
+                clickOutsideToClose: true,
+            }).then(function (res) {
+                    console.log('close dialog');
                 },
                 function () {
                 }
