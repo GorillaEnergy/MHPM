@@ -12,8 +12,8 @@
        vm.forgot = forgot;
 
 
-       vm.email = 'test.consultant.1@gmail.com';
-       vm.password = '12345678';
+       vm.email = 'tkalenko.yura15@gmail.com';
+       vm.password = '111111111';
        vm.warning = {};
 
 
