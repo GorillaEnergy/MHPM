@@ -383,8 +383,27 @@
                 vid.setAttribute( 'id', number );
                 vid.src = URL.createObjectURL(stream);
 
-                talk.video = vid;
+                let wrap = document.createElement('div');
+                wrap.setAttribute( 'id', number );
+                wrap.classList.add('video-wrapper');
+
+                let img = document.createElement('img');
+                img.classList.add('warning-ico');
+                img.src = '../../content/img/video-calls/warning-ico.png';
+
+                img.onclick = function () {
+                    $rootScope.$broadcast('emergency-log', Number(number.substr(0 , number.length - 6)));
+                };
+                // img.setAttribute('ngClick', click());
+                wrap.append(img);
+                wrap.append(vid);
+
+                talk.video = wrap;
                 talk.connect(talk);
+                function click() {
+                    console.log('img onclick func');
+                    $rootScope.$broadcast('emergency-log', Number(number.substr(0 , number.length - 6)));
+                };
             }
 
             // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-

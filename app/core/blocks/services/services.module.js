@@ -12,6 +12,7 @@
         'service.RTCService',
         'service.dateConverter',
         'service.consultantService',
+        'service.kidService',
         'service.logsService',
     ]);
 

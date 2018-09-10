@@ -9,14 +9,10 @@
 
     function consultantService(http, url, $localStorage, $state, toastr) {
 
-
-
-
         let model = {};
 
         model.list = list;
         model.convert = convert;
-
 
         return model;
 

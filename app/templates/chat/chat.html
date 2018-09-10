@@ -51,7 +51,6 @@
     </div>
 
     <div class="user-panel" id="userPanel">
-        <!--<div class="title">Users</div>-->
         <div ng-repeat="user in vm.users track by $index" class="user" ng-click="vm.selectUser(user, $index)">
             <div class="info">
                 <div class="offline-status" ng-class="vm.userOnlineStatus($index)"></div>
@@ -62,11 +61,10 @@
     </div>
 
 
-
     <div class="one-vs-one" id="oneVSone">
         <div class="kid half">
             <div class="video">
-                <div id="vid-box" class="video2"></div>
+                <div id="{{vm.idVid[2].remote}}" class="video2"></div>
             </div>
 
             <div class="detail-and-logs">
@@ -76,7 +74,7 @@
 
         <div class="psy half">
             <div class="video">
-                <div id="vid-thumb" class="video1"></div>
+                <div id="{{vm.idVid[2].local}}" class="video1"></div>
             </div>
 
             <div class="detail-and-logs">
@@ -89,7 +87,7 @@
     <div class="one-vs-one-vs-chat" id="oneVSoneVSchat">
         <div class="top-lvl-half">
 
-            <div class="messages" id="chat">
+            <div class="messages" id="chat2">
                 <div ng-repeat="(key, message) in vm.messages track by $index">
                     <div class="day" ng-if="vm.dateHeader($index)">
                         <div class="title-line-block">
@@ -151,7 +149,7 @@
                         <div class="image">
                             <img src="../../content/img/chat/phone-ico.png" class="ico">
                         </div>
-                        <div class="info-pole">{{vm.kid.phone.code}}  {{vm.kid.phone.phone}}</div>
+                        <div class="info-pole">{{vm.kid.phone.code}} {{vm.kid.phone.phone}}</div>
                     </div>
                     <div class="section">
                         <div class="image">
@@ -186,7 +184,7 @@
                             <div class="image">
                                 <img src="../../content/img/chat/phone-ico.png" class="ico">
                             </div>
-                            <div class="info-pole">{{parent.phone.code}}  {{parent.phone.phone}}</div>
+                            <div class="info-pole">{{parent.phone.code}} {{parent.phone.phone}}</div>
                         </div>
                     </div>
 
@@ -201,7 +199,7 @@
 
         <div class="top-lvl-half">
             <div class="video">
-                <div id="tmp-vid-box" class="video2"></div>
+                <div id="{{vm.idVid[3].remote}}" class="video2"></div>
             </div>
 
             <div class="info">
@@ -224,7 +222,7 @@
                             <div class="image">
                                 <img src="../../content/img/chat/phone-ico.png" class="ico">
                             </div>
-                            <div class="info-pole">{{vm.kidShort.phone.code}}  {{vm.kidShort.phone.phone}}</div>
+                            <div class="info-pole">{{vm.kidShort.phone.code}} {{vm.kidShort.phone.phone}}</div>
                         </div>
                         <div class="section">
                             <div class="image">
@@ -242,13 +240,74 @@
                 </div>
 
                 <div class="video">
-                    <div id="tmp-vid-thumb" class="video1"></div>
+                    <div id="{{vm.idVid[3].local}}" class="video1"></div>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="multi" id="multi">
+
+        <div class="main">
+
+            <div class="wrapper">
+                <div class="video2" id="{{vm.idVid[4].remote}}"></div>
+
+                <div class="detail-and-logs">
+                    <div class="kid-detail">
+                        <div class="half">
+                            <p class="title">kid details</p>
+                            <div class="section">
+                                <div class="image">
+                                    <img src="../../content/img/chat/man-ico.png" class="ico">
+                                </div>
+                                <div class="info-pole">{{vm.kid.name}}</div>
+                            </div>
+                            <div class="section">
+                                <div class="image">
+                                    <img src="../../content/img/chat/calendar-ico.png" class="ico">
+                                </div>
+                                <div class="info-pole">{{vm.dateConvert(vm.kid.birth_date)}}</div>
+                            </div>
+                            <div class="section">
+                                <div class="image">
+                                    <img src="../../content/img/chat/phone-ico.png" class="ico">
+                                </div>
+                                <div class="info-pole">{{vm.kid.phone.code}} {{vm.kid.phone.phone}}</div>
+                            </div>
+                            <div class="section">
+                                <div class="image">
+                                    <img src="../../content/img/chat/id-ico.png" class="ico">
+                                </div>
+                                <div class="info-pole">{{vm.kid.id_number}}</div>
+                            </div>
+                            <div class="section">
+                                <div class="image">
+                                    <img src="../../content/img/chat/grade-ico.png" class="ico">
+                                </div>
+                                <div class="info-pole">{{vm.kid.grade}}</div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="logs">
+                        <div class="logs-incl" ng-include="'../../components/logs/logs.html'"></div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="user-panel">
+            <div ng-repeat="user in vm.userList" class="user">
+                <div class="info" ng-click="vm.selectUserInMulti(user)">
+                    <div class="man-ico"></div>
+                    <div class="name">{{user.name}}</div>
+                </div>
+            </div>
+        </div>
 
     </div>
 

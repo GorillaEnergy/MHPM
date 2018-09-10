@@ -67,8 +67,8 @@
             var stream_name = "";
 
 
-            CONTROLLER.streamPresence = function(cb){ streamprescb    = cb; }
-            CONTROLLER.streamReceive  = function(cb){ streamreceivecb = cb; }
+            CONTROLLER.streamPresence = function(cb){ streamprescb    = cb; };
+            CONTROLLER.streamReceive  = function(cb){ streamreceivecb = cb; };
 
             function broadcast(vid){
                 var video = document.createElement('video');
@@ -77,12 +77,19 @@
                 video.play();
                 video.setAttribute( 'autoplay', 'autoplay' );
                 video.setAttribute( 'data-number', phone.number() );
-                video.setAttribute( 'id', phone.number() );
-                vid.style.cssText ="-moz-transform: scale(-1, 1); \
-						 	-webkit-transform: scale(-1, 1); -o-transform: scale(-1, 1); \
-							transform: scale(-1, 1); filter: FlipH;";
-                vid.appendChild(video);
-            };
+                // vid.style.cssText ="-moz-transform: scale(-1, 1); \
+					// 	 	-webkit-transform: scale(-1, 1); -o-transform: scale(-1, 1); \
+					// 		transform: scale(-1, 1); filter: FlipH;";
+
+                let wrap = document.createElement('div');
+                wrap.setAttribute( 'id', phone.number() );
+                wrap.classList.add('video-wrapper');
+
+                wrap.append(video);
+                vid.appendChild(wrap);
+
+                // vid.appendChild(video);
+            }
 
             function stream_subscribe(name){
                 var ch = (name ? name : phone.number()) + "-stream";
@@ -187,7 +194,10 @@
 
             CONTROLLER.getVideoElement = function(number){
                 return $('*[data-number="'+number+'"]');
-            }
+            };
+            CONTROLLER.getVideoWrap = function(number){
+                return $('#'+ number);
+            };
 
             function manage_users(session){
                 if (session.number == phone.number()) return; 	// Do nothing if it is self.

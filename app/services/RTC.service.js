@@ -88,10 +88,7 @@
         }
 
         function dialing(type, your_name, opponent_nick, opponent_name) {
-            //initRTC   joinRTC
-            //your_room
-            //opponent_nick
-            //opponent_room
+            //initRTC || joinRTC, your_room, opponent_nick, opponent_room
             console.log(user);
 
             $timeout(function () {
@@ -178,19 +175,19 @@
             });
 
             ctrl.receive(function (session) {
-                // session.connected(function(session){ video_out.appendChild(session.video); addLog(session.number + " has joined."); vidCount++; });
-                // session.ended(function(session) { ctrl.getVideoElement(session.number).remove(); addLog(session.number + " has left.");    vidCount--;});
 
                 session.connected(function (session) {
+                    video_out = document.getElementById("vid-box");   //remote stream
+                    activityCalc(session.number, true);
                     video_out.appendChild(session.video);
                     addLog(session.number + " has joined.");
-                    activityCalc(session.number, true);
                 });
 
                 session.ended(function (session) {
-                    ctrl.getVideoElement(session.number).remove();
-                    addLog(session.number + " has left.");
                     activityCalc(session.number, false);
+                    // ctrl.getVideoElement(session.number).remove();
+                    ctrl.getVideoWrap(session.number).remove();
+                    addLog(session.number + " has left.");
                 });
             });
 
@@ -205,17 +202,14 @@
             });
 
             function activityCalc(name, join) {
-                console.log(name, join);
                 let index;
 
                 search(name, join);
-
                 function search(name, join) {
                     for (let i = 0; i < userActivityArr.length; i++) {
-                        if (userActivityArr[i].name == name) {
+                        if (userActivityArr[i].user == name) {
                             index = i;
-                            console.log('index = ' + i);
-                            break
+                            break;
                         }
                     }
                     change(name, join);
@@ -225,19 +219,15 @@
                     if (join) {
                         userActivityArr.push({user: name})
                     } else {
-                        userActivityArr.splice(index, 1)
+                        userActivityArr.splice(index, 1);
                     }
 
                     vidCalc(name, join)
                 }
 
                 function vidCalc(name, join) {
-                    console.log(name);
                     vidCount = userActivityArr.length;
-
                     $localStorage.userActivityArr = userActivityArr;
-                    console.log('User arr', userActivityArr);
-                    console.log('User count', vidCount);
 
                     if (!vidCount) {
                         if (remoteStream) {
@@ -248,11 +238,10 @@
                             // userActivityArr = [];
                             // vidCount = 0;
                         }
-
                         // localStream = null;
                     } else {
                         remoteStream = name;
-                        console.log('remoteStream = ', remoteStream);
+                        // console.log('remoteStream = ', remoteStream);
 
                         let data = {
                             type: null,
@@ -316,19 +305,10 @@
             $window.location.reload();
         }
 
-        function softEnd() {
-            // $("vid-box").empty();
-            ctrl.hangup();
-        }
-
         function pause() {
             var video = ctrl.toggleVideo();
             if (!video) $('#pause').html('Unpause');
             else $('#pause').html('Pause');
-        }
-
-        function getVideo(number) {
-            return $('*[data-number="' + number + '"]');
         }
 
         function addLog(log) {
@@ -363,13 +343,6 @@
         ga('create', 'UA-46933211-3', 'auto');
         ga('send', 'pageview');
 
-
-
-        $timeout(function () {
-            // incomingCallMsg('some_opponent_name');
-            // incomingOnBusy('some_opponent_name', 11);
-            // $rootScope.$broadcast('chat-type', { type: 1 })
-        }, 5000);
         /////////////////////////////////////////////////
         let model = {};
 
@@ -410,14 +383,28 @@
                 console.log("accept");
                 console.log(nick, id, room);
 
-                fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set(true);
-                $timeout(function () {
-                    fb.ref('/WebRTC/users/' + user.id + '/metadata').remove();
-                }, 100);
+                if ($state.current.name !== 'tabs.chat') {
+                    console.log('to chat');
+                    $state.go('tabs.chat', {to_call: true});
+                    // initDial();
+                    // на будущее вызывать initDial только после загрузки контроллера во избежание "критов"
+                    $rootScope.$on('dialing', function (event) {
+                        initDial();
+                    })
+                } else {
+                    initDial()
+                }
 
-                let self_room = user.id + 'mhuser';
-                // dialing(type, your_room, opponent_nick, opponent_room)
-                dialing('initRTC', self_room, nick, room)
+                function initDial() {
+                    fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set(true);
+                    $timeout(function () {
+                        fb.ref('/WebRTC/users/' + user.id + '/metadata').remove();
+                    }, 100);
+
+                    let self_room = user.id + 'mhuser';
+                    // dialing(type, your_room, opponent_nick, opponent_room)
+                    dialing('initRTC', self_room, nick, room)
+                }
 
             }
             function reject() {
@@ -496,16 +483,14 @@
                     console.log("accept");
                     console.log(nick, id, room);
 
-                    fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set(false);
+                    fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set('add');
                     $timeout(function () {
                         fb.ref('/WebRTC/users/' + user.id + '/metadata').remove();
                     }, 100);
 
                     let self_room = user.id + 'mhuser';
 
-                    toastr.info('Under development')
-                    // dialing(type, your_room, opponent_nick, opponent_room)
-                    // dialing('initRTC', self_room, nick, room)
+                    // toastr.info('Under development')
 
                 }
                 function chat(nick, id, room) {

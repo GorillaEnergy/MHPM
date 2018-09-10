@@ -4,12 +4,20 @@
         .controller('ChatController', ChatController);
 
     ChatController.$inject = ['$localStorage', '$state', '$timeout', 'consultants', 'kids', 'authService', 'dateConverter',
-                              'consultantService','statisticService',  'userService', '$mdDialog', '$rootScope', 'toastr'];
+        'consultantService', 'statisticService', 'userService', '$mdDialog', '$rootScope', 'toastr',
+        'kidService'];
 
     function ChatController($localStorage, $state, $timeout, consultants, kids, authService, dateConverter,
-                            consultantService, statisticService, userService, $mdDialog, $rootScope, toastr) {
+                            consultantService, statisticService, userService, $mdDialog, $rootScope, toastr,
+                            kidService) {
         let vm = this;
         console.log('ChatController start');
+        console.log($state);
+
+        if ($state.params.to_call) {
+            console.log('------->');
+            $rootScope.$broadcast('dialing')
+        }
 
         vm.userOnlineStatus = userOnlineStatus;
         vm.dateHeader = dateHeader;
@@ -26,6 +34,7 @@
         vm.addComment = addComment;
 
         vm.leaveThisChat = leaveThisChat;
+        vm.selectUserInMulti = selectUserInMulti;
 
         let fb = firebase.database();
 
@@ -62,6 +71,7 @@
 
         /////////////////////////// last chat loader //////////////////////////
         loadLastChat();
+
         function loadLastChat() {
             let last_chat_id = $localStorage.last_chat;
 
@@ -89,40 +99,25 @@
         }
 
         ///////////////////////// RTCservice watcher //////////////////////////
+        vm.idVid = {
+            2: {local: 'vid-thumb', remote: 'vid-box'},
+            3: {local: 'tmp3-vid-thumb', remote: 'tmp3-vid-box'},
+            4: {remote: 'tmp4-vid-box'}
+        };
+
+        $rootScope.$on('emergency-log', function (event, id) {
+            console.log('kid id = ', id);
+        });
 
         $rootScope.$on('chat-type', function (event, data) {
             console.log('EVENT!');
             console.log(data);
 
-            // $timeout(function () {
-            //
-            //     // transfer();
-            //     // cloneRemove();
-            //
-            //     function transfer() {
-            //         //transfer
-            //         let parentElement = document.getElementById("vid-thumb");
-            //         let videoElement = document.getElementById("11mhuser");
-            //         console.log(parentElement);
-            //         console.log(videoElement);
-            //         parentElement.insertBefore(videoElement, parentElement.children[0]);
-            //     }
-            //
-            //     function cloneRemove() {
-            //         //clone + remove
-            //         let parentElement = document.getElementById("vid-thumb");
-            //         let itm = document.getElementById("11mhuser");
-            //         let cln = itm.cloneNode(true);
-            //         parentElement.appendChild(cln);
-            //         document.getElementById("vid-box").removeChild(itm);
-            //     }
-            //
-            //
-            //     // console.dir($('video').data-number)
-            //     // console.dir($("[data-number='11mhuser']"));
-            //     // console.dir($("[data-number='8mhuser']"));
-            // }, 5000)
-
+            //viewCurrent can be 1, 2, 3, 4
+            //viewCurrent 1 can be upgraded to 2 lvl
+            //viewCurrent 2 can be upgraded to 3, 4 lvl
+            //viewCurrent 3 can be upgraded to 4 lvl & downgraded to 2 lvl
+            //viewCurrent 4 can be downgraded to 2 lvl
 
             if (data.type === 1) {
                 viewCurrent = data.type;
@@ -132,10 +127,12 @@
 
                 if (data.type > viewCurrent) {
                     upgradeTo2(data);
-                } else if (data.type < viewCurrent) {
-                    downgradeTo2(data);
+                } else if (data.type < viewCurrent && viewCurrent === 3) {
+                    downgradeTo2From3(data);
+                } else if (data.type < viewCurrent && viewCurrent === 4) {
+                    downgradeTo2From4(data);
                 } else {
-                    console.log('wtf?!');
+                    console.log('Something went wrong');
                 }
 
             } else if (data.type === 3) {
@@ -152,10 +149,8 @@
 
                 if (data.type > viewCurrent) {
                     upgradeTo4(data);
-                } else if (data.type < viewCurrent) {
-                    console.log('wtf?!');
                 } else {
-                    console.log('wtf?!');
+                    console.log('Something went wrong');
                 }
 
             }
@@ -164,7 +159,8 @@
 
         function upgradeTo2(data) {
             viewCurrent = data.type;
-            console.log('view type = ', viewCurrent);
+            console.log('upgradeTo2');
+
             document.getElementById("chatBody").style.display = "none";
             document.getElementById("userPanel").style.display = "none";
             document.getElementById("oneVSoneVSchat").style.display = "none";
@@ -175,18 +171,17 @@
             selectUser(null, null, data.kid_id)
         }
 
-        function downgradeTo2(data) {
+        function downgradeTo2From3(data) {
             viewCurrent = data.type;
+            console.log('downgradeTo2From3');
 
-            console.log(data);
-            console.log('view type = ', viewCurrent);
-
-            let opponent_id = Number(data.users[0].user.substr(0 , data.users[0].user.length - 6));
+            let opponent_id = Number(data.users[0].user.substr(0, data.users[0].user.length - 6));
 
             document.getElementById("oneVSone").style.display = "flex";
 
             transferVideoElem(opponent_id);
             transferVideoElem(user.id);
+            // chat_body = document.getElementById("chat");
             dataDependencies();
 
             document.getElementById("chatBody").style.display = "none";
@@ -198,20 +193,21 @@
                 let itm = document.getElementById(id + "mhuser");
                 let cln = itm.cloneNode(true);
 
-                if ( id !== user.id ) {
-                    document.getElementById("tmp-vid-box").appendChild(cln);
+                if (id !== user.id) {
+                    document.getElementById("tmp2-vid-box").appendChild(cln);
                     document.getElementById("vid-box").removeChild(itm);
+                    document.getElementById(id + "mhuser").childNodes[0].onclick = function () {
+                        $rootScope.$broadcast('emergency-log', id);
+                    };
 
-                    document.getElementById("tmp-vid-box").id = "renamed-vid-box";
-                    document.getElementById("vid-box").id = "tmp-vid-box";
-                    document.getElementById("renamed-vid-box").id = "vid-box";
+                    vm.idVid[3].remote = 'tmp3-vid-box';
+                    vm.idVid[2].remote = 'vid-box';
                 } else {
-                    document.getElementById("tmp-vid-thumb").appendChild(cln);
+                    document.getElementById("tmp2-vid-thumb").appendChild(cln);
                     document.getElementById("vid-thumb").removeChild(itm);
 
-                    document.getElementById("tmp-vid-thumb").id = "renamed-vid-thumb";
-                    document.getElementById("vid-thumb").id = "tmp-vid-thumb";
-                    document.getElementById("renamed-vid-thumb").id = "vid-thumb";
+                    vm.idVid[3].local = 'tmp3-vid-thumb';
+                    vm.idVid[2].local = 'vid-thumb';
                 }
             }
 
@@ -224,55 +220,185 @@
             }
         }
 
+        function downgradeTo2From4(data) {
+            console.log('downgradeTo2From4');
+
+            $timeout(function () {
+                viewCurrent = data.type;
+                let opponent_id = Number(data.users[0].user.substr(0, data.users[0].user.length - 6));
+                selectUser(null, null, opponent_id);
+
+                document.getElementById("oneVSone").style.display = "flex";
+
+                console.log(opponent_id, user.id);
+                transferVideoElem(opponent_id);
+                transferVideoElem(user.id);
+                dataDependencies();
+
+                document.getElementById("chatBody").style.display = "none";
+                document.getElementById("userPanel").style.display = "none";
+                document.getElementById("oneVSoneVSchat").style.display = "none";
+                document.getElementById("multi").style.display = "none";
+
+                function transferVideoElem(id) {
+                    let itm = document.getElementById(id + "mhuser");
+                    let cln = itm.cloneNode(true);
+
+                    if (id !== user.id) {
+                        document.getElementById("tmp2-vid-box").appendChild(cln);
+                        document.getElementById("vid-box").removeChild(itm);
+                        document.getElementById(id + "mhuser").childNodes[0].onclick = function () {
+                            $rootScope.$broadcast('emergency-log', id);
+                        };
+                    } else {
+                        document.getElementById("tmp2-vid-thumb").appendChild(cln);
+                        document.getElementById("vid-box").removeChild(itm);
+
+                        vm.idVid[4].remote = 'tmp4-vid-box';
+                        vm.idVid[2].remote = 'vid-box';
+                        vm.idVid[2].local  = 'vid-thumb';
+                    }
+                }
+
+                function dataDependencies() {
+                    destroyScrollEvent();
+                    offFBWatchers();
+                    vm.kid = angular.copy(vm.kidShort);
+                    vm.messagesShort = angular.copy(vm.messages);
+                    vm.logsShort = angular.copy(vm.logs);
+                }
+            })
+        }
+
         function upgradeTo3(data) {
+            $timeout(function () {
+                console.log('upgradeTo3');
+                viewCurrent = data.type;
+                let opponent_id = Number(data.users[0].user.substr(0, data.users[0].user.length - 6));
+
+                document.getElementById("oneVSoneVSchat").style.display = "flex";
+                chat_body = document.getElementById("chat2");
+                console.dir(chat_body);
+
+                transferVideoElem(opponent_id);
+                transferVideoElem(user.id);
+
+                document.getElementById("chatBody").style.display = "none";
+                document.getElementById("userPanel").style.display = "none";
+                document.getElementById("oneVSone").style.display = "none";
+                document.getElementById("multi").style.display = "none";
+
+                function transferVideoElem(id) {
+                    let itm = document.getElementById(id + "mhuser");
+                    let cln = itm.cloneNode(true);
+
+                    if (id !== user.id) {
+                        document.getElementById("tmp3-vid-box").appendChild(cln);
+                        document.getElementById("vid-box").removeChild(itm);
+                        document.getElementById(id + "mhuser").childNodes[0].onclick = function () {
+                            $rootScope.$broadcast('emergency-log', id);
+                        };
+
+                        vm.idVid[2].remote = 'tmp2-vid-box';
+                        vm.idVid[3].remote = 'vid-box';
+                    } else {
+                        document.getElementById("tmp3-vid-thumb").appendChild(cln);
+                        document.getElementById("vid-thumb").removeChild(itm);
+
+                        vm.idVid[2].local = 'tmp2-vid-thumb';
+                        vm.idVid[3].local = 'vid-thumb';
+                    }
+                }
+
+                videoPlusChatDependencies(data.kid_id)
+            })
+        }
+
+        function downgradeTo3(data) {
+            console.log('Unused function!');
+        }
+
+        function upgradeTo4(data) {
+            console.log('upgradeTo4');
+            let prevView = angular.copy(viewCurrent);
             viewCurrent = data.type;
+            let opponent_id;
+            vm.userList = [];
+            document.getElementById("multi").style.display = "flex";
 
-            console.log(data);
-            console.log('view type = ', viewCurrent);
+            transferCycle();
 
-            let opponent_id = Number(data.users[0].user.substr(0 , data.users[0].user.length - 6));
-
-            document.getElementById("oneVSoneVSchat").style.display = "flex";
-
-            transferVideoElem(opponent_id);
-            transferVideoElem(user.id);
-
-            document.getElementById("chatBody").style.display = "none";
-            document.getElementById("userPanel").style.display = "none";
-            document.getElementById("oneVSone").style.display = "none";
-            document.getElementById("multi").style.display = "none";
+            function transferCycle() {
+                $timeout(function () {
+                    for (let i = 0; i < data.users.length; i++) {
+                        opponent_id = Number(data.users[i].user.substr(0, data.users[i].user.length - 6));
+                        vm.userList.push(kidsObj[opponent_id]);
+                        transferVideoElem(opponent_id);
+                    }
+                    transferVideoElem(user.id);
+                });
+            }
 
             function transferVideoElem(id) {
                 let itm = document.getElementById(id + "mhuser");
                 let cln = itm.cloneNode(true);
 
-                if ( id !== user.id ) {
-                    document.getElementById("tmp-vid-box").appendChild(cln);
+                console.log('user.id ', user.id);
+                if (id !== user.id) {
+                    console.log('not self');
+                    document.getElementById("tmp4-vid-box").appendChild(cln);
+                    // $('#'+ itm).remove();
                     document.getElementById("vid-box").removeChild(itm);
-
-                    document.getElementById("tmp-vid-box").id = "renamed-vid-box";
-                    document.getElementById("vid-box").id = "tmp-vid-box";
-                    document.getElementById("renamed-vid-box").id = "vid-box";
+                    document.getElementById(id + "mhuser").childNodes[0].onclick = function () {
+                        $rootScope.$broadcast('emergency-log', id);
+                    };
                 } else {
-                    document.getElementById("tmp-vid-thumb").appendChild(cln);
+                    console.log('self');
+                    document.getElementById("tmp4-vid-box").appendChild(cln);
                     document.getElementById("vid-thumb").removeChild(itm);
 
-                    document.getElementById("tmp-vid-thumb").id = "renamed-vid-thumb";
-                    document.getElementById("vid-thumb").id = "tmp-vid-thumb";
-                    document.getElementById("renamed-vid-thumb").id = "vid-thumb";
+                    idChanger();
                 }
             }
 
-            console.log(data.kid_id);
-            videoPlusChatDependencies(data.kid_id)
-        }
+            function idChanger() {
+                console.log('idChanger');
+                if (prevView === 2) {
+                    vm.idVid[2].remote = 'tmp2-vid-box';
+                    vm.idVid[4].remote = 'vid-box';
+                    vm.idVid[2].local = 'tmp2-vid-thumb';
 
-        function downgradeTo3(data) {
+                } else if (prevView === 3) {
+                    vm.idVid[3].remote = 'tmp3-vid-box';
+                    vm.idVid[4].remote = 'vid-box';
+                    vm.idVid[3].local = 'tmp3-vid-thumb';
+                }
+                dispalyChanger();
+            }
 
-        }
+            function dispalyChanger() {
+                console.log('dispalyChanger');
+                document.getElementById("chatBody").style.display = "none";
+                document.getElementById("userPanel").style.display = "none";
+                document.getElementById("oneVSone").style.display = "none";
+                document.getElementById("oneVSoneVSchat").style.display = "none";
 
-        function upgradeTo4(data) {
-            toastr.info('On development stage');
+                dataDependencies();
+            }
+
+            function dataDependencies() {
+                console.log('dataDependencies');
+                // destroyScrollEvent();
+                // offFBWatchers();
+                // vm.kid = angular.copy(vm.kidShort);
+                // vm.messages = angular.copy(vm.messagesShort);
+                // vm.logs = angular.copy(vm.logsShort);
+                //
+                // vm.kidShort = angular.copy(vm.kid);
+                // vm.messagesShort = angular.copy(vm.messages);
+                // vm.logsShort = angular.copy(vm.logs);
+            }
+
         }
 
         function leaveThisChat() {
@@ -285,10 +411,7 @@
             };
             $rootScope.$broadcast('chat-type', data)
         }
-        // $timeout(function () {
-        //     console.log('handled event start');
-        //     $rootScope.$broadcast('chat-type', { type: 3, kid_id: 11 })
-        // }, 5000);
+
         ///////////////////////////////////////////////////////////////////////////////////////
         let sendUsers = angular.copy($localStorage.sendUsers) || {date: null, ids: []};
 
@@ -348,16 +471,21 @@
                 vm.kid = kids[index];
                 id = kid.id;
             } else {
-                for (let i = 0; i<kids.length; i++) {
-                    if (id === kids[i].id) {
-                        vm.kid = kids[i];
-                        break;
-                    }
-                }
+                vm.kid = kidsObj[id]
+                // for (let i = 0; i<kids.length; i++) {
+                //     if (id === kids[i].id) {
+                //         vm.kid = kids[i];
+                //         break;
+                //     }
+                // }
             }
             $localStorage.last_chat = id;
             vm.messages = [];
             vm.logs = [];
+
+            console.log(vm.kid);
+            console.log(vm.messages);
+            console.log(vm.logs);
 
             getParents(id);
             kid_id = id;
@@ -366,11 +494,19 @@
             destroyScrollEvent();
             initializeFB(true, true)
         }
+
+        function selectUserInMulti(kid) {
+            kid_id = kid.id;
+            vm.kid = kidsObj[kid_id];
+            downloadLogs();
+        }
+
         function videoPlusChatDependencies(id) {
             vm.kidShort = angular.copy(vm.kid);
             vm.messagesShort = angular.copy(vm.messages);
             vm.logsShort = angular.copy(vm.logs);
 
+            chat_body = document.getElementById("chat2");
             selectUser(null, null, id);
         }
 
@@ -454,7 +590,7 @@
                 fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').push(data);
                 vm.message_input = '';
             }
-                addStatisticChat(data)
+            addStatisticChat(data)
         }
 
         function addStatisticChat() {
@@ -486,7 +622,7 @@
                     }
                 };
                 statisticService.addStatistic(data).then(function (res) {
-                    if(res.status==='success'){
+                    if (res.status === 'success') {
                         sendUsers.date = date;
                         sendUsers.ids.push(kid_id);
                         $localStorage.sendUsers = sendUsers;
@@ -496,22 +632,21 @@
         }
 
         function scrollToBottom(newMsg) {
-            chat_body = document.getElementById("chat");
-            $timeout(function () {
-                if (newMsg) {
-                    // тут добавить какоето условие для более корректной работы функции(возможно скролл и ненужно опускать)
+            // $timeout(function () {
+            if (newMsg) {
+                // тут добавить какоето условие для более корректной работы функции(возможно скролл и ненужно опускать)
 
-                    $timeout(function () {
-                        chat_body.scrollTop = angular.copy(chat_body.scrollHeight);
-                    }, 500);
-
-                    // chat_body.scrollTo(0, chat_body.scrollHeight);
-                    // chat_body.scrollTop = angular.copy(chat_body.scrollHeight);
-                } else {
-                    // chat_body.scrollTo(0, chat_body.scrollHeight);
+                $timeout(function () {
                     chat_body.scrollTop = angular.copy(chat_body.scrollHeight);
-                }
-            });
+                }, 500);
+
+                // chat_body.scrollTo(0, chat_body.scrollHeight);
+                // chat_body.scrollTop = angular.copy(chat_body.scrollHeight);
+            } else {
+                // chat_body.scrollTo(0, chat_body.scrollHeight);
+                chat_body.scrollTop = angular.copy(chat_body.scrollHeight);
+            }
+            // });
         }
 
         function convertToArray(data, type, logs) {
@@ -741,8 +876,6 @@
 
         let consultantsObj = consultantService.convert(consultants);
 
-        // console.log(consultantsObj);
-
         function consName(consultant) {
             if (consultantsObj[consultant.consultant_id]) {
                 return consultantsObj[consultant.consultant_id].name
@@ -752,9 +885,15 @@
         }
 
         /////////////////////////// kid and parents /////////////////////////
+        let kidsObj = kidService.convert(kids);
 
-        console.log(kids);
-
+        function kidName(id) {
+            if (consultantsObj[id]) {
+                return consultantsObj[id].name
+            } else {
+                return "No Name"
+            }
+        }
 
         /////////////////////////// add log /////////////////////////
         function addComment() {
@@ -781,5 +920,6 @@
                 }
             );
         }
+
     }
 })();

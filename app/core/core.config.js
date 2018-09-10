@@ -76,7 +76,11 @@
                     kids: function (userService) {
                         return userService.getKidsList();
                     }
+                },
+                params: {
+                    to_call: null
                 }
+
             })
             .state('tabs.call', {
                 url: '/call',
