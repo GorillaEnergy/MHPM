@@ -18,7 +18,12 @@
                 url: '/authorization',
                 templateUrl: 'templates/authorization/authorization.html',
                 controller: 'AuthorizationController',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                resolve: {
+                    autologin: function (autologinService) {
+                        return autologinService.authorization();
+                    }
+                }
             }).state('authorization.login', {
                 url: '/login',
                 templateUrl: 'templates/login/login.html',
@@ -38,7 +43,12 @@
                 url: '/tabs',
                 templateUrl: 'templates/tabs/tabs.html',
                 controller: 'TabsController',
-                controllerAs: 'vm'
+                controllerAs: 'vm',
+                resolve: {
+                    autologin: function (autologinService) {
+                        return autologinService.authorization();
+                    }
+                }
             })
             .state('tabs.statistic', {
                 url: '/statistic',
