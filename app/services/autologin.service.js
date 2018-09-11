@@ -10,14 +10,20 @@
     function autologinService(http, url, $localStorage, $state) {
 
         let model = {};
-        model.authorization = authorization;
+        model.autologin = autologin;
+        model.autologout = autologout;
 
         return model;
 
-        function authorization() {
+        function autologin() {
             if ($localStorage.token) {
                 return $state.go('tabs.statistic')
-            } else {
+            }
+        }
+
+        function autologout() {
+            if (!$localStorage.token) {
+                $localStorage.reset();
                 return $state.go('authorization.login')
             }
         }

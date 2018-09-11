@@ -1,33 +1,18 @@
 <div class="call4">
 
-    <div class="main">
-        <div class = "bodyDiv">
+    <md-slider-container flex>
 
-            <div id="vid-box" class="video2"></div>
-            <div id="vid-thumb" class="video1"></div>
+        <md-input-container>
+            <input flex type="number" ng-model="vm.volume" aria-label="volume" aria-controls="volume-slider">
+        </md-input-container>
 
-        </div>
+        <md-slider ng-model="vm.volume" min="0" max="100" aria-label="volume" id="volume-slider"
+                   class="md-primary" md-vertical md-range>
+        </md-slider>
 
-        <div id="inCall" class="ptext">
-            <button id="end" ng-click="vm.end()" >End</button>
-            <button id="mute" ng-click="vm.mute()">Mute</button>
-            <button id="pause" ng-click="vm.pause()">Pause</button>
-        </div>
-    </div>
+        <h5>Volume</h5>
 
-    <div class="user-panel">
-        <div class="title">Users</div>
-        <div ng-repeat="user in vm.users track by $index" class="user-block">
-            <div style="display: flex; flex-direction: row;">
-                <img src="../../content/img/tabs/profile-ico.png" class="man-ico">
-                <div class="offline-status" ng-class="vm.userOnlineStatus($index)"></div>
-                <div class="name">{{user.name}}</div>
-            </div>
-            <div>
-                <img src="../../content/img/statistic/total-calls-ico.png" class="phone-ico" ng-click="vm.call(user)"
-                     ng-if="vm.accesToCall($index)">
-            </div>
-        </div>
-    </div>
+    </md-slider-container>
+
 </div>
 

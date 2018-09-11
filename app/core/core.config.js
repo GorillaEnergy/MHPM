@@ -21,7 +21,7 @@
                 controllerAs: 'vm',
                 resolve: {
                     autologin: function (autologinService) {
-                        return autologinService.authorization();
+                        return autologinService.autologin();
                     }
                 }
             }).state('authorization.login', {
@@ -46,7 +46,7 @@
                 controllerAs: 'vm',
                 resolve: {
                     autologin: function (autologinService) {
-                        return autologinService.authorization();
+                        return autologinService.autologout();
                     }
                 }
             })
