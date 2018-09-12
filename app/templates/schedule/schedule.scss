@@ -10,7 +10,7 @@
     width: 23%;
     height: 100%;
     overflow: auto;
-    padding: 0 15px;
+    padding-left: 15px;
     border-left: 1px solid #0b1138;
 
     .title {
@@ -30,7 +30,8 @@
     }
 
     .busy-on-day {
-      width: 100%;
+      width: 90%;
+      margin: 0 auto;
 
       .day-name-block {
         display: flex;

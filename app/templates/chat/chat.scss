@@ -289,10 +289,10 @@
       width: 50%;
       height: 100%;
       box-sizing: border-box;
-      padding: 20px;
+      padding: 30px;
 
     }
-    .logs-incl {
+    .logs-incl, .detail-incl {
       width: 100%;
     }
 
@@ -435,25 +435,27 @@
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
       box-sizing: border-box;
-      width: calc(100% - 280px);
+      width: 80%;
       padding-top: 30px;
 
       .wrapper {
         display: flex;
-        margin-left: auto;
-        width: 1200px;
+        height: 100%;
+        //margin-left: auto;
+        //width: 1200px;
 
 
         .video2 {
-          width: calc(100% - 400px);
+          width: 70%;
           display: flex;
           flex-direction: row;
           flex-wrap: wrap;
           justify-content: space-between;
+          margin: 0 30px;
 
           .video-wrapper {
             width: calc(50% - 10px);
-            height: 400px;
+            height: 40%;
             margin-bottom: 20px;
 
             video {
@@ -468,22 +470,31 @@
           }
           .video-wrapper:first-child {
             width: 100%;
-            video {
-
-            }
+            height:55%;
           }
 
         }
 
         .detail-and-logs {
-          width: 400px;
+          width: 30%;
           display: block;
-
-          .kid-detail {
-
-          }
+          border: 1px solid black;
+          border-right: none;
+          height: max-content;
+        }
+        .kid-detail {
+          height:auto;
           .half {
+            padding: 20px;
             width: 100%;
+          }
+        }
+        .logs-include{
+          border-top: 1px solid black;
+          border-left: none;
+
+          .logs-list{
+            height:340px;
           }
         }
       }
