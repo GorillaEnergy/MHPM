@@ -30,13 +30,13 @@
       height: 40px;
 
       svg {
-        width: 40px!important;
-        height: 40px!important;
-        transform-origin: 20px 20px 20px!important;
+        width: 40px !important;
+        height: 40px !important;
+        transform-origin: 20px 20px 20px !important;
       }
     }
   }
-  .messages{
+  .messages {
     width: 100%;
     height: calc((100% - 50px) / 2);
     overflow-y: scroll;
@@ -57,23 +57,23 @@
       border-radius: 25px;
       font-family: AmericanPatrius;
     }
-    .other-message{
+    .other-message {
       width: 70%;
       margin-left: 10px;
       margin-bottom: 10px;
-      .my-message{
-        p{
+      .my-message {
+        p {
           font-family: Neue;
           font-size: 50%;
           background-color: #64cae2;
-          padding: 10px ;
+          padding: 10px;
         }
       }
-      .message-time{
+      .message-time {
         display: inline-flex;
         flex-direction: row-reverse;
 
-        p{
+        p {
           font-size: 12px;
           margin: 0;
           font-family: AmericanPatrius;
@@ -102,23 +102,23 @@
         }
       }
     }
-    .my-message-block{
+    .my-message-block {
       width: 70%;
       margin-left: auto;
       margin-right: 10px;
       margin-bottom: 10px;
-      .my-message{
-        p{
+      .my-message {
+        p {
           font-family: Neue;
           font-size: 50%;
           background-color: #caf2fd;
           padding: 10px;
         }
       }
-      .message-time{
+      .message-time {
         display: flex;
         justify-content: flex-end;
-        p{
+        p {
           font-size: 12px;
           margin: 0;
           font-family: AmericanPatrius;
@@ -147,12 +147,12 @@
         }
       }
     }
-    .day{
+    .day {
       display: flex;
       justify-content: center;
       margin-top: 10px;
 
-      p{
+      p {
         font-size: 90%;
         font-family: American;
         color: #0b1138;
@@ -217,7 +217,7 @@
       -moz-box-sizing: border-box;
       box-sizing: border-box;
     }
-    .kid-detail{
+    .kid-detail {
       overflow: auto;
     }
     .half:first-child {
@@ -276,7 +276,6 @@
     }
   }
 
-
   .one-vs-one {
     display: none;
     //display: flex;
@@ -327,7 +326,8 @@
       }
     }
 
-  };
+  }
+;
 
   .one-vs-one-vs-chat {
     display: none;
@@ -358,6 +358,7 @@
         .leave {
           text-decoration: underline;
           margin: 0 10px 0 auto;
+          cursor: pointer;
         }
         .add-comment {
           margin: 0 10px 0 auto;
@@ -370,16 +371,21 @@
         }
       }
 
-
       .video {
         text-align: center;
         margin-bottom: 20px;
-
+        height:50%;
+        #vid-box {
+          height: 100%;
+          .video-wrapper {
+            height: 100%;
+          }
+        }
         video {
           border: 5px solid #0b1138;
           background: black;
-          width: 150px;
-          height: 200px;
+          width: 100%;
+          height: 100%;
           margin: 0 auto;
           box-sizing: border-box;
         }
@@ -444,7 +450,6 @@
         //margin-left: auto;
         //width: 1200px;
 
-
         .video2 {
           width: 70%;
           display: flex;
@@ -470,7 +475,7 @@
           }
           .video-wrapper:first-child {
             width: 100%;
-            height:55%;
+            height: 55%;
           }
 
         }
@@ -483,23 +488,22 @@
           height: max-content;
         }
         .kid-detail {
-          height:auto;
+          height: auto;
           .half {
             padding: 20px;
             width: 100%;
           }
         }
-        .logs-include{
+        .logs-include {
           border-top: 1px solid black;
           border-left: none;
 
-          .logs-list{
-            height:340px;
+          .logs-list {
+            height: 340px;
           }
         }
       }
     }
-
 
     .user-panel {
 
@@ -515,7 +519,6 @@
     }
 
   }
-
 
   .detail {
     width: 100%;

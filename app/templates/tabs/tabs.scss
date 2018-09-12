@@ -61,7 +61,7 @@
     .tabs {
       //width: 255px;
       width: 20%;
-      min-width: 220px;
+      min-width: 200px;
       height: 100%;
       background-color: white;
       box-sizing: border-box;
@@ -134,15 +134,16 @@
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1012px) {
   .body {
+    .base-width{
+      width: calc(100% - 200px) !important;
+    }
     .tabs {
-      min-width: 200px !important;
       width: 200px !important;
       &--hide {
         margin-left: -200px !important;
       }
     }
   }
-
 }
