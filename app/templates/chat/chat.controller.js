@@ -120,6 +120,8 @@
             //viewCurrent 3 can be upgraded to 4 lvl & downgraded to 2 lvl
             //viewCurrent 4 can be downgraded to 2 lvl
 
+            formUserList();
+
             if (data.type === 1) {
                 viewCurrent = data.type;
                 console.log('view type = ', viewCurrent);
@@ -154,6 +156,15 @@
                     console.log('Something went wrong');
                 }
 
+            }
+            
+            function formUserList() {
+                vm.userList = [];
+
+                for (let i = 0; i<data.users.length; i++) {
+                    let opponent_id = Number(data.users[i].user.substr(0, data.users[i].user.length - 6));
+                    vm.userList.push(kidsObj[opponent_id]);
+                }
             }
         });
 
