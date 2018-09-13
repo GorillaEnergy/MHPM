@@ -5,10 +5,10 @@
         .service('RTCService', RTCService);
 
     RTCService.$inject = ['$localStorage', '$timeout', '$rootScope', '$window', '$mdDialog', 'consultantService', '$state',
-                          'toastr'];
+                          'toastr', 'statisticService'];
 
     function RTCService($localStorage, $timeout, $rootScope, $window, $mdDialog, consultantService, $state,
-                        toastr) {
+                        toastr, statisticService) {
         console.log('RTCService start');
 
         let user;
@@ -217,12 +217,45 @@
 
                 function change(name, join) {
                     if (join) {
-                        userActivityArr.push({user: name})
+                        userActivityArr.push({user: name, start_time: new Date()})
                     } else {
+                        setCallLength(userActivityArr[index]);
                         userActivityArr.splice(index, 1);
                     }
 
                     vidCalc(name, join)
+                }
+
+                function setCallLength(data) {
+                    let start, end, total_second, total_minutes, total_hours, total, id, send_data;
+                    id = Number(data.user.substr(0 , name.length - 6));
+
+                    start = data.start_time;
+                    end = new Date();
+                    total_second = Math.floor((end - start) / 1000);
+                    total_minutes = Math.floor(total_second / 60);
+                    total_hours = Math.floor(total_minutes / 60);
+                    total_minutes =  total_minutes - total_hours * 60;
+
+                    if (total_minutes < 10) { total_minutes = '0' + total_minutes}
+                    if (total_hours < 10) { total_hours = '0' + total_hours}
+
+                    total = total_hours + ':' + total_minutes;
+                    console.log(total);
+
+                    send_data = {
+                        type: "call",
+                        add_info: {
+                            interlocutor_id: id,
+                            time: total
+                        }
+                    };
+
+                    if (total !== '00:00') {
+                        console.log('send statistic');
+                        statisticService.addStatistic(send_data)
+                    }
+
                 }
 
                 function vidCalc(name, join) {
@@ -302,7 +335,10 @@
             ctrl.hangup();
         }
         function hardEnd() {
-            $window.location.reload();
+            end();
+            $timeout(function () {
+                $window.location.reload();
+            }, 1000);
         }
 
         function pause() {

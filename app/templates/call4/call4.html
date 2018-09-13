@@ -1,18 +1,8 @@
 <div class="call4">
 
-    <md-slider-container flex>
-
-        <md-input-container>
-            <input flex type="number" ng-model="vm.volume" aria-label="volume" aria-controls="volume-slider">
-        </md-input-container>
-
         <md-slider ng-model="vm.volume" min="0" max="100" aria-label="volume" id="volume-slider"
-                   class="md-primary" md-vertical md-range>
+                   class="md-primary" md-vertical ng-change="vm.volumeChanger()">
         </md-slider>
-
-        <h5>Volume</h5>
-
-    </md-slider-container>
 
 </div>
 

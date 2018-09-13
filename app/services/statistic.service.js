@@ -5,9 +5,9 @@
         .module('service.statisticService', [])
         .service('statisticService', statisticService);
 
-    statisticService.$inject = ['http', 'url' , '$sessionStorage'];
+    statisticService.$inject = ['http', 'url', '$sessionStorage'];
 
-    function statisticService(http, url ,  $sessionStorage) {
+    function statisticService(http, url, $sessionStorage) {
         let model = {};
 
         model.createContent = createContent;
