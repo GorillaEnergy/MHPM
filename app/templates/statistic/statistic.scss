@@ -11,7 +11,7 @@
   
   .statistic {
     height: 100%;
-    width: 78%;
+    width: 80%;
     box-sizing: border-box;
     border-right: 1px solid #0b1138;
     overflow: auto;
@@ -115,13 +115,12 @@
   }
 
   .live-room {
-    width: 30%;
-    max-width: 350px;
+    width: 20%;
     font-size: 35px;
     cursor: context-menu;
     overflow: auto;
     padding: 20px 30px;
-
+    min-width: 180px;
     .title {
       padding-bottom: 10px;
       font-family: American;
