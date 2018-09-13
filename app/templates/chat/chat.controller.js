@@ -257,7 +257,7 @@
 
                         vm.idVid[4].remote = 'tmp4-vid-box';
                         vm.idVid[2].remote = 'vid-box';
-                        vm.idVid[2].local  = 'vid-thumb';
+                        vm.idVid[2].local = 'vid-thumb';
                     }
                 }
 
@@ -583,8 +583,8 @@
                 fb.ref('/chats/' + kid_id + '/' + psy_id + '/total_unread_kid').set(total_unread_kid + 1);
                 fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').push(data);
                 vm.message_input = '';
+                addStatisticChat(data)
             }
-            addStatisticChat(data)
         }
 
         function addStatisticChat() {
