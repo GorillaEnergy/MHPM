@@ -33,12 +33,12 @@
             <!--<div class="tab-item outline" ng-click="vm.toVideoChatTest()">-->
                 <!--<div class="wrapper">-->
                     <!--&lt;!&ndash;<img src="../../content/img/tabs/chat-ico.png" class="chat-logo">&ndash;&gt;-->
-                    <!--<span>volume test</span>-->
+                    <!--<span>video test</span>-->
                 <!--</div>-->
             <!--</div>-->
         </div>
 
-        <div class="base-width" ng-class="{'full-width': !vm.menuOpen }">
+        <div ng-class="{'base-width': vm.menuOpen, 'full-width': !vm.menuOpen}">
             <div ui-view class="scope-view"></div>
         </div>
     </div>

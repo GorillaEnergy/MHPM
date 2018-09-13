@@ -268,8 +268,8 @@ body {
   .tabs-block .body {
     display: flex; }
     .tabs-block .body .tabs {
-      width: 25%;
-      min-width: 220px;
+      width: 20%;
+      min-width: 200px;
       height: 100%;
       background-color: white;
       box-sizing: border-box;
@@ -277,7 +277,7 @@ body {
       transition: all 0.3s ease;
       position: relative; }
       .tabs-block .body .tabs--hide {
-        margin-left: -25%; }
+        margin-left: -20%; }
       .tabs-block .body .tabs .tabs-btn {
         position: absolute;
         right: -26px;
@@ -295,7 +295,7 @@ body {
         outline: none; }
       .tabs-block .body .tabs .tab-item {
         cursor: pointer;
-        height: 85px;
+        height: 100px;
         border-bottom: 2px solid #cdf2fd;
         box-sizing: border-box;
         position: relative;
@@ -310,7 +310,7 @@ body {
         .tabs-block .body .tabs .tab-item .chat-logo {
           height: auto; }
     .tabs-block .body .base-width {
-      width: 75%; }
+      width: 80%; }
     .tabs-block .body .full-width {
       width: 100%; }
     .tabs-block .body .scope-view {
@@ -319,9 +319,10 @@ body {
       background: url("../../content/img/tabs/dots.png") no-repeat left center;
       background-size: cover; }
 
-@media (max-width: 900px) {
+@media (max-width: 1012px) {
+  .body .base-width {
+    width: calc(100% - 200px) !important; }
   .body .tabs {
-    min-width: 200px !important;
     width: 200px !important; }
     .body .tabs--hide {
       margin-left: -200px !important; } }
@@ -336,7 +337,7 @@ body {
   display: flex; }
   .statistic-block .statistic {
     height: 100%;
-    width: 78%;
+    width: 80%;
     box-sizing: border-box;
     border-right: 1px solid #0b1138;
     overflow: auto; }
@@ -404,12 +405,12 @@ body {
       height: 29%;
       margin: 0 auto; }
   .statistic-block .live-room {
-    width: 30%;
-    max-width: 350px;
+    width: 20%;
     font-size: 35px;
     cursor: context-menu;
     overflow: auto;
-    padding: 20px 30px; }
+    padding: 20px 30px;
+    min-width: 180px; }
     .statistic-block .live-room .title {
       padding-bottom: 10px;
       font-family: American;
@@ -472,7 +473,7 @@ body {
       -webkit-clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
       clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0); }
 
-@media (min-width: 1500px) {
+@media (min-width: 1400px) {
   .statistic-block .statistic .item {
     width: 300px;
     height: 300px;
@@ -512,7 +513,7 @@ body {
     width: 23%;
     height: 100%;
     overflow: auto;
-    padding: 0 15px;
+    padding-left: 15px;
     border-left: 1px solid #0b1138; }
     .schedule .sidebar .title {
       display: flex;
@@ -527,7 +528,8 @@ body {
       .schedule .sidebar .title img {
         height: 40px; }
     .schedule .sidebar .busy-on-day {
-      width: 100%; }
+      width: 90%;
+      margin: 0 auto; }
       .schedule .sidebar .busy-on-day .day-name-block {
         display: flex;
         align-items: center; }
@@ -833,8 +835,8 @@ md-list {
       width: 50%;
       height: 100%;
       box-sizing: border-box;
-      padding: 20px; }
-    .chat .one-vs-one .logs-incl {
+      padding: 30px; }
+    .chat .one-vs-one .logs-incl, .chat .one-vs-one .detail-incl {
       width: 100%; }
     .chat .one-vs-one .detail-and-logs {
       height: calc(100% - 530px); }
@@ -870,7 +872,8 @@ md-list {
         font-size: 18px; }
         .chat .one-vs-one-vs-chat .top-lvl-half .buttons .leave {
           text-decoration: underline;
-          margin: 0 10px 0 auto; }
+          margin: 0 10px 0 auto;
+          cursor: pointer; }
         .chat .one-vs-one-vs-chat .top-lvl-half .buttons .add-comment {
           margin: 0 10px 0 auto;
           background-color: #0b1138;
@@ -881,12 +884,17 @@ md-list {
           cursor: pointer; }
       .chat .one-vs-one-vs-chat .top-lvl-half .video {
         text-align: center;
-        margin-bottom: 20px; }
+        margin-bottom: 20px;
+        height: 50%; }
+        .chat .one-vs-one-vs-chat .top-lvl-half .video #vid-box {
+          height: 100%; }
+          .chat .one-vs-one-vs-chat .top-lvl-half .video #vid-box .video-wrapper {
+            height: 100%; }
         .chat .one-vs-one-vs-chat .top-lvl-half .video video {
           border: 5px solid #0b1138;
           background: black;
-          width: 150px;
-          height: 200px;
+          width: 100%;
+          height: 100%;
           margin: 0 auto;
           box-sizing: border-box; }
         .chat .one-vs-one-vs-chat .top-lvl-half .video video:first-child {
@@ -923,21 +931,21 @@ md-list {
       -webkit-box-sizing: border-box;
       -moz-box-sizing: border-box;
       box-sizing: border-box;
-      width: calc(100% - 280px);
+      width: 80%;
       padding-top: 30px; }
       .chat .multi .main .wrapper {
         display: flex;
-        margin-left: auto;
-        width: 1200px; }
+        height: 100%; }
         .chat .multi .main .wrapper .video2 {
-          width: calc(100% - 400px);
+          width: 70%;
           display: flex;
           flex-direction: row;
           flex-wrap: wrap;
-          justify-content: space-between; }
+          justify-content: space-between;
+          margin: 0 30px; }
           .chat .multi .main .wrapper .video2 .video-wrapper {
             width: calc(50% - 10px);
-            height: 400px;
+            height: 40%;
             margin-bottom: 20px; }
             .chat .multi .main .wrapper .video2 .video-wrapper video {
               width: 100%;
@@ -948,12 +956,24 @@ md-list {
               -moz-box-sizing: border-box;
               box-sizing: border-box; }
           .chat .multi .main .wrapper .video2 .video-wrapper:first-child {
-            width: 100%; }
+            width: 100%;
+            height: 55%; }
         .chat .multi .main .wrapper .detail-and-logs {
-          width: 400px;
-          display: block; }
-          .chat .multi .main .wrapper .detail-and-logs .half {
+          width: 30%;
+          display: block;
+          border: 1px solid black;
+          border-right: none;
+          height: max-content; }
+        .chat .multi .main .wrapper .kid-detail {
+          height: auto; }
+          .chat .multi .main .wrapper .kid-detail .half {
+            padding: 20px;
             width: 100%; }
+        .chat .multi .main .wrapper .logs-include {
+          border-top: 1px solid black;
+          border-left: none; }
+          .chat .multi .main .wrapper .logs-include .logs-list {
+            height: 340px; }
     .chat .multi .user-panel .man-ico {
       height: 40px;
       width: 40px;
@@ -1190,7 +1210,7 @@ md-list {
     justify-content: space-between;
     margin-bottom: 20px; }
     .live-room-popup .date-time-block .date-block {
-      width: calc(50% - 20px);
+      width: 50%;
       display: flex;
       flex-direction: row; }
     .live-room-popup .date-time-block .time-block {
