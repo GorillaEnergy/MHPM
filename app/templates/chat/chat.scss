@@ -370,6 +370,20 @@
           cursor: pointer;
         }
       }
+      .short {
+        flex-direction: row-reverse;
+
+        .short-leave {
+          margin: 0 10px;
+        }
+        .short-comment {
+          margin: 0 10px 0 30px;
+        }
+        .hang-up-ico {
+          height: 20px;
+          cursor: pointer;
+        }
+      }
 
       .video {
         text-align: center;

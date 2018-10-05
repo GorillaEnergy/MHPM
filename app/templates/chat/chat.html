@@ -193,7 +193,7 @@
 
             <div class="buttons">
                 <div class="leave" ng-click="vm.leaveThisChat()">leave this chat</div>
-                <div class="add-comment" ng-click="vm.addComment(true)">add comment</div>
+                <div class="add-comment" ng-click="vm.addComment()">add comment</div>
             </div>
         </div>
 
@@ -245,10 +245,12 @@
             </div>
 
 
-            <!--<div class="buttons">-->
-                <!--<div class="leave" ng-click="vm.hangup()">hangup</div>-->
-                <!--<div class="add-comment" ng-click="vm.addComment(true)">add comment</div>-->
-            <!--</div>-->
+            <div class="buttons short">
+                <div class="add-comment short-comment" ng-click="vm.addComment(vm.kidShort)">add comment</div>
+                <div class="leave short-leave" ng-click="vm.hangup()">hangup</div>
+                <img src="../../content/img/video-calls/hang-up.png" class="ico hang-up-ico" ng-click="vm.hangup()">
+
+            </div>
         </div>
     </div>
 

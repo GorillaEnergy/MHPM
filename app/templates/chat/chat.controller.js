@@ -902,29 +902,49 @@
         }
 
         /////////////////////////// add log /////////////////////////
-        function addComment() {
+        function addComment(kid) {
             console.log('add comment');
-            let data = {
-                kid: vm.kid,
-                logs: vm.logs,
-                consultants: consultantsObj
-            };
+            let data;
+            if (kid) {
+                data = {
+                    kid: kid,
+                    logs: null,
+                    consultants: consultantsObj
+                };
+                fb.ref('/logs/' + kid.id).limitToLast(number_of_logs).on('value', (snapshot) => {
+                    $timeout(function () {
+                        snapshot.val() ? data.logs = convertToArray(snapshot.val(), null, true) : data.logs = [];
+                        showDialog();
+                    })
+                });
 
-            $mdDialog.show({
-                controller: 'SendLogController',
-                controllerAs: 'vm',
-                locals: {
-                    data: data
-                },
-                templateUrl: 'components/send-log/send-log.html',
-                clickOutsideToClose: true,
-            }).then(function (res) {
-                    console.log('close dialog');
-                    console.log('res', res);
-                },
-                function () {
-                }
-            );
+            } else {
+                data = {
+                    kid: vm.kid,
+                    logs: vm.logs,
+                    consultants: consultantsObj
+                };
+                showDialog();
+            }
+
+            function showDialog() {
+                $mdDialog.show({
+                    controller: 'SendLogController',
+                    controllerAs: 'vm',
+                    locals: {
+                        data: data
+                    },
+                    templateUrl: 'components/send-log/send-log.html',
+                    clickOutsideToClose: true,
+                }).then(function (res) {
+                        console.log('close dialog');
+                        console.log('res', res);
+                    },
+                    function () {
+                    }
+                );
+            }
+
         }
 
         function addEmergencyComment(kid) {
@@ -947,7 +967,6 @@
                 }
             );
         }
-
         /////////////////////////// leave video chat /////////////////////////
 
         function hangup() {

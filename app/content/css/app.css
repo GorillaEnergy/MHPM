@@ -882,6 +882,15 @@ md-list {
           -webkit-clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
           clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
           cursor: pointer; }
+      .chat .one-vs-one-vs-chat .top-lvl-half .short {
+        flex-direction: row-reverse; }
+        .chat .one-vs-one-vs-chat .top-lvl-half .short .short-leave {
+          margin: 0 10px; }
+        .chat .one-vs-one-vs-chat .top-lvl-half .short .short-comment {
+          margin: 0 10px 0 30px; }
+        .chat .one-vs-one-vs-chat .top-lvl-half .short .hang-up-ico {
+          height: 20px;
+          cursor: pointer; }
       .chat .one-vs-one-vs-chat .top-lvl-half .video {
         text-align: center;
         margin-bottom: 20px;
