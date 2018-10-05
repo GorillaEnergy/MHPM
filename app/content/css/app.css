@@ -994,33 +994,96 @@ md-list {
 .call {
   font-family: AmericanPatrius;
   color: #0b1138;
-  position: relative; }
-  .call .img-block {
-    width: 644px;
-    height: 484px;
-    background-size: cover;
+  padding-top: 20px; }
+  .call .bodyDiv {
+    margin: 0 auto;
+    height: 640px;
+    width: 360px;
+    padding: 10px;
+    background-color: #ababab;
+    border: 1px solid black;
+    position: relative;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box; }
+    .call .bodyDiv .vid-common {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      width: 100%; }
+  .call .less-than-two .video1 {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    background-color: purple; }
+  .call .less-than-two .video2 {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    height: calc(338px / 2);
+    width: calc(100% - 20px);
     position: absolute;
-    top: 50px;
-    left: 30px;
-    border: 1px solid #0b1138;
-    background-color: white;
+    bottom: 10px;
+    right: 10px;
     display: flex;
-    flex-wrap: wrap; }
-  .call .face-box-video {
-    border: 1px solid red;
+    flex-direction: row-reverse; }
+    .call .less-than-two .video2 div {
+      height: 100%;
+      width: 50%;
+      background-color: #00acac; }
+  .call .less-than-three .video1 {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    background-color: purple; }
+  .call .less-than-three .video2 {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    height: calc(338px / 3);
+    width: calc(100% - 20px);
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 0; }
-  .call video {
-    --width: 45%;
-    width: var(--width);
-    height: calc(var(--width) * 0.75);
-    margin: 0 0 20px 0;
-    vertical-align: top; }
-  .call video#localVideo {
-    margin: 0 20px 20px 0; }
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: row-reverse; }
+    .call .less-than-three .video2 div {
+      height: 100%;
+      width: calc(100% / 3);
+      background-color: #00acac; }
+  .call .more .video1 {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    height: 100%;
+    width: 100%;
+    background-color: purple; }
+  .call .more .video2 {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    height: calc(338px / 3 * 2);
+    width: calc(100% - 20px);
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    overflow-y: scroll; }
+    .call .more .video2 div {
+      height: 50%;
+      width: calc(100% / 3);
+      background-color: #00acac; }
+  .call .video2 div {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #0b1138; }
 
 .call2 {
   font-family: AmericanPatrius;
@@ -1569,3 +1632,26 @@ md-list {
     -webkit-clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
     clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
     cursor: pointer; }
+
+.state-go-warning {
+  font-family: AmericanPatrius; }
+  .state-go-warning .md-dialog-content {
+    padding: 24px 24px 10px; }
+  .state-go-warning .title {
+    width: 100%;
+    text-align: center; }
+  .state-go-warning .content {
+    font-family: AmericanPatrius;
+    font-size: 16px;
+    color: #0b1138; }
+  .state-go-warning .button {
+    cursor: pointer;
+    height: 20px;
+    padding: 5px 20px 10px 20px;
+    margin-right: 16px;
+    font-size: 20px;
+    text-align: center;
+    background-color: #0b1138;
+    color: white;
+    -webkit-clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
+    clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0); }

@@ -211,7 +211,6 @@
                     }
                 }
                 userArray = userArray.filter(function(s){ return !s.closed; }); // Clean to only open talks
-                // console.log(userArray);
             }
 
             function add_to_stream(number){
@@ -249,8 +248,6 @@
             }
 
             function receive(m){
-                console.log('receive');
-                console.log(m);
                 switch(m.type) {
                     case "userCall":
                         callAuth(m.data);
@@ -262,8 +259,6 @@
                     case "userLeave":
                         var idx = findWithAttr(userArray, "number", m.data);
                         if (idx != -1) userArray.splice(idx, 1)[0];
-                        console.log('some idx ', idx);
-                        console.log('some user arr', userArray);
                         break;
                     case "userVideo":
                         var idx = findWithAttr(userArray, "number", m.data.user);
@@ -276,7 +271,6 @@
                         if (idx != -1) audiotogglecb(userArray[idx], audEnabled);
                         break;
                 }
-                // console.log(m);
             }
 
             function findWithAttr(array, attr, value) {
@@ -309,7 +303,6 @@
                     secure: 1,
                 },
                 success: function(res) {
-                    console.log(res);
                     res = JSON.parse(res);
                     if (!res.e) servers = res.d.iceServers;
                 },

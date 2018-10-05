@@ -6,68 +6,42 @@
     CallController.$inject = ['$localStorage', '$state', '$timeout'];
 
     function CallController($localStorage, $state, $timeout) {
-       let vm = this;
-       console.log('ChatController start');
+        console.log('call test ctrl start');
+        let vm = this;
 
+        vm.add = add;
 
-        vm.playPause = playPause;
-        vm.getVideoInfo = getVideoInfo;
-        vm.stop = stop;
-        vm.call = call;
+        let body = document.getElementById('body-div');
+        let local = document.getElementById('vid-thumb');
+        let remote = document.getElementById('vid-box');
+        let number = 0;
 
-
-        let localVideo = $('#localVideo')[0];
-        let remoteVideo1 = $('#remoteVideo1')[0];
-        let remoteVideo2 = $('#remoteVideo2')[0];
-        let remoteVideo3 = $('#remoteVideo3')[0];
-        console.dir(localVideo);
-
-        initialize();
-
-
-        function initialize() {
-            initWebRTC();
+        function add() {
+            addElm();
         }
+        
+        function addElm() {
+            number++; //number должно инжектится
+            let div = document.createElement('div');
+            remote.appendChild(div);
 
-        function initWebRTC() {
-            navigator.getUserMedia = navigator.getUserMedia ||
-                navigator.webkitGetUserMedia ||
-                navigator.mozGetUserMedia;
-
-            if (navigator.getUserMedia) {
-                navigator.getUserMedia({ audio: true, video: { width: 640, height: 480 } },
-                    function(stream) {
-                        localVideo.srcObject = stream;
-                        vm.streamURL = stream.id;
-                        localVideo.onloadedmetadata = function(e) {
-                            // localVideo.play();
-                        };
-                    },
-                    function(err) {
-                        console.log("The following error occurred: " + err.name);
-                    }
-                );
+            if (number < 3) {
+                removeClasses();
+                body.classList.add('less-than-two');
+            } else if (number < 4) {
+                removeClasses();
+                body.classList.add('less-than-three');
             } else {
-                alert("getUserMedia not supported");
-                console.log("getUserMedia not supported");
+                removeClasses();
+                body.classList.add('more');
+            }
+
+            function removeClasses() {
+                body.classList.remove('less-than-two');
+                body.classList.remove('less-than-three');
+                body.classList.remove('more');
             }
         }
-
-        function playPause() {
-            localVideo.paused ? localVideo.play() : localVideo.pause() ;
-        }
-
-        function getVideoInfo() {
-            console.dir(localVideo.srcObject);
-        }
-        function stop() {
-            console.log('stop');
-        }
-        function call() {
-            console.log('call');
-        }
-
-
 
     }
 })();

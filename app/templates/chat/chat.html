@@ -137,31 +137,31 @@
                         <div class="image">
                             <img src="../../content/img/chat/man-ico.png" class="ico">
                         </div>
-                        <div class="info-pole">{{vm.kid.name}}</div>
+                        <div class="info-pole" title="{{vm.kid.name}}">{{vm.kid.name}}</div>
                     </div>
                     <div class="section">
                         <div class="image">
                             <img src="../../content/img/chat/calendar-ico.png" class="ico">
                         </div>
-                        <div class="info-pole">{{vm.dateConvert(vm.kid.birth_date)}}</div>
+                        <div class="info-pole" title="{{vm.dateConvert(vm.kid.birth_date)}}">{{vm.dateConvert(vm.kid.birth_date)}}</div>
                     </div>
                     <div class="section">
                         <div class="image">
                             <img src="../../content/img/chat/phone-ico.png" class="ico">
                         </div>
-                        <div class="info-pole">{{vm.kid.phone.code}} {{vm.kid.phone.phone}}</div>
+                        <div class="info-pole" title="{{vm.kid.phone.code}} {{vm.kid.phone.phone}}">{{vm.kid.phone.code}} {{vm.kid.phone.phone}}</div>
                     </div>
                     <div class="section">
                         <div class="image">
                             <img src="../../content/img/chat/id-ico.png" class="ico">
                         </div>
-                        <div class="info-pole">{{vm.kid.id_number}}</div>
+                        <div class="info-pole" title="{{vm.kid.id_number}}">{{vm.kid.id_number}}</div>
                     </div>
                     <div class="section">
                         <div class="image">
                             <img src="../../content/img/chat/grade-ico.png" class="ico">
                         </div>
-                        <div class="info-pole">{{vm.kid.grade}}</div>
+                        <div class="info-pole" title="{{vm.kid.grade}}">{{vm.kid.grade}}</div>
                     </div>
                 </div>
 
@@ -172,19 +172,19 @@
                             <div class="image">
                                 <img src="../../content/img/chat/man-ico.png" class="ico">
                             </div>
-                            <div class="info-pole">{{parent.name}}</div>
+                            <div class="info-pole" title="{{parent.name}}">{{parent.name}}</div>
                         </div>
                         <div class="section">
                             <div class="image">
                                 <img src="../../content/img/chat/email-ico.png" class="ico">
                             </div>
-                            <div class="info-pole">{{parent.email}}</div>
+                            <div class="info-pole" title="{{parent.email}}">{{parent.email}}</div>
                         </div>
                         <div class="section">
                             <div class="image">
                                 <img src="../../content/img/chat/phone-ico.png" class="ico">
                             </div>
-                            <div class="info-pole">{{parent.phone.code}} {{parent.phone.phone}}</div>
+                            <div class="info-pole" title="{{parent.phone.code}} {{parent.phone.phone}}">{{parent.phone.code}} {{parent.phone.phone}}</div>
                         </div>
                     </div>
 
@@ -210,31 +210,31 @@
                             <div class="image">
                                 <img src="../../content/img/chat/man-ico.png" class="ico">
                             </div>
-                            <div class="info-pole">{{vm.kidShort.name}}</div>
+                            <div class="info-pole" title="{{vm.kidShort.name}}">{{vm.kidShort.name}}</div>
                         </div>
                         <div class="section">
                             <div class="image">
                                 <img src="../../content/img/chat/calendar-ico.png" class="ico">
                             </div>
-                            <div class="info-pole">{{vm.dateConvert(vm.kidShort.birth_date)}}</div>
+                            <div class="info-pole" title="{{vm.dateConvert(vm.kidShort.birth_date)}}">{{vm.dateConvert(vm.kidShort.birth_date)}}</div>
                         </div>
                         <div class="section">
                             <div class="image">
                                 <img src="../../content/img/chat/phone-ico.png" class="ico">
                             </div>
-                            <div class="info-pole">{{vm.kidShort.phone.code}} {{vm.kidShort.phone.phone}}</div>
+                            <div class="info-pole" title="{{vm.kidShort.phone.code}} {{vm.kidShort.phone.phone}}">{{vm.kidShort.phone.code}} {{vm.kidShort.phone.phone}}</div>
                         </div>
                         <div class="section">
                             <div class="image">
                                 <img src="../../content/img/chat/id-ico.png" class="ico">
                             </div>
-                            <div class="info-pole">{{vm.kidShort.id_number}}</div>
+                            <div class="info-pole" title="{{vm.kidShort.id_number}}">{{vm.kidShort.id_number}}</div>
                         </div>
                         <div class="section">
                             <div class="image">
                                 <img src="../../content/img/chat/grade-ico.png" class="ico">
                             </div>
-                            <div class="info-pole">{{vm.kidShort.grade}}</div>
+                            <div class="info-pole" title="{{vm.kidShort.grade}}">{{vm.kidShort.grade}}</div>
                         </div>
                     </div>
                 </div>
@@ -243,6 +243,12 @@
                     <div id="{{vm.idVid[3].local}}" class="video1"></div>
                 </div>
             </div>
+
+
+            <!--<div class="buttons">-->
+                <!--<div class="leave" ng-click="vm.hangup()">hangup</div>-->
+                <!--<div class="add-comment" ng-click="vm.addComment(true)">add comment</div>-->
+            <!--</div>-->
         </div>
     </div>
 
@@ -261,31 +267,31 @@
                                 <div class="image">
                                     <img src="../../content/img/chat/man-ico.png" class="ico">
                                 </div>
-                                <div class="info-pole">{{vm.kid.name}}</div>
+                                <div class="info-pole" title="{{vm.kid.name}}">{{vm.kid.name}}</div>
                             </div>
                             <div class="section">
                                 <div class="image">
                                     <img src="../../content/img/chat/calendar-ico.png" class="ico">
                                 </div>
-                                <div class="info-pole">{{vm.dateConvert(vm.kid.birth_date)}}</div>
+                                <div class="info-pole" title="{{vm.dateConvert(vm.kid.birth_date)}}">{{vm.dateConvert(vm.kid.birth_date)}}</div>
                             </div>
                             <div class="section">
                                 <div class="image">
                                     <img src="../../content/img/chat/phone-ico.png" class="ico">
                                 </div>
-                                <div class="info-pole">{{vm.kid.phone.code}} {{vm.kid.phone.phone}}</div>
+                                <div class="info-pole" title="{{vm.kid.phone.code}} {{vm.kid.phone.phone}}">{{vm.kid.phone.code}} {{vm.kid.phone.phone}}</div>
                             </div>
                             <div class="section">
                                 <div class="image">
                                     <img src="../../content/img/chat/id-ico.png" class="ico">
                                 </div>
-                                <div class="info-pole">{{vm.kid.id_number}}</div>
+                                <div class="info-pole" title="{{vm.kid.id_number}}">{{vm.kid.id_number}}</div>
                             </div>
                             <div class="section">
                                 <div class="image">
                                     <img src="../../content/img/chat/grade-ico.png" class="ico">
                                 </div>
-                                <div class="info-pole">{{vm.kid.grade}}</div>
+                                <div class="info-pole" title="{{vm.kid.grade}}">{{vm.kid.grade}}</div>
                             </div>
                         </div>
 
@@ -304,7 +310,7 @@
             <div ng-repeat="user in vm.userList" class="user">
                 <div class="info" ng-click="vm.selectUserInMulti(user)">
                     <div class="man-ico"></div>
-                    <div class="name">{{user.name}}</div>
+                    <div class="name" title="{{user.name}}">{{user.name}}</div>
                 </div>
             </div>
         </div>

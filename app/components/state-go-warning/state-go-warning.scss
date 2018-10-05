@@ -1,0 +1,29 @@
+.state-go-warning {
+  font-family: AmericanPatrius;
+
+  .md-dialog-content {
+    padding: 24px 24px 10px;
+  }
+
+  .title {
+    width: 100%;
+    text-align: center;
+  }
+  .content {
+    font-family: AmericanPatrius;
+    font-size: 16px;
+    color: #0b1138;
+  }
+  .button {
+    cursor: pointer;
+    height: 20px;
+    padding: 5px 20px 10px 20px;
+    margin-right: 16px;
+    font-size: 20px;
+    text-align: center;
+    background-color: #0b1138;
+    color: white;
+    -webkit-clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
+    clip-path: polygon(0 15%, 7% 100%, 100% 70%, 100% 0);
+  }
+}

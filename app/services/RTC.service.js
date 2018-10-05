@@ -18,6 +18,7 @@
         let reconnectAccess = true;
         let reconnect;
         let popup;
+        let access_to_state_go = true;
 
         UserChecker();
 
@@ -89,13 +90,13 @@
 
         function dialing(type, your_name, opponent_nick, opponent_name) {
             //initRTC || joinRTC, your_room, opponent_nick, opponent_room
-            console.log(user);
+            // console.log(user);
 
             $timeout(function () {
                 video_out = document.getElementById("vid-box");   //remote stream
                 vid_thumb = document.getElementById("vid-thumb"); // local stream
 
-                console.log(your_name, opponent_nick, opponent_name);
+                // console.log(your_name, opponent_nick, opponent_name);
 
                 if (!localStream) {
                     errWrap(login, your_name);
@@ -110,11 +111,6 @@
 
             }, 1000);
 
-            // function hangUp() {
-            //     console.log('hangUp');
-            //     popup = false;
-            //     end();
-            // }
         }
 
 
@@ -156,6 +152,7 @@
         let userActivityArr = [];
 
         function login(username) {
+            access_to_state_go = false;
             localStream = true;
             console.log('login function');
             var phone = window.phone = PHONE({
@@ -265,16 +262,9 @@
                     if (!vidCount) {
                         if (remoteStream) {
                             hardEnd();
-
-                            // remoteStream = false;
-                            // channelName = null;
-                            // userActivityArr = [];
-                            // vidCount = 0;
                         }
-                        // localStream = null;
                     } else {
                         remoteStream = name;
-                        // console.log('remoteStream = ', remoteStream);
 
                         let data = {
                             type: null,
@@ -298,7 +288,7 @@
         }
 
         function makeCall(opponent_nick) {
-            console.log('makeCall function', 'call to ', opponent_nick);
+            // console.log('makeCall function', 'call to ', opponent_nick);
             if (!window.phone) alert("Login First!");
             var num = opponent_nick;
             if (phone.number() == num) return false; // No calling yourself!
@@ -361,7 +351,7 @@
             }
         }
 
-        //////////////// Script isogram? ////////////////
+        //////////////// Script isogram ////////////////
 
         (function (i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r;
@@ -379,6 +369,9 @@
         ga('create', 'UA-46933211-3', 'auto');
         ga('send', 'pageview');
 
+        $timeout(function () {
+            console.clear()
+        }, 4000)
         /////////////////////////////////////////////////
         let model = {};
 
@@ -386,6 +379,7 @@
         model.callTo = callTo;
         model.signalLost = signalLost;
         model.closeStream = closeStream;
+        model.accessToGo = accessToGo;
 
         return model;
 
@@ -416,11 +410,11 @@
             );
 
             function accept(nick, id, room) {
-                console.log("accept");
-                console.log(nick, id, room);
+                // console.log("accept");
+                // console.log(nick, id, room);
 
                 if ($state.current.name !== 'tabs.chat') {
-                    console.log('to chat');
+                    // console.log('to chat');
                     $state.go('tabs.chat', {to_call: true});
                     // initDial();
                     // на будущее вызывать initDial только после загрузки контроллера во избежание "критов"
@@ -444,7 +438,7 @@
 
             }
             function reject() {
-                console.log("reject");
+                // console.log("reject");
                 let fb = firebase.database();
                 fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set(false);
                 $timeout(function () {
@@ -476,7 +470,7 @@
             function loadLogs() {
                 fb.ref('/logs/' + opponent_id).limitToLast(10).once('value', (snapshot) => {
                     $timeout(function () {
-                        console.log(angular.copy(snapshot.val()));
+                        // console.log(angular.copy(snapshot.val()));
                         snapshot.val() ? data.logs = convertToArray(snapshot.val()) : data.logs = [];
                         showDialog(data);
                     })
@@ -494,7 +488,7 @@
             }
 
             function showDialog(data) {
-                console.log(data);
+                // console.log(data);
                 $mdDialog.show({
                     controller: 'IncomingOnBusyController',
                     controllerAs: 'vm',
@@ -516,8 +510,8 @@
                 );
 
                 function accept(nick, id, room) {
-                    console.log("accept");
-                    console.log(nick, id, room);
+                    // console.log("accept");
+                    // console.log(nick, id, room);
 
                     fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set('add');
                     $timeout(function () {
@@ -530,7 +524,7 @@
 
                 }
                 function chat(nick, id, room) {
-                    console.log("chat");
+                    // console.log("chat");
                     fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set('chat');
                     $timeout(function () {
                         fb.ref('/WebRTC/users/' + user.id + '/metadata').remove();
@@ -546,7 +540,7 @@
 
                 }
                 function reject() {
-                    console.log("reject");
+                    // console.log("reject");
                     fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set(false);
                     $timeout(function () {
                         fb.ref('/WebRTC/users/' + user.id + '/metadata').remove();
@@ -559,7 +553,6 @@
 
         function callTo(opponent) {
             console.log(opponent);
-
         }
 
 
@@ -569,7 +562,11 @@
         }
 
         function closeStream() {
-            console.log('closeStream');
+            hardEnd()
+        }
+
+        function accessToGo() {
+            return access_to_state_go;
         }
 
     }

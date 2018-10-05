@@ -5,9 +5,9 @@
         .module('service.authService', [])
         .service('authService', authService);
 
-    authService.$inject = ['http', 'url', '$localStorage', '$state', 'toastr'];
+    authService.$inject = ['http', 'url', '$localStorage', '$state', 'toastr', 'RTCService', '$mdDialog'];
 
-    function authService(http, url, $localStorage, $state, toastr) {
+    function authService(http, url, $localStorage, $state, toastr, RTCService, $mdDialog) {
 
         let model = {};
         model.login = login;
@@ -42,10 +42,20 @@
         function logout() {
             console.log('logout');
             let user_id = angular.copy($localStorage.user.id);
-            firebase.database().ref('/WebRTC/users/' + user_id + '/online').set(false);
-            firebase.database().ref().off();
-            $localStorage.$reset();
-            $state.go('authorization.login')
+            if (RTCService.accessToGo()) {
+                firebase.database().ref('/WebRTC/users/' + user_id + '/online').set(false);
+                firebase.database().ref().off();
+                $localStorage.$reset();
+                $state.go('authorization.login')
+            } else {
+                console.log('show warning');
+                $mdDialog.show({
+                    controller: 'StateGoWarning',
+                    controllerAs: 'vm',
+                    templateUrl: 'components/state-go-warning/state-go-warning.html',
+                    clickOutsideToClose: true
+                })
+            }
         }
         function getToken() {
             return $localStorage.token;

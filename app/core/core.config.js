@@ -92,8 +92,8 @@
                 }
 
             })
-            .state('tabs.call', {
-                url: '/call',
+            .state('tabs.call-test', {
+                url: '/call-test',
                 templateUrl: 'templates/call/call.html',
                 controller: 'CallController',
                 controllerAs: 'vm'

@@ -5,11 +5,11 @@
 
     ChatController.$inject = ['$localStorage', '$state', '$timeout', 'consultants', 'kids', 'authService', 'dateConverter',
         'consultantService', 'statisticService', 'userService', '$mdDialog', '$rootScope', 'toastr',
-        'kidService'];
+        'kidService', 'RTCService'];
 
     function ChatController($localStorage, $state, $timeout, consultants, kids, authService, dateConverter,
                             consultantService, statisticService, userService, $mdDialog, $rootScope, toastr,
-                            kidService) {
+                            kidService, RTCService) {
         let vm = this;
         console.log('ChatController start');
 
@@ -34,6 +34,7 @@
 
         vm.leaveThisChat = leaveThisChat;
         vm.selectUserInMulti = selectUserInMulti;
+        vm.hangup = hangup;
 
         let fb = firebase.database();
 
@@ -344,7 +345,7 @@
                 $timeout(function () {
                     for (let i = 0; i < data.users.length; i++) {
                         opponent_id = Number(data.users[i].user.substr(0, data.users[i].user.length - 6));
-                        vm.userList.push(kidsObj[opponent_id]);
+                        // vm.userList.push(kidsObj[opponent_id]);
                         transferVideoElem(opponent_id);
                     }
                     transferVideoElem(user.id);
@@ -427,7 +428,6 @@
                 downloadLogs();
             }
         }
-
 
         ////////////////// access ///////////////////////
         function psychologistAccess() {
@@ -590,7 +590,9 @@
             data.create_by_user_role = 3;
             data.read = false;
 
-            if (vm.message_input) {
+            if (!access) {
+                toastr.error('User blocked you')
+            } else if (vm.message_input) {
                 fb.ref('/chats/' + kid_id + '/' + psy_id + '/total_unread_kid').set(total_unread_kid + 1);
                 fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').push(data);
                 vm.message_input = '';
@@ -946,5 +948,10 @@
             );
         }
 
+        /////////////////////////// leave video chat /////////////////////////
+
+        function hangup() {
+            RTCService.closeStream();
+        }
     }
 })();

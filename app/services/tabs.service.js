@@ -5,9 +5,9 @@
         .module('service.tabsService', [])
         .service('tabsService', tabsService);
 
-    tabsService.$inject = ['http', 'url', '$sessionStorage', '$localStorage' , '$state', '$mdDialog'];
+    tabsService.$inject = ['http', 'url', '$sessionStorage', '$localStorage' , '$state', '$mdDialog', 'RTCService'];
 
-    function tabsService(http, url, $sessionStorage, $localStorage, $state, $mdDialog) {
+    function tabsService(http, url, $sessionStorage, $localStorage, $state, $mdDialog, RTCService) {
         let model = {};
 
         model.logout = logout;
@@ -35,8 +35,22 @@
 
         function route(to_state) {
             if ($state.$current.name !== to_state) {
-                $state.go(to_state)
+                if (RTCService.accessToGo()) {
+                    $state.go(to_state)
+                } else {
+                    showWarning()
+                }
             }
+        }
+
+        function showWarning() {
+            console.log('showWarning()');
+            $mdDialog.show({
+                controller: 'StateGoWarning',
+                controllerAs: 'vm',
+                templateUrl: 'components/state-go-warning/state-go-warning.html',
+                clickOutsideToClose: true
+            })
         }
     }
 })();

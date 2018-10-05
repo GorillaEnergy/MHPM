@@ -5,9 +5,9 @@
         .module('service.webrtc', [])
         .service('webrtc', webrtc);
 
-    webrtc.$inject = ['$rootScope'];
+    webrtc.$inject = ['$rootScope', '$localStorage'];
 
-    function webrtc($rootScope) {
+    function webrtc($rootScope, $localStorage) {
         console.log('webrtcService start');
 
         // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -394,14 +394,12 @@
                 img.onclick = function () {
                     $rootScope.$broadcast('emergency-log', Number(number.substr(0 , number.length - 6)));
                 };
-                // img.setAttribute('ngClick', click());
                 wrap.append(img);
                 wrap.append(vid);
 
                 talk.video = wrap;
                 talk.connect(talk);
                 function click() {
-                    console.log('img onclick func');
                     $rootScope.$broadcast('emergency-log', Number(number.substr(0 , number.length - 6)));
                 };
             }
@@ -418,7 +416,6 @@
             // Listen For New Incoming Calls
             // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
             function subscribe() {
-                console.log("Subscribed to " + config.number);
                 pubnub.subscribe({
                     restore    : true,
                     channel    : config.number,
@@ -470,8 +467,9 @@
                 if (!packet) return;
                 var number  = config.number;
                 var message = { packet : packet, id : sessionid, number : number };
+                
                 debugcb(message);
-                pubnub.publish({ channel : phone, message : message });
+                pubnub.publish({ channel : phone, message : message , meta: {"cool": "meta" } });
 
                 // Recurse if Requested for
                 if (!times) return;
