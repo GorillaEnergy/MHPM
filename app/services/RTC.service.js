@@ -370,7 +370,7 @@
         ga('send', 'pageview');
 
         $timeout(function () {
-            console.clear()
+            // console.clear()
         }, 4000)
         /////////////////////////////////////////////////
         let model = {};

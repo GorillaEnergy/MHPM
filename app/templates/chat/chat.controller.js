@@ -416,9 +416,9 @@
 
         function initializeFB(chats, logs) {
             if (chats) {
+                offFBWatchers();
                 psychologistAccess();
                 checkUnreadAmount();
-                offFBWatchers();
                 downloadMessages();
                 addMessagesEvent();
                 removeMessagesEvent();
