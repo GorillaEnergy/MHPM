@@ -418,7 +418,8 @@
             if (chats) {
                 offFBWatchers();
                 psychologistAccess();
-                checkUnreadAmount();
+                checkMissedNumber();
+                // checkUnreadAmount();
                 downloadMessages();
                 addMessagesEvent();
                 removeMessagesEvent();
@@ -822,6 +823,7 @@
             fb.ref('/chats/' + kid_id + '/' + psy_id + '/total_unread_kid').on('value', (snapshot) => {
                 $timeout(function () {
                     snapshot.val() ? total_unread_kid = Number(snapshot.val()) : total_unread_kid = 0;
+                    console.log('total_unread_kid = ', total_unread_kid);
                 })
             })
         }
