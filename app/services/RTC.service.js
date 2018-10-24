@@ -425,6 +425,7 @@
                     initDial()
                 }
 
+                //todo : need to rewrite
                 function initDial() {
                     fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set(true);
                     $timeout(function () {
