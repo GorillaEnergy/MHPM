@@ -18,7 +18,6 @@
     "angular-messages": "1.6.6",
     "angular-animate": "1.6.6",
     "angular-ui-calendar": "^1.0.2",
-    "webrtc-adapter": "^6.4.0",
     "jqueryui-touch-punch": "*"
   },
   "resolutions": {
