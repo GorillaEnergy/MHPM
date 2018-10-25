@@ -13,6 +13,7 @@
             incomingBusy: incomingBusy,
             incomingCall: incomingCall,
             warningStateGo: warningStateGo,
+            liveRoom: liveRoom,
             cancel: cancel
         };
 
@@ -45,12 +46,24 @@
         }
 
         function warningStateGo() {
-            $mdDialog.show({
+            return $mdDialog.show({
                 controller: 'StateGoWarning',
                 controllerAs: 'vm',
                 templateUrl: 'components/state-go-warning/state-go-warning.html',
                 clickOutsideToClose: true
-            })
+            });
+        }
+
+        function liveRoom(data) {
+            return $mdDialog.show({
+                controller: 'LiveRoomController',
+                controllerAs: 'vm',
+                locals: {
+                    data: data
+                },
+                templateUrl: 'components/live-room/live-room.html',
+                clickOutsideToClose: true,
+            });
         }
 
         return model;

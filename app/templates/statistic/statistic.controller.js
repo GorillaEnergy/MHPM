@@ -3,9 +3,9 @@
     angular.module('app')
         .controller('StatisticController', StatisticController);
 
-    StatisticController.$inject = ['$mdDialog', 'statisticService', 'my_chat', 'my_call', 'my_weekly'];
+    StatisticController.$inject = ['modalSvc', 'statisticService', 'my_chat', 'my_call', 'my_weekly'];
 
-    function StatisticController($mdDialog, statisticService, my_chat, my_call, my_weekly) {
+    function StatisticController(modalSvc, statisticService, my_chat, my_call, my_weekly) {
         let vm = this;
         console.log('StatisticController start');
 
@@ -13,21 +13,21 @@
         vm.editLiveRoom = editLiveRoom;
         vm.createLiveRoom = createLiveRoom;
 
-        getContent();
+        init();
 
-        function getContent () {
-           vm.my_statistic = {
-               chat: my_chat.chats,
-               call: my_call.calls,
-               time: {hours: '', min: ''},
-           };
-           prepTime(vm.my_statistic , my_call.time);
-           vm.weekly_statistic = {
-               chat: my_weekly.chats,
-               call: my_weekly.calls,
-               time: {hours: '', min: ''},
-           };
-            prepTime(vm.weekly_statistic , my_weekly.time);
+        function init() {
+            vm.my_statistic = {
+                chat: my_chat.chats,
+                call: my_call.calls,
+                time: {hours: '', min: ''},
+            };
+            prepTime(vm.my_statistic, my_call.time);
+            vm.weekly_statistic = {
+                chat: my_weekly.chats,
+                call: my_weekly.calls,
+                time: {hours: '', min: ''},
+            };
+            prepTime(vm.weekly_statistic, my_weekly.time);
             statisticService.getMyContent().then(function (data) {
                 vm.schedule = data.data;
             })
@@ -47,31 +47,21 @@
             };
             showLiveRoomDialog(data)
         }
+
         function toLive() {
             console.log('toLive');
         }
 
         function createLiveRoom() {
-            let data = { type: 'create' };
+            let data = {type: 'create'};
             showLiveRoomDialog(data)
         }
 
         function showLiveRoomDialog(data) {
-            $mdDialog.show({
-                controller: 'LiveRoomController',
-                controllerAs: 'vm',
-                locals: {
-                    data: data
-                },
-                templateUrl: 'components/live-room/live-room.html',
-                clickOutsideToClose: true,
-            }).then(function (res) {
-                    getContent();
-                    console.log('close dialog');
-                    console.log('res', res);
-                },
-                function () {
-                });
+            modalSvc.liveRoom(data).then(function (res) {
+                init();
+                console.log('res', res);
+            });
         }
     }
 })();

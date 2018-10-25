@@ -218,6 +218,7 @@
                 },
                 controller: DialogController
             });
+
             function DialogController($scope, $mdDialog, date, time) {
                 $scope.date = date;
                 $scope.time = time;
@@ -226,7 +227,6 @@
                     $mdDialog.hide();
                 }
             }
-
         };
 
         vm.deleteEvent = function () {
