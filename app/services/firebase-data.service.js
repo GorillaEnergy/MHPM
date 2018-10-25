@@ -78,7 +78,7 @@
         }
 
         function onRemoveMessagesEvent(kid_id, psy_id, callback) {
-            b.ref('/chats/' + kid_id + '/' + psy_id + '/messages').on('child_removed', (snapshot) => {
+            fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').on('child_removed', (snapshot) => {
                 callback(snapshot.val());
             });
         }

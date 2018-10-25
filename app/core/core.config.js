@@ -92,51 +92,5 @@
                 }
 
             })
-            .state('tabs.call-test', {
-                url: '/call-test',
-                templateUrl: 'templates/call/call.html',
-                controller: 'CallController',
-                controllerAs: 'vm'
-            })
-            .state('tabs.call2', {
-                url: '/call2',
-                templateUrl: 'templates/call2/call2.html',
-                controller: 'Call2Controller',
-                controllerAs: 'vm'
-            })
-            .state('tabs.call3', {
-                url: '/call3',
-                templateUrl: 'templates/call3/call3.html',
-                controller: 'Call3Controller',
-                controllerAs: 'vm',
-                resolve: {
-                    consultants: function (userService) {
-                        return userService.getConsultantList();
-                    },
-                    kids: function (userService) {
-                        return userService.getKidsList();
-                    }
-                }
-            })
-            .state('tabs.video-chat-test', {
-                url: '/video-chat-test',
-                templateUrl: 'templates/call4/call4.html',
-                controller: 'Call4Controller',
-                controllerAs: 'vm',
-                resolve: {
-                    consultants: function (userService) {
-                        return userService.getConsultantList();
-                    },
-                    kids: function (userService) {
-                        return userService.getKidsList();
-                    }
-                }
-            })
-            .state('tabs.call5', {
-                url: '/call5',
-                templateUrl: 'templates/call5/call5.html',
-                controller: 'Call5Controller',
-                controllerAs: 'vm'
-            })
     }
 })();
