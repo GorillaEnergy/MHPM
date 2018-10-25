@@ -10,20 +10,10 @@
         ])
         .run(runBlock);
 
-    runBlock.$inject = ['webrtc', 'rtcController', 'RTCService'];
+    runBlock.$inject = ['webrtc', 'rtcController', 'RTCService','firebaseSvc'];
 
-    function runBlock(webrtc, rtcController, RTCService) {
+    function runBlock(webrtc, rtcController, RTCService, firebaseSvc) {
         // console.log('runBlock start');
-
-        let config = {
-            apiKey: "AIzaSyCPyHbouuqslfJIbAynfdeCHlJb_2tJw9M",
-            authDomain: "mind-hero-96b57.firebaseapp.com",
-            databaseURL: "https://mind-hero-96b57.firebaseio.com",
-            projectId: "mind-hero-96b57",
-            storageBucket: "mind-hero-96b57.appspot.com",
-            messagingSenderId: "19872374786"
-        };
-        firebase.initializeApp(config);
-
+        firebaseSvc.init();
     }
 })();

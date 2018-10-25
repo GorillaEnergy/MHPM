@@ -15,6 +15,8 @@
         'service.consultantService',
         'service.kidService',
         'service.logsService',
+        'service.firebaseSvc',
+        'service.firebaseDataSvc',
     ]);
 
 })();

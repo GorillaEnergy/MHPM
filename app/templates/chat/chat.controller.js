@@ -5,11 +5,11 @@
 
     ChatController.$inject = ['$localStorage', '$state', '$timeout', 'consultants', 'kids', 'authService', 'dateConverter',
         'consultantService', 'statisticService', 'userService', '$mdDialog', '$rootScope', 'toastr',
-        'kidService', 'RTCService'];
+        'kidService', 'RTCService', 'firebaseDataSvc'];
 
     function ChatController($localStorage, $state, $timeout, consultants, kids, authService, dateConverter,
                             consultantService, statisticService, userService, $mdDialog, $rootScope, toastr,
-                            kidService, RTCService) {
+                            kidService, RTCService, firebaseDataSvc) {
         let vm = this;
         console.log('ChatController start');
 
@@ -35,8 +35,6 @@
         vm.leaveThisChat = leaveThisChat;
         vm.selectUserInMulti = selectUserInMulti;
         vm.hangup = hangup;
-
-        let fb = firebase.database();
 
         // vm.users = usersFilter(kids, consultants);
         vm.users = kids;                //kid_list
@@ -158,11 +156,11 @@
                 }
 
             }
-            
+
             function formUserList() {
                 vm.userList = [];
 
-                for (let i = 0; i<data.users.length; i++) {
+                for (let i = 0; i < data.users.length; i++) {
                     let opponent_id = Number(data.users[i].user.substr(0, data.users[i].user.length - 6));
                     vm.userList.push(kidsObj[opponent_id]);
                 }
@@ -432,10 +430,10 @@
 
         ////////////////// access ///////////////////////
         function psychologistAccess() {
-            fb.ref('/chats/' + kid_id + '/' + psy_id + '/access').on('value', (snapshot) => {
+            firebaseDataSvc.psychologAccess(kid_id, psy_id, (res) => {
                 $timeout(function () {
-                    snapshot.val() === false ? access = false : access = true;
-                })
+                    res === false ? access = false : access = true;
+                });
             });
         }
 
@@ -451,9 +449,9 @@
 
         function watchOnline(users) {
             angular.forEach(users, function (user, key) {
-                fb.ref('/WebRTC/users/' + user.id + '/online').on('value', (snapshot) => {
+                firebaseDataSvc.watchOnline(user.id, (snapshot) => {
                     $timeout(function () {
-                        if (snapshot.val()) {
+                        if (snapshot) {
                             vm.userOnlineStatusArr[key] = true;
                         } else {
                             vm.userOnlineStatusArr[key] = false;
@@ -594,8 +592,8 @@
             if (!access) {
                 toastr.error('User blocked you')
             } else if (vm.message_input) {
-                fb.ref('/chats/' + kid_id + '/' + psy_id + '/total_unread_kid').set(total_unread_kid + 1);
-                fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').push(data);
+                firebaseDataSvc.setTotalUnreadKid(kid_id, psy_id, total_unread_kid + 1);
+                firebaseDataSvc.setMessages(kid_id, psy_id, data);
                 vm.message_input = '';
                 addStatisticChat(data)
             }
@@ -717,8 +715,7 @@
                 !soloKey ? markAsRead(unreadMsgsKeysArr) : markAsRead([soloKey]);
 
                 $timeout(function () {
-                    fb.ref('/chats/' + kid_id + '/' + psy_id + '/total_unread_psy').set(total_unread - local_unread);
-
+                    firebaseDataSvc.setTotalUnreadPsy(kid_id, psy_id, total_unread - local_unread);
                     local_unread = 0;
                     unreadMsgsKeysArr = [];
                 }, 200);
@@ -727,22 +724,20 @@
 
         function markAsRead(keys) {
             angular.forEach(keys, function (key) {
-                fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages/' + key + '/read').set(true);
+                firebaseDataSvc.setMarkAsRead(kid_id, psy_id, key);
             })
         }
 
         function offFBWatchers() {
             console.log('offFBWatchers');
-            fb.ref('/chats/' + kid_id + '/' + psy_id + '/access').off();
-            fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').off();
-            fb.ref('/logs/' + kid_id).off();
+            firebaseDataSvc.removeWatch(kid_id, psy_id);
         }
 
         function downloadMessages() {
             post_is_last = false;
-            fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').limitToLast(number_of_posts).once('value', (snapshot) => {
+            firebaseDataSvc.getMessages(kid_id, psy_id, number_of_posts, (snapshot) => {
                 $timeout(function () {
-                    snapshot.val() ? vm.messages = convertToArray(snapshot.val(), 'primary_loading') : vm.messages = [];
+                    snapshot ? vm.messages = convertToArray(snapshot, 'primary_loading') : vm.messages = [];
                     scrollToBottom();
                     // console.log(angular.copy(vm.messages));
                 })
@@ -752,15 +747,15 @@
         function downloadMoreMessages() {
             vm.loadMessages = true;
             let last = vm.messages[0].date;
-            fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').orderByChild("date").endAt(last).limitToLast(download_more + 1).once('value', (snapshot) => {
-                anchorScroll(snapshot.val());
+            firebaseDataSvc.getMoreMessages(kid_id, psy_id, last, download_more + 1, (snapshot) => {
+                anchorScroll(snapshot);
                 vm.loadMessages = false;
             })
         }
 
         function addMessagesEvent() {
             console.log('addMessagesEvent');
-            fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').limitToLast(1).on('child_added', (snapshot) => {
+            firebaseDataSvc.onMessagesEvent(kid_id, psy_id, (snapshot) => {
                 $timeout(function () {
                     let push_status = true;
                     let added_message = snapshot.val();
@@ -781,9 +776,9 @@
 
         function removeMessagesEvent() {
             console.log('removeMessagesEvent');
-            fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').on('child_removed', (snapshot) => {
+            firebaseDataSvc.onRemoveMessagesEvent(kid_id, psy_id, (snapshot) => {
                 $timeout(function () {
-                    let changed_message = snapshot.val();
+                    let changed_message = snapshot;
                     for (let i = 0; i < vm.messages.length; i++) {
                         if (vm.messages[i].date === changed_message.date) {
                             console.log(angular.copy(vm.messages));
@@ -799,10 +794,10 @@
 
         function changeMessagesEvent() {
             console.log('changeMessagesEvent');
-            fb.ref('/chats/' + kid_id + '/' + psy_id + '/messages').on('child_changed', (snapshot) => {
+            firebaseDataSvc.onChangeMessagesEvent(kid_id, psy_id, (snapshot) => {
                 $timeout(function () {
-                    let changed_message = snapshot.val();
-                    console.log('message changed ', snapshot.val());
+                    let changed_message = snapshot;
+                    console.log('message changed ', snapshot);
                     for (let i = 0; i < vm.messages.length; i++) {
                         if (vm.messages[i].date === changed_message.date) {
                             vm.messages[i] = changed_message;
@@ -815,23 +810,23 @@
 
         function checkMissedNumber() {
             console.log('checkMissedNumber');
-            fb.ref('/chats/' + kid_id + '/' + psy_id + '/total_unread_psy').on('value', (snapshot) => {
+            firebaseDataSvc.onCheckMissedNumberPsy( kid_id, psy_id, (snapshot) => {
                 $timeout(function () {
-                    snapshot.val() ? total_unread = Number(snapshot.val()) : total_unread = 0;
+                    snapshot ? total_unread = Number(snapshot) : total_unread = 0;
                 })
             });
-            fb.ref('/chats/' + kid_id + '/' + psy_id + '/total_unread_kid').on('value', (snapshot) => {
+            firebaseDataSvc.onCheckMissedNumberChild( kid_id, psy_id, (snapshot) => {
                 $timeout(function () {
-                    snapshot.val() ? total_unread_kid = Number(snapshot.val()) : total_unread_kid = 0;
+                    snapshot ? total_unread_kid = Number(snapshot) : total_unread_kid = 0;
                     console.log('total_unread_kid = ', total_unread_kid);
                 })
             })
         }
 
         function downloadLogs() {
-            fb.ref('/logs/' + kid_id).limitToLast(number_of_logs).on('value', (snapshot) => {
+            firebaseDataSvc.onLogs(kid_id, number_of_logs,  (snapshot) => {
                 $timeout(function () {
-                    snapshot.val() ? vm.logs = convertToArray(snapshot.val(), null, true) : vm.logs = [];
+                    snapshot ? vm.logs = convertToArray(snapshot, null, true) : vm.logs = [];
                     // console.log(angular.copy(vm.logs));
                 })
             });
@@ -913,9 +908,9 @@
                     logs: null,
                     consultants: consultantsObj
                 };
-                fb.ref('/logs/' + kid.id).limitToLast(number_of_logs).on('value', (snapshot) => {
+               firebaseDataSvc.onComment(kid.id, number_of_logs,(snapshot) => {
                     $timeout(function () {
-                        snapshot.val() ? data.logs = convertToArray(snapshot.val(), null, true) : data.logs = [];
+                        snapshot ? data.logs = convertToArray(snapshot, null, true) : data.logs = [];
                         showDialog();
                     })
                 });
@@ -969,6 +964,7 @@
                 }
             );
         }
+
         /////////////////////////// leave video chat /////////////////////////
 
         function hangup() {
