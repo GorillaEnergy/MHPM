@@ -471,7 +471,7 @@
                 }
 
                 function error(info) {
-                    alert('Your browser not support webcam and microphone! Please check you enable or plug webcam and microphone');
+                    alert('Your browser not support webcam and microphone! Please check you connected and enable webcam and microphone');
                     debugcb(info);
                     return unablecb(info);
                 }
