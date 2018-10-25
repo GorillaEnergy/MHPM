@@ -6,14 +6,13 @@
             'blocks.request',
             'blocks.services',
             'blocks.filters',
-
         ])
         .run(runBlock);
 
-    runBlock.$inject = ['webrtc', 'rtcController', 'RTCService','firebaseSvc'];
+    runBlock.$inject = ['webrtc', 'rtcController', 'RTCService','firebaseSvc', 'utilsSvc'];
 
-    function runBlock(webrtc, rtcController, RTCService, firebaseSvc) {
-        // console.log('runBlock start');
+    function runBlock(webrtc, rtcController, RTCService, firebaseSvc, utilsSvc) {
         firebaseSvc.init();
+        utilsSvc.init();
     }
 })();

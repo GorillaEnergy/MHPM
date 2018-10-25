@@ -3,9 +3,7 @@
 
     angular.module('blocks.request', [
         'factory.url',
-        'factory.request',
-        'factory.survey',
-        'factory.tabs',
+        'factory.request'
     ]);
 
 })();

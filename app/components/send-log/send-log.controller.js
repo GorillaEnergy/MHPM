@@ -12,7 +12,6 @@
         console.log(data);
 
         let kid_id = data.kid.id;
-        let fb = firebase.database();
 
         vm.kidName = data.kid.name;
         vm.logs = data.logs;

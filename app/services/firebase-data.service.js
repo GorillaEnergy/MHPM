@@ -24,7 +24,13 @@
             onCheckMissedNumberPsy: onCheckMissedNumberPsy,
             onCheckMissedNumberChild: onCheckMissedNumberChild,
             onLogs: onLogs,
-            onComment: onComment
+            onComment: onComment,
+            setOnlineStatus: setOnlineStatus,
+            watchInvites: watchInvites,
+            getUserMetadata: getUserMetadata,
+            getLogs: getLogs,
+            setAnswer:setAnswer,
+            removeMetadata: removeMetadata
         };
 
         var fb = firebaseSvc.db();
@@ -101,14 +107,14 @@
             });
         }
 
-        function onLogs(kid_id, number_of_logs,  callback) {
+        function onLogs(kid_id, number_of_logs, callback) {
             fb.ref('/logs/' + kid_id).limitToLast(number_of_logs).on('value', (snapshot) => {
                 callback(snapshot.val());
             });
         }
 
         function onComment(kid_id, number_of_logs, callback) {
-            fb.ref('/logs/' + kid_id).limitToLast(number_of_logs).on('value',(snapshot) => {
+            fb.ref('/logs/' + kid_id).limitToLast(number_of_logs).on('value', (snapshot) => {
                 callback(snapshot.val());
             });
         }
@@ -121,7 +127,36 @@
             });
         }
 
+        function watchInvites(user_id, callback) {
+            fb.ref('/WebRTC/users/' + user_id + '/metadata/invite').on('value', (snapshot) => {
+                callback(snapshot.val());
+            });
+        }
 
+        function getUserMetadata(user_id, callback) {
+            fb.ref('/WebRTC/users/' + user_id + '/metadata').once('value', (snapshot) => {
+                callback(snapshot.val());
+            });
+        }
+
+        function setOnlineStatus(user_id, status) {
+            fb.ref('/WebRTC/users/' + user_id + '/online').set(status);
+            console.log(status && 'Online' || !status && 'Offline');
+        }
+
+        function getLogs(opponent_id, limit, callback) {
+            fb.ref('/logs/' + opponent_id).limitToLast(limit).once('value', (snapshot) => {
+                callback(snapshot.val());
+            });
+        }
+        
+        function setAnswer(user_id, answer) {
+            fb.ref('/WebRTC/users/' + user_id + '/metadata/answer').set(answer);
+        }
+
+        function removeMetadata(user_id) {
+            fb.ref('/WebRTC/users/' + user_id + '/metadata').remove();
+        }
 
         return model;
     }

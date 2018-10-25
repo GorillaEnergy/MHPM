@@ -5,38 +5,50 @@
         .service('RTCService', RTCService);
 
     RTCService.$inject = ['$localStorage', '$timeout', '$rootScope', '$window', '$mdDialog', 'consultantService', '$state',
-                          'toastr', 'statisticService'];
+        'toastr', 'statisticService', 'firebaseDataSvc', 'utilsSvc', 'modalSvc'];
 
     function RTCService($localStorage, $timeout, $rootScope, $window, $mdDialog, consultantService, $state,
-                        toastr, statisticService) {
+                        toastr, statisticService, firebaseDataSvc, utilsSvc, modalSvc) {
         console.log('RTCService start');
+
+        var video_out;
+        var vid_thumb;
+        let vidCount = 0;
+        let userActivityArr = [];
 
         let user;
         let localStream;
         let remoteStream;
-        let channelName;
         let reconnectAccess = true;
         let reconnect;
-        let popup;
         let access_to_state_go = true;
+        const USER_CHECK_PERIOD = (1 * 1000);
+        const TIME_RECONNECT = (30*1000);
 
-        UserChecker();
+        const PUB_CONFIG = {
+            number: "Anonymous", // listen on username line else Anonymous
+            publish_key: 'pub-c-561a7378-fa06-4c50-a331-5c0056d0163c', // Your Pub Key
+            subscribe_key: 'sub-c-17b7db8a-3915-11e4-9868-02ee2ddab7fe', // Your Sub Key
+            // subscribe_key : 'sub-c-0d440624-9fdc-11e8-b377-126307b646dc', // Your Sub Key
+            // publish_key   : 'pub-c-7ea57229-5447-4f4e-ba45-0baa9734f35e', // Your Pub Key
+            ssl: true
+        };
+
+        init();
+
+        function init() {
+            UserChecker();
+        }
 
         function UserChecker() {
-            let userTimer = setInterval(timer, 1000);
-
-            function timer() {
+            let checkUserInterval = setInterval(function () {
                 if ($localStorage.user) {
                     user = $localStorage.user;
                     onlineChanger(true);
-                    initFB();
-                    myStopFunction()
+                    watchInvites();
+                    clearInterval(checkUserInterval);
                 }
-            }
-
-            function myStopFunction() {
-                clearInterval(userTimer);
-            }
+            }, USER_CHECK_PERIOD);
         }
 
         $(window).on('beforeunload', function () {
@@ -46,71 +58,45 @@
         });
 
         function onlineChanger(status) {
-            if (!status) {
-                console.log('offline!');
-                firebase.database().ref('/WebRTC/users/' + user.id + '/online').set(status);
-            } else {
-                $timeout(function () {
-                    console.log('online!');
-                    firebase.database().ref('/WebRTC/users/' + user.id + '/online').set(status);
-                })
-            }
-        }
-
-
-        function initFB() {
-            watchInvites()
+            firebaseDataSvc.setOnlineStatus(user.id, status);
         }
 
         function watchInvites() {
-            let fb = firebase.database();
-            fb.ref('/WebRTC/users/' + user.id + '/metadata/invite').on('value', (snapshot) => {
-                $timeout(function () {
-                    if (snapshot.val()) {
-
-                        fb.ref('/WebRTC/users/' + user.id + '/metadata').once('value', (snapshot) => {
-                            $timeout(function () {
-                                let opponent_nick = snapshot.val().invite_from;
-                                let opponent_room = snapshot.val().invite;
-                                let opponent_id = snapshot.val().number;
-
-                                if (!remoteStream) {
-                                    incomingCallMsg(opponent_nick, opponent_id, opponent_room);
-
-                                } else {
-                                    incomingOnBusy(opponent_nick, opponent_id, opponent_room);
-                                }
-                            });
-                        })
-
-                    }
-                })
+            firebaseDataSvc.watchInvites(user.id, (snapshot) => {
+                if (snapshot) {
+                    firebaseDataSvc.getUserMetadata(user.id, (snapshot) => {
+                        $timeout(function () {
+                            let opponent_nick = snapshot.invite_from;
+                            let opponent_room = snapshot.invite;
+                            let opponent_id = snapshot.number;
+                            if (!remoteStream) {
+                                incomingCallMsg(opponent_nick, opponent_id, opponent_room);
+                            } else {
+                                incomingOnBusy(opponent_nick, opponent_id, opponent_room);
+                            }
+                        });
+                    })
+                }
             });
         }
 
         function dialing(type, your_name, opponent_nick, opponent_name) {
             //initRTC || joinRTC, your_room, opponent_nick, opponent_room
             // console.log(user);
-
             $timeout(function () {
                 video_out = document.getElementById("vid-box");   //remote stream
                 vid_thumb = document.getElementById("vid-thumb"); // local stream
-
                 // console.log(your_name, opponent_nick, opponent_name);
-
                 if (!localStream) {
                     errWrap(login, your_name);
                 }
-
                 // if (type === 'joinRTC') {
                 //     $timeout(function () {
                 //         // console.log('makeCall to ', opponent_nick);
                 //         errWrap(makeCall, opponent_nick);
                 //     }, 3000)
                 // }
-
             }, 1000);
-
         }
 
 
@@ -118,20 +104,16 @@
             reconnect = true;
             $timeout(function () {
                 reconnect = false;
-            }, 30000);
+            }, TIME_RECONNECT);
 
             let timer = setInterval(timerFnc, 1000);
 
             function timerFnc() {
                 console.log(reconnect);
                 if (!reconnect) {
-                    stopTimer()
+                    resetReconnectPermission();
+                    clearInterval(timer)
                 }
-            }
-
-            function stopTimer() {
-                resetReconnectPermission();
-                clearInterval(timer)
             }
         }
 
@@ -141,34 +123,20 @@
             $timeout(function () {
                 reconnectAccess = true;
             }, 5000);
-
         }
 
         // ///////////////////////////////////////////////////////////////////////////////////////////
-
-        var video_out;
-        var vid_thumb;
-        let vidCount = 0;
-        let userActivityArr = [];
 
         function login(username) {
             access_to_state_go = false;
             localStream = true;
             console.log('login function');
-            var phone = window.phone = PHONE({
-                number: username || "Anonymous", // listen on username line else Anonymous
-                publish_key: 'pub-c-561a7378-fa06-4c50-a331-5c0056d0163c', // Your Pub Key
-                subscribe_key: 'sub-c-17b7db8a-3915-11e4-9868-02ee2ddab7fe', // Your Sub Key
-                // subscribe_key : 'sub-c-0d440624-9fdc-11e8-b377-126307b646dc', // Your Sub Key
-                // publish_key   : 'pub-c-7ea57229-5447-4f4e-ba45-0baa9734f35e', // Your Pub Key
-                ssl: true
-            });
+            PUB_CONFIG.number = username;
+            var phone = window.phone = PHONE(PUB_CONFIG);
             phone.debug(function (res) {
-                console.log('ERRORR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',res);
+                console.log('ERRORR >>>>>------------------------>>>>>', res);
             });
-
             var ctrl = window.ctrl = CONTROLLER(phone);
-
             ctrl.ready(function () {
                 ctrl.addLocalStream(vid_thumb);
                 addLog("Logged in as " + username);
@@ -203,15 +171,12 @@
 
             function activityCalc(name, join) {
                 let index;
-
                 search(name, join);
+
                 function search(name, join) {
-                    for (let i = 0; i < userActivityArr.length; i++) {
-                        if (userActivityArr[i].user == name) {
-                            index = i;
-                            break;
-                        }
-                    }
+                    index = userActivityArr.findIndex( (v,i) => {
+                        return v.name == name;
+                    });
                     change(name, join);
                 }
 
@@ -222,40 +187,23 @@
                         setCallLength(userActivityArr[index]);
                         userActivityArr.splice(index, 1);
                     }
-
                     vidCalc(name, join)
                 }
 
                 function setCallLength(data) {
-                    let start, end, total_second, total_minutes, total_hours, total, id, send_data;
-                    id = Number(data.user.substr(0 , name.length - 6));
-
-                    start = data.start_time;
-                    end = new Date();
-                    total_second = Math.floor((end - start) / 1000);
-                    total_minutes = Math.floor(total_second / 60);
-                    total_hours = Math.floor(total_minutes / 60);
-                    total_minutes =  total_minutes - total_hours * 60;
-
-                    if (total_minutes < 10) { total_minutes = '0' + total_minutes}
-                    if (total_hours < 10) { total_hours = '0' + total_hours}
-
-                    total = total_hours + ':' + total_minutes;
-                    console.log(total);
-
-                    send_data = {
-                        type: "call",
+                    let total =  utilsSvc.totalTime(data);
+                    let send_data = {
+                        type: 'call',
                         add_info: {
-                            interlocutor_id: id,
+                            interlocutor_id: Number(data.user.substr(0, name.length - 6)),
                             time: total
                         }
                     };
-
+                    console.log(total);
                     if (total !== '00:00') {
                         console.log('send statistic');
                         statisticService.addStatistic(send_data)
                     }
-
                 }
 
                 function vidCalc(name, join) {
@@ -271,7 +219,7 @@
 
                         let data = {
                             type: null,
-                            kid_id: Number(name.substr(0 , name.length - 6)),
+                            kid_id: Number(name.substr(0, name.length - 6)),
                             join: join,
                             users: userActivityArr
                         };
@@ -286,7 +234,6 @@
                     }
                 }
             }
-
             return false;
         }
 
@@ -327,6 +274,7 @@
         function end() {
             ctrl.hangup();
         }
+
         function hardEnd() {
             end();
             $timeout(function () {
@@ -368,54 +316,29 @@
             a.src = g;
             m.parentNode.insertBefore(a, m)
         })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-
         ga('create', 'UA-46933211-3', 'auto');
         ga('send', 'pageview');
 
-        $timeout(function () {
-            // console.clear()
-        }, 4000)
         /////////////////////////////////////////////////
-        let model = {};
-
-        model.incomingCallMsg = incomingCallMsg;
-        model.callTo = callTo;
-        model.signalLost = signalLost;
-        model.closeStream = closeStream;
-        model.accessToGo = accessToGo;
-
-        return model;
 
 
         function incomingCallMsg(nick, id, room) {
-            let fb = firebase.database();
-
-            let data = {
-                opponent_name: nick
-            };
-
-            $mdDialog.show({
-                controller: 'IncomingCallController',
-                controllerAs: 'vm',
-                locals: {
-                    data: data
-                },
-                templateUrl: 'components/incoming-call/incoming-call.html',
-                clickOutsideToClose: false,
-            }).then(function (res) {
+            modalSvc.incomingCall(
+                {
+                    opponent_name: nick
+                }
+                ).then(function (res) {
                     if (res.accept === true) {
                         accept(nick, id, room)
                     } else {
                         reject(nick, id, room)
                     }
-                },
-                function () {}
+                }
             );
 
             function accept(nick, id, room) {
                 // console.log("accept");
                 // console.log(nick, id, room);
-
                 if ($state.current.name !== 'tabs.chat') {
                     // console.log('to chat');
                     $state.go('tabs.chat', {to_call: true});
@@ -430,78 +353,48 @@
 
                 //todo : need to rewrite
                 function initDial() {
-                    fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set(true);
+                    firebaseDataSvc.setAnswer(user.id, true);
                     $timeout(function () {
-                        fb.ref('/WebRTC/users/' + user.id + '/metadata').remove();
+                        firebaseDataSvc.removeMetadata(user.id);
                     }, 3000);
 
                     let self_room = user.id + 'mhuser';
                     // dialing(type, your_room, opponent_nick, opponent_room)
                     dialing('initRTC', self_room, nick, room)
                 }
-
             }
+
             function reject() {
-                // console.log("reject");
-                let fb = firebase.database();
-                fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set(false);
+                firebaseDataSvc.setAnswer(user.id, false);
                 $timeout(function () {
-                    fb.ref('/WebRTC/users/' + user.id + '/metadata').remove();
-                }, 100)
-
+                    firebaseDataSvc.removeMetadata(user.id);
+                }, 100);
             }
-
         }
 
         function incomingOnBusy(opponent_name, opponent_id) {
-            let fb = firebase.database();
-
             let data = {
                 opponent_name: opponent_name,
                 kid_id: opponent_id
             };
 
             consultantService.list().then(function (res) {
-                if (res.status === 'success') {
-                    data.consultants = res.data;
-                    loadLogs()
-                } else {
-                    data.consultants = [];
-                    loadLogs()
-                }
+                data.consultants = res.status === 'success' ? res.data : [];
+                loadLogs();
             });
 
             function loadLogs() {
-                fb.ref('/logs/' + opponent_id).limitToLast(10).once('value', (snapshot) => {
+                firebaseDataSvc.getLogs(opponent_id, 10, (snapshot) => {
                     $timeout(function () {
-                        // console.log(angular.copy(snapshot.val()));
-                        snapshot.val() ? data.logs = convertToArray(snapshot.val()) : data.logs = [];
+                        data.logs = snapshot ? utilsSvc.objToArr(snapshot).reverse() : [];
                         showDialog(data);
-                    })
+                    });
                 });
-            }
-
-            function convertToArray(data) {
-                let res = [];
-                let arrOfKeys = Object.keys(data);
-                angular.forEach(arrOfKeys ,function (key) {
-                    res.push(data[key]);
-                });
-
-                return res.reverse();
             }
 
             function showDialog(data) {
                 // console.log(data);
-                $mdDialog.show({
-                    controller: 'IncomingOnBusyController',
-                    controllerAs: 'vm',
-                    locals: {
-                        data: data
-                    },
-                    templateUrl: 'components/incoming-on-busy/incoming-on-busy.html',
-                    clickOutsideToClose: false,
-                }).then(function (res) {
+                modalSvc.incomingBusy(data).then(function (res) {
                         if (res.accept === true) {
                             accept(opponent_name, opponent_id, null)
                         } else if (res.accept === 'chat') {
@@ -509,48 +402,39 @@
                         } else {
                             reject()
                         }
-                    },
-                    function () {}
+                    }
                 );
 
                 function accept(nick, id, room) {
                     // console.log("accept");
                     // console.log(nick, id, room);
-
-                    fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set('add');
+                    firebaseDataSvc.setAnswer(user.id, 'add');
                     $timeout(function () {
-                        fb.ref('/WebRTC/users/' + user.id + '/metadata').remove();
+                        firebaseDataSvc.removeMetadata(user.id);
                     }, 100);
-
-                    let self_room = user.id + 'mhuser';
-
-                    // toastr.info('Under development')
-
                 }
+
                 function chat(nick, id, room) {
                     // console.log("chat");
-                    fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set('chat');
+                    firebaseDataSvc.setAnswer(user.id, 'chat');
                     $timeout(function () {
-                        fb.ref('/WebRTC/users/' + user.id + '/metadata').remove();
+                        firebaseDataSvc.removeMetadata(user.id);
                     }, 100);
 
-                    let data = {
+                    $rootScope.$broadcast('chat-type', {
                         type: 3,
                         kid_id: id,
                         join: false,
                         users: userActivityArr
-                    };
-                    $rootScope.$broadcast('chat-type', data)
-
+                    });
                 }
+
                 function reject() {
                     // console.log("reject");
-                    fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set(false);
+                    firebaseDataSvc.setAnswer(user.id, false);
                     $timeout(function () {
-                        fb.ref('/WebRTC/users/' + user.id + '/metadata').remove();
+                        firebaseDataSvc.removeMetadata(user.id);
                     }, 100);
-
-
                 }
             }
         }
@@ -566,12 +450,21 @@
         }
 
         function closeStream() {
-            hardEnd()
+            hardEnd();
         }
 
         function accessToGo() {
             return access_to_state_go;
         }
 
+
+        let model = {};
+        model.incomingCallMsg = incomingCallMsg;
+        model.callTo = callTo;
+        model.signalLost = signalLost;
+        model.closeStream = closeStream;
+        model.accessToGo = accessToGo;
+
+        return model;
     }
 })();

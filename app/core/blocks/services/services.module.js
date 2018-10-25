@@ -17,6 +17,8 @@
         'service.logsService',
         'service.firebaseSvc',
         'service.firebaseDataSvc',
+        'service.utilsSvc',
+        'service.modalSvc'
     ]);
 
 })();
