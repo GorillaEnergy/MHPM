@@ -31,7 +31,8 @@
                     audio: true,
                     video: {
                         width: {max: 680},
-                        height: {max: 480}
+                        height: {max: 480},
+                        frameRate: { max: 15 },
                     }
                 };
             var conversations = {};
@@ -404,7 +405,12 @@
                 // Video Settings
                 video.width = snap.width;
                 video.height = snap.height;
-                video.src = URL.createObjectURL(stream);
+                // video.src = URL.createObjectURL(stream);
+                try {
+                    video.srcObject = stream;
+                } catch (error) {
+                    video.src = URL.createObjectURL(stream);
+                }
                 video.volume = 0.0;
                 video.play();
 
@@ -436,7 +442,13 @@
                 vid.setAttribute('autoplay', 'autoplay');
                 vid.setAttribute('data-number', number);
                 vid.setAttribute('id', number);
-                vid.src = URL.createObjectURL(stream);
+                // vid.src = URL.createObjectURL(stream);
+
+                try {
+                    vid.srcObject = stream;
+                } catch (error) {
+                    vid.src = URL.createObjectURL(stream);
+                }
 
                 let wrap = document.createElement('div');
                 wrap.setAttribute('id', number);
@@ -466,6 +478,7 @@
             function onicecandidate(event) {
                 if (!event.candidate) return;
                 transmit(this.number, event.candidate);
+                // transmit(PHONE.number(), event.candidate);
             }
 
             // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -509,7 +522,7 @@
                 }
                 // window.navigator.getUserMedia( mediaconf, function(stream) {
                 if (window.navigator.mediaDevices && window.navigator.mediaDevices.getUserMedia) {
-                    window.navigator.mediaDevices.getUserMedia(mediaconf).then(succcess).catch(error);
+                    window.navigator.mediaDevices.getUserMedia(mediaconf).then(success).catch(error);
                 } else {
                     window.navigator.getUserMedia(mediaconf,
                         function (stream) {

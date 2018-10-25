@@ -72,7 +72,12 @@
 
             function broadcast(vid){
                 var video = document.createElement('video');
-                video.src    = URL.createObjectURL(phone.mystream);
+                // video.src    = URL.createObjectURL(phone.mystream);
+                try {
+                    video.srcObject = phone.mystream;
+                } catch (error) {
+                    video.src = URL.createObjectURL(phone.mystream);
+                }
                 video.volume = 0.0;
                 video.play();
                 video.setAttribute( 'autoplay', 'autoplay' );
