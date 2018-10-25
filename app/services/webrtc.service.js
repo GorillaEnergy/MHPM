@@ -54,11 +54,12 @@
             // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
             // Local Microphone and Camera Media (one per device)
             // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-            navigator.getUserMedia =
-                navigator.getUserMedia       ||
-                navigator.webkitGetUserMedia ||
-                navigator.mozGetUserMedia    ||
-                navigator.msGetUserMedia;
+            // navigator.getUserMedia =
+           window.navigator.getUserMedia  =
+                window.navigator.getUserMedia       ||
+                window.navigator.webkitGetUserMedia ||
+                window.navigator.mozGetUserMedia    ||
+                window.navigator.msGetUserMedia;
 
             // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
             // STUN Server List Configuration (public STUN list)
@@ -72,8 +73,8 @@
                     optional: []
                 },*/
                 iceServers : [{ "url" :
-                        navigator.mozGetUserMedia    ? "stun:stun.services.mozilla.com" :
-                            navigator.webkitGetUserMedia ? "stun:stun.l.google.com:19302"   :
+                        window.navigator.mozGetUserMedia    ? "stun:stun.services.mozilla.com" :
+                            window.navigator.webkitGetUserMedia ? "stun:stun.l.google.com:19302"   :
                                 "stun:23.21.150.121"
                 },
                     {url: "stun:stun.l.google.com:19302"},
@@ -447,17 +448,33 @@
                     subscribe();
                     return;
                 }
-                navigator.getUserMedia( mediaconf, function(stream) {
+                // window.navigator.getUserMedia( mediaconf, function(stream) {
+                if( window.navigator.mediaDevices && window.navigator.mediaDevices.getUserMedia){
+                    window.navigator.mediaDevices.getUserMedia(mediaconf).then(succcess).catch(error);
+                } else {
+                    window.navigator.getUserMedia( mediaconf,
+                        function(stream) {
+                            succcess(stream);
+                        }, function(info) {
+                            error(info);
+                        } );
+
+                }
+
+                function succcess(stream) {
                     if (!stream) return unablecb(stream);
                     mystream = stream;
                     phone.mystream = stream;
                     snapshots_setup(stream);
                     onready();
                     subscribe();
-                }, function(info) {
+                }
+
+                function error(info) {
                     debugcb(info);
                     return unablecb(info);
-                } );
+                }
+
             }
 
             // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-

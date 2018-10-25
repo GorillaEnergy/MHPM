@@ -163,6 +163,9 @@
                 // publish_key   : 'pub-c-7ea57229-5447-4f4e-ba45-0baa9734f35e', // Your Pub Key
                 ssl: true
             });
+            phone.debug(function (res) {
+                console.log('ERRORR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',res);
+            });
 
             var ctrl = window.ctrl = CONTROLLER(phone);
 
@@ -430,7 +433,7 @@
                     fb.ref('/WebRTC/users/' + user.id + '/metadata/answer').set(true);
                     $timeout(function () {
                         fb.ref('/WebRTC/users/' + user.id + '/metadata').remove();
-                    }, 100);
+                    }, 3000);
 
                     let self_room = user.id + 'mhuser';
                     // dialing(type, your_room, opponent_nick, opponent_room)
