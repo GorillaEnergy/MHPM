@@ -30,7 +30,8 @@
             getUserMetadata: getUserMetadata,
             getLogs: getLogs,
             setAnswer:setAnswer,
-            removeMetadata: removeMetadata
+            removeMetadata: removeMetadata,
+            off:off
         };
 
         var fb = firebaseSvc.db();
@@ -156,6 +157,10 @@
 
         function removeMetadata(user_id) {
             fb.ref('/WebRTC/users/' + user_id + '/metadata').remove();
+        }
+
+        function off() {
+            fb.ref().off();
         }
 
         return model;

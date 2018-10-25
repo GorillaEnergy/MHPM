@@ -5,9 +5,9 @@
         .module('service.authService', [])
         .service('authService', authService);
 
-    authService.$inject = ['http', 'url', '$localStorage', '$state', 'toastr', 'RTCService', '$mdDialog'];
+    authService.$inject = ['http', 'url', '$localStorage', '$state', 'toastr', 'RTCService', '$mdDialog', 'firebaseDataSvc', 'modalSvc'];
 
-    function authService(http, url, $localStorage, $state, toastr, RTCService, $mdDialog) {
+    function authService(http, url, $localStorage, $state, toastr, RTCService, $mdDialog, firebaseDataSvc, modalSvc) {
 
         let model = {};
         model.login = login;
@@ -16,7 +16,6 @@
         model.setToken = setToken;
         model.getUser = getUser;
         model.setUser = setUser;
-
         model.forgotPass = forgotPass;
         model.resetPass = resetPass;
         model.updateInfo = updateInfo;
@@ -29,7 +28,7 @@
             return http.post(url.user.login, data).then(function (res) {
                 console.log(res);
                 if (res.status === 'success') {
-                    firebase.database().ref('/WebRTC/users/' + res.data.user.id + '/online').set(true);
+                    firebaseDataSvc.setOnlineStatus(res.data.user.id, true);
                     $localStorage.token = res.data.token;
                     $localStorage.user = res.data.user;
                     toastr.success('Authorization success');
@@ -39,22 +38,18 @@
                 }
             })
         }
+
         function logout() {
             console.log('logout');
-            let user_id = angular.copy($localStorage.user.id);
+            let user_id = $localStorage.user.id;
             if (RTCService.accessToGo()) {
-                firebase.database().ref('/WebRTC/users/' + user_id + '/online').set(false);
-                firebase.database().ref().off();
+                firebaseDataSvc.setOnlineStatus(user_id, false);
+                firebaseDataSvc.off();
                 $localStorage.$reset();
                 $state.go('authorization.login')
             } else {
                 console.log('show warning');
-                $mdDialog.show({
-                    controller: 'StateGoWarning',
-                    controllerAs: 'vm',
-                    templateUrl: 'components/state-go-warning/state-go-warning.html',
-                    clickOutsideToClose: true
-                })
+                modalSvc.warningStateGo();
             }
         }
         function getToken() {

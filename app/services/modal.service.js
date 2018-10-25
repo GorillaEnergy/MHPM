@@ -11,8 +11,14 @@
 
         let model = {
             incomingBusy: incomingBusy,
-            incomingCall: incomingCall
+            incomingCall: incomingCall,
+            warningStateGo: warningStateGo,
+            cancel: cancel
         };
+
+        function cancel() {
+            $mdDialog.cancel();
+        }
 
         function incomingBusy(data) {
             return $mdDialog.show({
@@ -36,6 +42,15 @@
                 templateUrl: 'components/incoming-call/incoming-call.html',
                 clickOutsideToClose: false,
             });
+        }
+
+        function warningStateGo() {
+            $mdDialog.show({
+                controller: 'StateGoWarning',
+                controllerAs: 'vm',
+                templateUrl: 'components/state-go-warning/state-go-warning.html',
+                clickOutsideToClose: true
+            })
         }
 
         return model;

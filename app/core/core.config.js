@@ -13,7 +13,6 @@
         $urlRouterProvider.otherwise('/authorization/login');
 
         $stateProvider
-
             .state('authorization', {
                 url: '/authorization',
                 templateUrl: 'templates/authorization/authorization.html',

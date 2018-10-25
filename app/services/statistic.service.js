@@ -35,29 +35,17 @@
         }
         function getMyChatStatistic () {
             return http.get(url.statistics.chat_today).then(function (res) {
-                if (res.status === 'success') {
-                    return res.data;
-                } else {
-                    return []
-                }
+                return res.status === 'success' ? res.data:[];
             })
         }
         function getMyCallStatistic () {
             return http.get(url.statistics.call_today).then(function (res) {
-                if (res.status === 'success') {
-                    return res.data;
-                } else {
-                    return []
-                }
+                return res.status === 'success' ? res.data:[];
             })
         }
         function getMyWeeklyStatistic () {
             return http.get(url.statistics.weekly).then(function (res) {
-                if (res.status === 'success') {
-                    return res.data;
-                } else {
-                    return []
-                }
+                return res.status === 'success' ? res.data:[];
             })
         }
         function addStatistic(data) {

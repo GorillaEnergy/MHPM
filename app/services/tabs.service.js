@@ -5,32 +5,17 @@
         .module('service.tabsService', [])
         .service('tabsService', tabsService);
 
-    tabsService.$inject = ['http', 'url', '$sessionStorage', '$localStorage' , '$state', '$mdDialog', 'RTCService'];
+    tabsService.$inject = ['$state', 'RTCService', 'modalSvc'];
 
-    function tabsService(http, url, $sessionStorage, $localStorage, $state, $mdDialog, RTCService) {
+    function tabsService( $state, RTCService, modalSvc) {
         let model = {};
-
-        model.logout = logout;
-        // model.profile = profile;
         model.startTab = startTab;
         model.route = route;
 
         return model;
 
-        function logout() {
-            console.log('logout');
-
-            $localStorage.$reset();
-            $sessionStorage.$reset();
-            $state.go('authorization.login')
-            // return http.get(url.logout_func($localStorage.token).logout);
-        }
-        // function profile() {
-        //     console.log('profile');
-        // }
-
         function startTab(activeTab) {
-            $mdDialog.cancel();
+            modalSvc.cancel();
         }
 
         function route(to_state) {
@@ -38,19 +23,9 @@
                 if (RTCService.accessToGo()) {
                     $state.go(to_state)
                 } else {
-                    showWarning()
+                    modalSvc.warningStateGo()
                 }
             }
-        }
-
-        function showWarning() {
-            console.log('showWarning()');
-            $mdDialog.show({
-                controller: 'StateGoWarning',
-                controllerAs: 'vm',
-                templateUrl: 'components/state-go-warning/state-go-warning.html',
-                clickOutsideToClose: true
-            })
         }
     }
 })();
