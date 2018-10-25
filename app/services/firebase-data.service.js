@@ -35,12 +35,6 @@
             });
         }
 
-        function watchOnline(user_id, callback) {
-            fb.ref('/WebRTC/users/' + user_id + '/online').on('value', (snapshot) => {
-                callback(snapshot.val());
-            });
-        }
-
         function setTotalUnreadKid(kid_id, psy_id, total_unread_kid) {
             fb.ref('/chats/' + kid_id + '/' + psy_id + '/total_unread_kid').set(total_unread_kid);
         }
@@ -118,6 +112,16 @@
                 callback(snapshot.val());
             });
         }
+
+        //WebRTC ----------------------------------------------------------------------------------
+
+        function watchOnline(user_id, callback) {
+            fb.ref('/WebRTC/users/' + user_id + '/online').on('value', (snapshot) => {
+                callback(snapshot.val());
+            });
+        }
+
+
 
         return model;
     }
