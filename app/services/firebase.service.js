@@ -9,6 +9,7 @@
 
     function firebaseSvc(http, url, toastr) {
         var handlerDB = null;
+        var countTry = 0;
         var model = {
             init: init,
             check: check,
@@ -39,6 +40,11 @@
 
         function db() {
             if (!handlerDB) {
+                if(countTry++ < 5){
+                    init();
+                    return db();
+                }
+                countTry = 0;
                 toastr.error('Firebase database don\'t work!');
             } else {
                 return handlerDB;

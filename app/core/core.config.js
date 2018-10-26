@@ -19,32 +19,36 @@
                 controller: 'AuthorizationController',
                 controllerAs: 'vm',
                 resolve: {
-                    autologin: function (autologinService) {
+                    autologin: function (autologinService, firebaseSvc) {
                         return autologinService.autologin();
                     }
                 }
-            }).state('authorization.login', {
+            })
+            .state('authorization.login', {
                 url: '/login',
                 templateUrl: 'templates/login/login.html',
                 controller: 'LoginController',
                 controllerAs: 'vm'
-            }).state('authorization.forgot', {
+            })
+            .state('authorization.forgot', {
                 url: '/forgot',
                 templateUrl: 'templates/forgot/forgot.html',
                 controller: 'ForgotController',
                 controllerAs: 'vm'
-            }).state('authorization.new-password', {
+            })
+            .state('authorization.new-password', {
                 url: '/new-password',
                 templateUrl: 'templates/new-password/new-password.html',
                 controller: 'NewPasswordController',
                 controllerAs: 'vm'
-            }).state('tabs', {
+            })
+            .state('tabs', {
                 url: '/tabs',
                 templateUrl: 'templates/tabs/tabs.html',
                 controller: 'TabsController',
                 controllerAs: 'vm',
                 resolve: {
-                    autologin: function (autologinService) {
+                    autologin: function (autologinService, firebaseSvc) {
                         return autologinService.autologout();
                     }
                 }

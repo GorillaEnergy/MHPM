@@ -16,21 +16,21 @@
         init();
 
         function init() {
-            vm.my_statistic = {
-                chat: my_chat.chats,
-                call: my_call.calls,
-                time: {hours: '', min: ''},
-            };
+            vm.my_statistic = createStatObj(my_chat);
             prepTime(vm.my_statistic, my_call.time);
-            vm.weekly_statistic = {
-                chat: my_weekly.chats,
-                call: my_weekly.calls,
-                time: {hours: '', min: ''},
-            };
+            vm.weekly_statistic = createStatObj(my_weekly);
             prepTime(vm.weekly_statistic, my_weekly.time);
             statisticService.getMyContent().then(function (data) {
                 vm.schedule = data.data;
-            })
+            });
+        }
+
+        function createStatObj(obj) {
+            return {
+                chat: obj.chats,
+                call: obj.calls,
+                time: {hours: '', min: ''},
+            };
         }
 
         function prepTime(obj, time) {

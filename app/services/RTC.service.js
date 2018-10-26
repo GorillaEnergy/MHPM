@@ -175,7 +175,7 @@
 
                 function search(name, join) {
                     index = userActivityArr.findIndex( (v,i) => {
-                        return v.name == name;
+                        return v.user == name;
                     });
                     change(name, join);
                 }
