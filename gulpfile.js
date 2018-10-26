@@ -16,12 +16,12 @@ gulp.task('browser-reload',function () {
 });
 
 gulp.task('browser-sync', function () {
-    gulp.watch("app/*.html").on('change', browserSync.reload);
+    gulp.watch("app/**/*.html").on('change', browserSync.reload);
     browserSync.init({
         server: {
             baseDir: "./app/"
         }
-    });
+});
 });
 gulp.task('sass', function () {
     gulp.src('app/app.scss')

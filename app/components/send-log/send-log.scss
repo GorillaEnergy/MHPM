@@ -18,7 +18,6 @@
 
   }
 
-
   .main {
 
     .info {
@@ -49,7 +48,7 @@
       box-sizing: border-box;
       overflow-y: auto;
 
-      .log{
+      .log {
         width: 100%;
         background-color: #caf2fd;
         padding: 5px 10px;
@@ -74,6 +73,7 @@
         }
 
         .message {
+
           font-size: 60%;
           font-family: Neue;
         }

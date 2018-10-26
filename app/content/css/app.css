@@ -839,7 +839,8 @@ md-list {
     .chat .one-vs-one .logs-incl, .chat .one-vs-one .detail-incl {
       width: 100%; }
     .chat .one-vs-one .detail-and-logs {
-      height: calc(100% - 530px); }
+      height: calc(100% - 50vmin);
+      margin-top: -7px; }
       .chat .one-vs-one .detail-and-logs .half {
         padding: 0 10px 0; }
     .chat .one-vs-one .video {
@@ -848,7 +849,7 @@ md-list {
         border: 5px solid #0b1138;
         background: black;
         width: 100%;
-        height: 500px;
+        height: 55vmin;
         margin: 0 auto;
         box-sizing: border-box; }
   .chat .one-vs-one-vs-chat {
@@ -1000,250 +1001,21 @@ md-list {
     left: 25px;
     z-index: 1; }
 
-.call {
-  font-family: AmericanPatrius;
-  color: #0b1138;
-  padding-top: 20px; }
-  .call .bodyDiv {
-    margin: 0 auto;
-    height: 640px;
-    width: 360px;
-    padding: 10px;
-    background-color: #ababab;
-    border: 1px solid black;
-    position: relative;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box; }
-    .call .bodyDiv .vid-common {
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
-      box-sizing: border-box;
-      width: 100%; }
-  .call .less-than-two .video1 {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    height: 100%;
-    width: 100%;
-    background-color: purple; }
-  .call .less-than-two .video2 {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    height: calc(338px / 2);
-    width: calc(100% - 20px);
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    display: flex;
-    flex-direction: row-reverse; }
-    .call .less-than-two .video2 div {
-      height: 100%;
-      width: 50%;
-      background-color: #00acac; }
-  .call .less-than-three .video1 {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    height: 100%;
-    width: 100%;
-    background-color: purple; }
-  .call .less-than-three .video2 {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    height: calc(338px / 3);
-    width: calc(100% - 20px);
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    display: flex;
-    flex-direction: row-reverse; }
-    .call .less-than-three .video2 div {
-      height: 100%;
-      width: calc(100% / 3);
-      background-color: #00acac; }
-  .call .more .video1 {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    height: 100%;
-    width: 100%;
-    background-color: purple; }
-  .call .more .video2 {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    height: calc(338px / 3 * 2);
-    width: calc(100% - 20px);
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    display: flex;
-    flex-direction: row-reverse;
-    flex-wrap: wrap;
-    overflow-y: scroll; }
-    .call .more .video2 div {
-      height: 50%;
-      width: calc(100% / 3);
-      background-color: #00acac; }
-  .call .video2 div {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    border: 1px solid #0b1138; }
-
-.call2 {
-  font-family: AmericanPatrius;
-  color: #0b1138;
-  position: relative; }
-  .call2 .video-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    border: 1px solid #0b1138;
-    width: 648px;
-    height: 244px;
-    margin: 5px 5px 0; }
-  .call2 video {
-    width: 320px;
-    height: 240px;
-    border: 1px solid #02458b;
-    margin: 1px;
-    background-color: black; }
-
-.call3 {
-  font-family: AmericanPatrius;
-  font-size: 30px;
-  color: #0b1138;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: row; }
-  .call3 .bodyDiv {
-    width: calc(100% - 280px);
-    height: 100%; }
-    .call3 .bodyDiv #vid-box {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-      height: 330px; }
-      .call3 .bodyDiv #vid-box video {
-        width: 427px; }
-    .call3 .bodyDiv #vid-thumb {
-      transform: scale(-1, 1);
-      text-align: center; }
-      .call3 .bodyDiv #vid-thumb video {
-        width: 284px; }
-    .call3 .bodyDiv .ptext {
-      text-align: center; }
-  .call3 .user-panel {
-    width: 280px;
-    height: 100%;
-    padding: 0 10px;
-    border-left: 1px solid #0b1138; }
-    .call3 .user-panel .title {
-      font-size: 100%; }
-    .call3 .user-panel .user-block {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between; }
-    .call3 .user-panel .name {
-      font-size: 50%;
-      padding-top: 24px;
-      margin-left: 8px; }
-    .call3 .user-panel .man-ico {
-      height: 40px; }
-    .call3 .user-panel .phone-ico {
-      height: 40px;
-      outline: none; }
-    .call3 .user-panel .offline-status {
-      border: 1px solid #282828;
-      width: 3px;
-      height: 3px;
-      background-color: grey;
-      margin-top: 34px;
-      margin-left: 5px; }
-    .call3 .user-panel .online-status {
-      background-color: red; }
-
-.call4 {
-  font-family: AmericanPatrius;
-  font-size: 30px;
-  color: #0b1138;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: row; }
-  .call4 .main {
-    width: calc(100% - 280px);
-    height: 100%; }
-  .call4 .bodyDiv {
-    width: 100%;
-    position: relative; }
-    .call4 .bodyDiv .video1 {
-      width: 100%; }
-      .call4 .bodyDiv .video1 video {
-        width: 100% !important; }
-    .call4 .bodyDiv .video2 {
-      position: absolute;
-      z-index: 99;
-      bottom: 0;
-      right: 0;
-      width: 150px; }
-      .call4 .bodyDiv .video2 video {
-        width: 100% !important; }
-    .call4 .bodyDiv .ptext {
-      text-align: center; }
-  .call4 .user-panel {
-    width: 280px;
-    height: 100%;
-    padding: 0 10px;
-    border-left: 1px solid #0b1138; }
-    .call4 .user-panel .title {
-      font-size: 100%; }
-    .call4 .user-panel .user-block {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between; }
-    .call4 .user-panel .name {
-      font-size: 50%;
-      padding-top: 24px;
-      margin-left: 8px; }
-    .call4 .user-panel .man-ico {
-      height: 40px; }
-    .call4 .user-panel .phone-ico {
-      height: 40px;
-      outline: none; }
-    .call4 .user-panel .offline-status {
-      border: 1px solid #282828;
-      width: 3px;
-      height: 3px;
-      background-color: grey;
-      margin-top: 34px;
-      margin-left: 5px; }
-    .call4 .user-panel .online-status {
-      background-color: red; }
-
-.call5 {
-  font-family: AmericanPatrius;
-  color: #0b1138;
-  position: relative; }
-  .call5 .video-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 648px;
-    margin: 5px 5px 0; }
-  .call5 video {
-    width: 320px;
-    height: 240px;
-    border: 1px solid #02458b;
-    margin: 1px;
-    background-color: black; }
+@media screen and (max-width: 1025px) {
+  .logs-include .logs-list {
+    padding: 10px; }
+  .logs-include .log .head {
+    font-size: 50%; }
+  .chat .one-vs-one .video video {
+    height: 27vmin; }
+  .chat .one-vs-one .detail-and-logs {
+    height: calc(100% - 27vmin); }
+    .chat .one-vs-one .detail-and-logs .kid-detail {
+      display: block;
+      height: auto; }
+  .chat .one-vs-one .half {
+    width: 90%;
+    padding: 5px; } }
 
 .live-room-popup {
   background: white;
@@ -1420,6 +1192,7 @@ md-list {
           .incoming-on-busy .main .logs .log .head .time-of-creation .date {
             margin-right: 10px; }
       .incoming-on-busy .main .logs .log .message {
+        word-break: break-word;
         font-size: 60%;
         font-family: Neue; }
     .incoming-on-busy .main .logs .log:last-child {
@@ -1521,6 +1294,7 @@ md-list {
         .logs-include .log .head .time-of-creation .date {
           margin-right: 10px; }
     .logs-include .log .message {
+      word-break: break-word;
       font-size: 60%;
       font-family: Neue; }
 
