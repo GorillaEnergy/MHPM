@@ -5,11 +5,11 @@
 
     ChatController.$inject = ['$localStorage', '$state', '$timeout', 'consultants', 'kids', 'authService', 'dateConverter',
         'consultantService', 'statisticService', 'userService', '$mdDialog', '$rootScope', 'toastr',
-        'kidService', 'RTCService', 'firebaseDataSvc'];
+        'kidService', 'RTCService', 'firebaseDataSvc', 'utilsSvc', 'modalSvc'];
 
     function ChatController($localStorage, $state, $timeout, consultants, kids, authService, dateConverter,
                             consultantService, statisticService, userService, $mdDialog, $rootScope, toastr,
-                            kidService, RTCService, firebaseDataSvc) {
+                            kidService, RTCService, firebaseDataSvc, utilsSvc, modalSvc) {
         let vm = this;
         console.log('ChatController start');
 
@@ -110,9 +110,7 @@
         });
 
         $rootScope.$on('chat-type', function (event, data) {
-            console.log('EVENT!');
-            console.log(data);
-
+            console.log('EVENT!', data);
             //viewCurrent can be 1, 2, 3, 4
             //viewCurrent 1 can be upgraded to 2 lvl
             //viewCurrent 2 can be upgraded to 3, 4 lvl
@@ -120,7 +118,6 @@
             //viewCurrent 4 can be downgraded to 2 lvl
 
             formUserList();
-
             if (data.type === 1) {
                 viewCurrent = data.type;
                 console.log('view type = ', viewCurrent);
@@ -154,12 +151,10 @@
                 } else {
                     console.log('Something went wrong');
                 }
-
             }
 
             function formUserList() {
                 vm.userList = [];
-
                 for (let i = 0; i < data.users.length; i++) {
                     let opponent_id = Number(data.users[i].user.substr(0, data.users[i].user.length - 6));
                     vm.userList.push(kidsObj[opponent_id]);
@@ -516,12 +511,8 @@
 
         function getParents(kid_id) {
             userService.getParents({kid_id: kid_id}).then(function (res) {
-                if (res.status === 'success') {
-                    vm.parents = res.data;
-                } else {
-                    vm.parents = []
-                }
-            })
+                vm.parents = res.status === 'success' ? res.data : [];
+            });
         }
 
         ///////////////// message view //////////////////
@@ -565,11 +556,7 @@
         }
 
         function ownMessage(index) {
-            if (vm.messages[index].create_by_user_id === kid_id) {
-                return true
-            } else {
-                return false
-            }
+            return !!vm.messages[index].create_by_user_id === kid_id;
         }
 
         function contactName(index) {
@@ -654,11 +641,8 @@
         }
 
         function convertToArray(data, type, logs) {
-            let res = [];
+            let res = utilsSvc.objToArr(data);
             let arrOfKeys = Object.keys(data);
-            angular.forEach(arrOfKeys, function (key) {
-                res.push(data[key]);
-            });
 
             if (!logs) {
                 msgKeys = msgKeys.concat(arrOfKeys);
@@ -715,7 +699,8 @@
                 !soloKey ? markAsRead(unreadMsgsKeysArr) : markAsRead([soloKey]);
 
                 $timeout(function () {
-                    firebaseDataSvc.setTotalUnreadPsy(kid_id, psy_id, total_unread - local_unread);
+                    var total = total_unread - local_unread > -1 ? total_unread - local_unread : 0;
+                    firebaseDataSvc.setTotalUnreadPsy(kid_id, psy_id, total);
                     local_unread = 0;
                     unreadMsgsKeysArr = [];
                 }, 200);
@@ -778,13 +763,12 @@
             console.log('removeMessagesEvent');
             firebaseDataSvc.onRemoveMessagesEvent(kid_id, psy_id, (snapshot) => {
                 $timeout(function () {
-                    let changed_message = snapshot;
                     for (let i = 0; i < vm.messages.length; i++) {
-                        if (vm.messages[i].date === changed_message.date) {
-                            console.log(angular.copy(vm.messages));
+                        if (vm.messages[i].date === snapshot.date) {
+                            console.log(vm.messages);
                             console.log('removed this ', vm.messages[i]);
                             vm.messages.splice(i, 1);
-                            console.log(angular.copy(vm.messages));
+                            console.log(vm.messages);
                             break;
                         }
                     }
@@ -796,11 +780,10 @@
             console.log('changeMessagesEvent');
             firebaseDataSvc.onChangeMessagesEvent(kid_id, psy_id, (snapshot) => {
                 $timeout(function () {
-                    let changed_message = snapshot;
                     console.log('message changed ', snapshot);
                     for (let i = 0; i < vm.messages.length; i++) {
-                        if (vm.messages[i].date === changed_message.date) {
-                            vm.messages[i] = changed_message;
+                        if (vm.messages[i].date === snapshot.date) {
+                            vm.messages[i] = snapshot;
                             break;
                         }
                     }
@@ -810,23 +793,23 @@
 
         function checkMissedNumber() {
             console.log('checkMissedNumber');
-            firebaseDataSvc.onCheckMissedNumberPsy( kid_id, psy_id, (snapshot) => {
+            firebaseDataSvc.onCheckMissedNumberPsy(kid_id, psy_id, (snapshot) => {
                 $timeout(function () {
-                    snapshot ? total_unread = Number(snapshot) : total_unread = 0;
+                    total_unread = snapshot ? Number(snapshot) : 0;
                 })
             });
-            firebaseDataSvc.onCheckMissedNumberChild( kid_id, psy_id, (snapshot) => {
+            firebaseDataSvc.onCheckMissedNumberChild(kid_id, psy_id, (snapshot) => {
                 $timeout(function () {
-                    snapshot ? total_unread_kid = Number(snapshot) : total_unread_kid = 0;
+                    total_unread_kid = snapshot ? Number(snapshot) : 0;
                     console.log('total_unread_kid = ', total_unread_kid);
                 })
             })
         }
 
         function downloadLogs() {
-            firebaseDataSvc.onLogs(kid_id, number_of_logs,  (snapshot) => {
+            firebaseDataSvc.onLogs(kid_id, number_of_logs, (snapshot) => {
                 $timeout(function () {
-                    snapshot ? vm.logs = convertToArray(snapshot, null, true) : vm.logs = [];
+                    vm.logs = snapshot ? convertToArray(snapshot, null, true) : [];
                     // console.log(angular.copy(vm.logs));
                 })
             });
@@ -871,7 +854,6 @@
                     chat_body.scrollTop = angular.copy(chatHeightNew - chatHeightOld);
                     // console.log('chat_body.scrollTop = ', chat_body.scrollTop);
                 })
-
             })
         }
 
@@ -880,22 +862,14 @@
         let consultantsObj = consultantService.convert(consultants);
 
         function consName(consultant) {
-            if (consultantsObj[consultant.consultant_id]) {
-                return consultantsObj[consultant.consultant_id].name
-            } else {
-                return "No Name"
-            }
+            return (consultantsObj[consultant.consultant_id]) ? consultantsObj[consultant.consultant_id].name : "No Name"
         }
 
         /////////////////////////// kid and parents /////////////////////////
         let kidsObj = kidService.convert(kids);
 
         function kidName(id) {
-            if (consultantsObj[id]) {
-                return consultantsObj[id].name
-            } else {
-                return "No Name"
-            }
+            return (consultantsObj[id]) ? consultantsObj[id].name : "No Name";
         }
 
         /////////////////////////// add log /////////////////////////
@@ -908,10 +882,10 @@
                     logs: null,
                     consultants: consultantsObj
                 };
-               firebaseDataSvc.onComment(kid.id, number_of_logs,(snapshot) => {
+                firebaseDataSvc.onComment(kid.id, number_of_logs, (snapshot) => {
                     $timeout(function () {
-                        snapshot ? data.logs = convertToArray(snapshot, null, true) : data.logs = [];
-                        showDialog();
+                        data.logs = snapshot ? convertToArray(snapshot, null, true) : [];
+                        showDialog(data);
                     })
                 });
 
@@ -921,23 +895,13 @@
                     logs: vm.logs,
                     consultants: consultantsObj
                 };
-                showDialog();
+                showDialog(data);
             }
 
-            function showDialog() {
-                $mdDialog.show({
-                    controller: 'SendLogController',
-                    controllerAs: 'vm',
-                    locals: {
-                        data: data
-                    },
-                    templateUrl: 'components/send-log/send-log.html',
-                    clickOutsideToClose: true,
-                }).then(function (res) {
+            function showDialog(data) {
+                modalSvc.sendLog(data).then(function (res) {
                         console.log('close dialog');
                         console.log('res', res);
-                    },
-                    function () {
                     }
                 );
             }
@@ -949,20 +913,9 @@
                 kid: kid
             };
 
-            $mdDialog.show({
-                controller: 'SendEmergencyLogController',
-                controllerAs: 'vm',
-                locals: {
-                    data: data
-                },
-                templateUrl: 'components/send-emergency-log/send-emergency-log.html',
-                clickOutsideToClose: true,
-            }).then(function (res) {
-                    console.log('close dialog');
-                },
-                function () {
-                }
-            );
+            modalSvc.sendEmergency(data).then(function (res) {
+                console.log('close dialog');
+            });
         }
 
         /////////////////////////// leave video chat /////////////////////////

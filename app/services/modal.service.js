@@ -13,7 +13,9 @@
             incomingBusy: incomingBusy,
             incomingCall: incomingCall,
             warningStateGo: warningStateGo,
+            sendEmergency: sendEmergency,
             liveRoom: liveRoom,
+            sendLog: sendLog,
             cancel: cancel
         };
 
@@ -62,6 +64,30 @@
                     data: data
                 },
                 templateUrl: 'components/live-room/live-room.html',
+                clickOutsideToClose: true,
+            });
+        }
+
+        function sendLog(data) {
+            return $mdDialog.show({
+                controller: 'SendLogController',
+                controllerAs: 'vm',
+                locals: {
+                    data: data
+                },
+                templateUrl: 'components/send-log/send-log.html',
+                clickOutsideToClose: true,
+            });
+        }
+
+        function sendEmergency(data) {
+            return $mdDialog.show({
+                controller: 'SendEmergencyLogController',
+                controllerAs: 'vm',
+                locals: {
+                    data: data
+                },
+                templateUrl: 'components/send-emergency-log/send-emergency-log.html',
                 clickOutsideToClose: true,
             });
         }
