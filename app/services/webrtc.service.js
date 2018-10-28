@@ -30,7 +30,7 @@
                 {
                     audio: true,
                     video: {
-                        width: {max: 680},
+                        width: {max: 640},
                         height: {max: 480},
                         frameRate: { max: 15 },
                     }
