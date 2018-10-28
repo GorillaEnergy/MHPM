@@ -46,6 +46,7 @@
                     user = $localStorage.user;
                     onlineChanger(true);
                     watchInvites();
+                    watchCancel();
                     clearInterval(checkUserInterval);
                 }
             }, USER_CHECK_PERIOD);
@@ -61,6 +62,15 @@
             firebaseDataSvc.setOnlineStatus(user.id, status);
         }
 
+        function watchCancel() {
+           firebaseDataSvc.onMetadataCancel(user.id, function (snapshot) {
+               if(snapshot){
+                   rejectCall();
+                   modalSvc.cancel();
+               }
+           });
+        }
+        
         function watchInvites() {
             firebaseDataSvc.watchInvites(user.id, (snapshot) => {
                 if (snapshot) {
@@ -302,25 +312,6 @@
             }
         }
 
-        //////////////// Script isogram ////////////////
-
-        (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r;
-            i[r] = i[r] || function () {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new
-            Date();
-            a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0];
-            a.async = 1;
-            a.src = g;
-            m.parentNode.insertBefore(a, m)
-        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-        ga('create', 'UA-46933211-3', 'auto');
-        ga('send', 'pageview');
-
-        /////////////////////////////////////////////////
-
 
         function incomingCallMsg(nick, id, room) {
             modalSvc.incomingCall(
@@ -329,9 +320,9 @@
                 }
                 ).then(function (res) {
                     if (res.accept === true) {
-                        accept(nick, id, room)
+                        accept(nick, id, room);
                     } else {
-                        reject(nick, id, room)
+                        rejectCall();
                     }
                 }
             );
@@ -357,19 +348,19 @@
                     $timeout(function () {
                         firebaseDataSvc.removeMetadata(user.id);
                     }, 3000);
-
                     let self_room = user.id + 'mhuser';
                     // dialing(type, your_room, opponent_nick, opponent_room)
                     dialing('initRTC', self_room, nick, room)
                 }
             }
 
-            function reject() {
-                firebaseDataSvc.setAnswer(user.id, false);
-                $timeout(function () {
-                    firebaseDataSvc.removeMetadata(user.id);
-                }, 100);
-            }
+        }
+
+        function rejectCall() {
+            firebaseDataSvc.setAnswer(user.id, false);
+            $timeout(function () {
+                firebaseDataSvc.removeMetadata(user.id);
+            }, 5000);
         }
 
         function incomingOnBusy(opponent_name, opponent_id) {
@@ -434,7 +425,7 @@
                     firebaseDataSvc.setAnswer(user.id, false);
                     $timeout(function () {
                         firebaseDataSvc.removeMetadata(user.id);
-                    }, 100);
+                    }, 3000);
                 }
             }
         }
