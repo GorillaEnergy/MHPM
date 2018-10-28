@@ -360,7 +360,7 @@
             firebaseDataSvc.setAnswer(user.id, false);
             $timeout(function () {
                 firebaseDataSvc.removeMetadata(user.id);
-            }, 5000);
+            }, 3000);
         }
 
         function incomingOnBusy(opponent_name, opponent_id) {
