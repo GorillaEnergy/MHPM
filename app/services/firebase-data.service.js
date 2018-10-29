@@ -31,7 +31,9 @@
             getLogs: getLogs,
             setAnswer:setAnswer,
             removeMetadata: removeMetadata,
-            off:off
+            off:off,
+            setMetadataCancel: setMetadataCancel,
+            onMetadataCancel: onMetadataCancel
         };
 
         var fb = firebaseSvc.db();
@@ -161,6 +163,16 @@
 
         function off() {
             fb.ref().off();
+        }
+
+        function setMetadataCancel(id){
+            fb.ref('/WebRTC/users/' + id + '/metadata/cancel').set(true);
+        }
+
+        function onMetadataCancel(id, callback){
+            fb.ref('/WebRTC/users/' + id + '/metadata/cancel').on('value', (snapshot) => {
+                callback(snapshot.val());
+            });
         }
 
         return model;
