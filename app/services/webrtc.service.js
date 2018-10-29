@@ -14,8 +14,7 @@
         // WebRTC Simple Calling API + Mobile
         // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
         var PHONE = window.PHONE = function (config) {
-            var PHONE = function () {
-            };
+            var PHONE = function () {};
             var pubnub = PUBNUB(config);
             var pubkey = config.publish_key || 'demo';
             var snapper = function () {
