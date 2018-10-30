@@ -6,7 +6,6 @@
 @import "templates/tabs/tabs";
 @import "templates/statistic/statistic";
 @import "templates/schedule/schedule";
-@import "templates/chat/chat";
 @import "components/live-room/live-room";
 @import "components/incoming-call/incoming-call";
 @import "components/incoming-on-busy/incoming-on-busy";
@@ -15,3 +14,4 @@
 @import "components/send-log/send-log";
 @import "components/send-emergency-log/send-emergency-log";
 @import "components/state-go-warning/state-go-warning";
+@import "templates/chat/chat";

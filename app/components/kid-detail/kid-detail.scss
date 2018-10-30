@@ -30,7 +30,7 @@
         width: 50px;
       }
 
-      .info-pole{
+      .info-pole {
         font-size: 60%;
         margin: 10px 0 0 0;
         white-space: nowrap;
@@ -45,5 +45,18 @@
   }
   .parent {
 
+  }
+}
+
+@media screen and (max-width: 1025px) {
+  .kid-detail {
+    display: block;
+  }
+  .chat {
+    .detail-and-logs {
+      .half.half-mod {
+        width: 100%;
+      }
+    }
   }
 }

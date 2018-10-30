@@ -22,20 +22,20 @@
             vm.menuOpen = !vm.menuOpen;
         }
 
-       $timeout(function () { resizeBody(); });
-       angular.element($window).bind("resize",function(e){ resizeBody(true); });
-
-       function resizeBody(page_ready) {
-           let main = $("#tabs-main");
-           let header = $("#tabs-header");
-           let body = $("#tabs-body");
-
-           if (body.height() < 560 && page_ready) {
-               body.height(560);
-           } else {
-               body.height(main.height() - header.height() - 2);
-           }
-       }
+       // $timeout(function () { resizeBody(); });
+       // angular.element($window).bind("resize",function(e){ resizeBody(true); });
+       //
+       // function resizeBody(page_ready) {
+       //     let main = $("#tabs-main");
+       //     let header = $("#tabs-header");
+       //     let body = $("#tabs-body");
+       //
+       //     if (body.height() < 560 && page_ready) {
+       //         body.height(560);
+       //     } else {
+       //         body.height(main.height() - header.height() - 2);
+       //     }
+       // }
 
        function logout() {
            authService.logout()

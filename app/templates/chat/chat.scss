@@ -218,6 +218,7 @@
       box-sizing: border-box;
     }
     .kid-detail {
+      height: auto;
       overflow: auto;
     }
     .half:first-child {
@@ -557,26 +558,42 @@
     .logs-list {
       padding: 10px;
     }
-    .log{
-      .head{
+    .log {
+      .head {
         font-size: 50%;
+        display: block;
       }
     }
   }
   .chat {
+    .multi {
+      .main {
+        .wrapper {
+          .video2 {
+            .video-wrapper {
+              width: 100%;
+              height: auto;
+            }
+            .video-wrapper:first-child {
+              width: 100%;
+              height: auto;
+            }
+          }
+        }
+      }
+
+    }
     .one-vs-one {
       .video {
         video {
           height: 27vmin;
         }
       }
-    }
-  }
-
-  .chat {
-    .one-vs-one {
       .detail-and-logs {
         height: calc(100% - 27vmin);
+        .half {
+          width: 100%;
+        }
         .kid-detail {
           display: block;
           height: auto;
