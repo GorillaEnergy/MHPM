@@ -402,7 +402,7 @@
                     firebaseDataSvc.setAnswer(user.id, 'add');
                     $timeout(function () {
                         firebaseDataSvc.removeMetadata(user.id);
-                    }, 100);
+                    }, 3000);
                 }
 
                 function chat(nick, id, room) {
