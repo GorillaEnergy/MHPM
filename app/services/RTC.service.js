@@ -141,7 +141,7 @@
             access_to_state_go = false;
             localStream = true;
             console.log('login function');
-            PUB_CONFIG.number = username;
+            PUB_CONFIG.number = username || "Anonymous";
             var phone = window.phone = PHONE(PUB_CONFIG);
             phone.debug(function (res) {
                 console.log('ERRORR >>>>>------------------------>>>>>', res);
@@ -184,9 +184,16 @@
                 search(name, join);
 
                 function search(name, join) {
-                    index = userActivityArr.findIndex( (v,i) => {
-                        return v.user == name;
-                    });
+                    // index = userActivityArr.findIndex( (v,i) => {
+                    //     return v.user == name;
+                    // });
+                    //fixme refactoring
+                    for (let i = 0; i < userActivityArr.length; i++) {
+                        if (userActivityArr[i].user == name) {
+                            index = i;
+                            break;
+                        }
+                    }
                     change(name, join);
                 }
 
@@ -312,6 +319,24 @@
             }
         }
 
+        //////////////// Script isogram ////////////////
+
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new
+            Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-46933211-3', 'auto');
+        ga('send', 'pageview');
+        /////////////////////////////////////////////////
 
         function incomingCallMsg(nick, id, room) {
             modalSvc.incomingCall(
@@ -410,7 +435,7 @@
                     firebaseDataSvc.setAnswer(user.id, 'chat');
                     $timeout(function () {
                         firebaseDataSvc.removeMetadata(user.id);
-                    }, 100);
+                    }, 3000);
 
                     $rootScope.$broadcast('chat-type', {
                         type: 3,

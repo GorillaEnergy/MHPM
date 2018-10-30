@@ -425,9 +425,9 @@
 
         ////////////////// access ///////////////////////
         function psychologistAccess() {
-            firebaseDataSvc.psychologAccess(kid_id, psy_id, (res) => {
+            firebaseDataSvc.psychologAccess(kid_id, psy_id, (snapshot) => {
                 $timeout(function () {
-                    res === false ? access = false : access = true;
+                    access =  snapshot === false ? false : true;
                 });
             });
         }
