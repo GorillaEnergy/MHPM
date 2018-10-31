@@ -39,7 +39,7 @@
                 };
 
             if (!utilsSvc.isBrowser().chrome()) {
-                delete mediaconf.video.frameRate;
+                 mediaconf.video = true;
             }
 
             var conversations = {};
@@ -92,8 +92,8 @@
                 },*/
                 iceServers: [{
                     "url":
-                        navigator.mozGetUserMedia ? "stun:stun.services.mozilla.com" :
-                            navigator.webkitGetUserMedia ? "stun:stun.l.google.com:19302" :
+                        (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) && navigator.mozGetUserMedia ? "stun:stun.services.mozilla.com" :
+                            (!navigator.mediaDevices || !navigator.getUserMedia) &&  navigator.webkitGetUserMedia ? "stun:stun.l.google.com:19302" :
                                 "stun:23.21.150.121"
                 },
                     {url: "stun:stun.l.google.com:19302"},
@@ -449,12 +449,12 @@
                 vid.setAttribute('autoplay', 'autoplay');
                 vid.setAttribute('data-number', number);
                 vid.setAttribute('id', number);
-                vid.src = URL.createObjectURL(stream);
-                // try {
-                //     vid.srcObject = stream;
-                // } catch (error) {
-                //     vid.src = URL.createObjectURL(stream);
-                // }
+                // vid.src = URL.createObjectURL(stream);
+                try {
+                    vid.srcObject = stream;
+                } catch (error) {
+                    vid.src = URL.createObjectURL(stream);
+                }
 
                 let wrap = document.createElement('div');
                 wrap.setAttribute('id', number);
