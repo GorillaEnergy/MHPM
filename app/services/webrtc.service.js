@@ -449,12 +449,12 @@
                 vid.setAttribute('autoplay', 'autoplay');
                 vid.setAttribute('data-number', number);
                 vid.setAttribute('id', number);
-                // vid.src = URL.createObjectURL(stream);
-                try {
-                    vid.srcObject = stream;
-                } catch (error) {
-                    vid.src = URL.createObjectURL(stream);
-                }
+                vid.src = URL.createObjectURL(stream);
+                // try {
+                //     vid.srcObject = stream;
+                // } catch (error) {
+                //     vid.src = URL.createObjectURL(stream);
+                // }
 
                 let wrap = document.createElement('div');
                 wrap.setAttribute('id', number);
