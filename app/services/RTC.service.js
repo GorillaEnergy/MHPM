@@ -23,7 +23,7 @@
         let reconnect;
         let access_to_state_go = true;
         const USER_CHECK_PERIOD = (1 * 1000);
-        const TIME_RECONNECT = (30*1000);
+        const TIME_RECONNECT = (30 * 1000);
 
         const PUB_CONFIG = {
             number: "Anonymous", // listen on username line else Anonymous
@@ -63,14 +63,14 @@
         }
 
         function watchCancel() {
-           firebaseDataSvc.onMetadataCancel(user.id, function (snapshot) {
-               if(snapshot){
-                   rejectCall();
-                   modalSvc.cancel();
-               }
-           });
+            firebaseDataSvc.onMetadataCancel(user.id, function (snapshot) {
+                if (snapshot) {
+                    rejectCall();
+                    modalSvc.cancel();
+                }
+            });
         }
-        
+
         function watchInvites() {
             firebaseDataSvc.watchInvites(user.id, (snapshot) => {
                 if (snapshot) {
@@ -100,15 +100,8 @@
                 if (!localStream) {
                     errWrap(login, your_name);
                 }
-                // if (type === 'joinRTC') {
-                //     $timeout(function () {
-                //         // console.log('makeCall to ', opponent_nick);
-                //         errWrap(makeCall, opponent_nick);
-                //     }, 3000)
-                // }
             }, 1000);
         }
-
 
         function reconnectTimerStart() {
             reconnect = true;
@@ -208,7 +201,7 @@
                 }
 
                 function setCallLength(data) {
-                    let total =  utilsSvc.totalTime(data);
+                    let total = utilsSvc.totalTime(data);
                     let send_data = {
                         type: 'call',
                         add_info: {
@@ -251,34 +244,7 @@
                     }
                 }
             }
-            return false;
-        }
 
-        function makeCall(opponent_nick) {
-            // console.log('makeCall function', 'call to ', opponent_nick);
-            if (!window.phone) alert("Login First!");
-            var num = opponent_nick;
-            if (phone.number() == num) return false; // No calling yourself!
-            ctrl.isOnline(num, function (isOn) {
-                if (isOn) {
-                    ctrl.dial(num);
-                    reconnect = false;
-                } else {
-                    if (reconnectAccess) {
-                        $timeout(function () {
-                            makeCall(opponent_nick);
-                        }, 2000);
-
-                        if (!reconnect) {
-                            reconnectTimerStart();
-                        }
-                    } else {
-                        reconnect = false;
-                        alert("User if Offline");
-                    }
-                }
-
-            });
             return false;
         }
 
@@ -325,7 +291,7 @@
                 {
                     opponent_name: nick
                 }
-                ).then(function (res) {
+            ).then(function (res) {
                     if (res.accept === true) {
                         accept(nick, id, room);
                     } else {
@@ -335,10 +301,7 @@
             );
 
             function accept(nick, id, room) {
-                // console.log("accept");
-                // console.log(nick, id, room);
                 if ($state.current.name !== 'tabs.chat') {
-                    // console.log('to chat');
                     $state.go('tabs.chat', {to_call: true});
                     // initDial();
                     // на будущее вызывать initDial только после загрузки контроллера во избежание "критов"

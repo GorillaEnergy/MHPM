@@ -12,10 +12,40 @@
         let model = {
             objToArr: objToArr,
             totalTime: totalTime,
-            init: init
+            init: init,
+            isBrowser: isBrowser
         };
 
         return model;
+
+        function isBrowser() {
+            return {
+                opera: function () {
+                    return (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+                },
+
+                firefox: function () {
+                    return typeof InstallTrigger !== 'undefined';
+                },
+                safari: function () {
+                    return /constructor/i.test(window.HTMLElement) || (function (p) {
+                        return p.toString() === "[object SafariRemoteNotification]";
+                    })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification));
+                },
+                ie: function () {
+                    return /*@cc_on!@*/false || !!document.documentMode;
+                },
+                edge: function () {
+                    return !isIE && !!window.StyleMedia;
+                },
+                chrome: function () {
+                    return !!window.chrome && !!window.chrome.webstore;
+                },
+                blink: function () {
+                    return (isChrome || isOpera) && !!window.CSS;
+                }
+            }
+        }
 
         function init() {
             findIndexPolyfill();
@@ -29,13 +59,13 @@
             total_minutes = Math.floor(total_second / 60);
             total_hours = Math.floor(total_minutes / 60);
             total_minutes = total_minutes - total_hours * 60;
-            total_minutes  = total_minutes < 10? '0' + total_minutes: total_minutes;
-            total_hours = total_hours < 10? '0'+total_hours: total_hours;
+            total_minutes = total_minutes < 10 ? '0' + total_minutes : total_minutes;
+            total_hours = total_hours < 10 ? '0' + total_hours : total_hours;
             return total_hours + ':' + total_minutes;
         }
 
-        function objToArr(obj){
-            return Object.keys(obj).map((v,i) => {
+        function objToArr(obj) {
+            return Object.keys(obj).map((v, i) => {
                 return obj[v];
             });
 
@@ -44,7 +74,7 @@
 
         function findIndexPolyfill() {
             if (!Array.prototype.findIndex) {
-                Array.prototype.findIndex = function(predicate) {
+                Array.prototype.findIndex = function (predicate) {
                     if (this == null) {
                         throw new TypeError('Array.prototype.findIndex called on null or undefined');
                     }

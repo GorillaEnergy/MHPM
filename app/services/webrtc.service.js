@@ -5,16 +5,17 @@
         .module('service.webrtc', [])
         .service('webrtc', webrtc);
 
-    webrtc.$inject = ['$rootScope', '$localStorage'];
+    webrtc.$inject = ['$rootScope', '$localStorage', 'utilsSvc'];
 
-    function webrtc($rootScope, $localStorage) {
+    function webrtc($rootScope, $localStorage, utilsSvc) {
         console.log('webrtcService start');
 
         // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
         // WebRTC Simple Calling API + Mobile
         // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
         var PHONE = window.PHONE = function (config) {
-            var PHONE = function () {};
+            var PHONE = function () {
+            };
             var pubnub = PUBNUB(config);
             var pubkey = config.publish_key || 'demo';
             var snapper = function () {
@@ -31,9 +32,16 @@
                     video: {
                         width: {max: 640},
                         height: {max: 480},
-                        frameRate: { max: 15 },
+                        frameRate: {
+                            max: 15
+                        },
                     }
                 };
+
+            if (!utilsSvc.isBrowser().chrome()) {
+                delete mediaconf.video.frameRate;
+            }
+
             var conversations = {};
             var oneway = config.oneway || false;
             var broadcast = config.broadcast || false;
@@ -67,7 +75,7 @@
             // navigator.getUserMedia =
             navigator.getUserMedia =
                 navigator.getUserMedia ||
-               navigator.webkitGetUserMedia ||
+                navigator.webkitGetUserMedia ||
                 navigator.mozGetUserMedia ||
                 navigator.msGetUserMedia;
 

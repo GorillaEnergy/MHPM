@@ -31,7 +31,7 @@
         function getKidsList() {
             return http.get(url.kids.list).then(function (res) {
                 return res.status === 'success' ? res.data : [];
-            })
+            });
         }
 
         function getParents(data) {
