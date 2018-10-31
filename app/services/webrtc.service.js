@@ -412,12 +412,12 @@
                 // Video Settings
                 video.width = snap.width;
                 video.height = snap.height;
-                // video.src = URL.createObjectURL(stream);
-                try {
-                    video.srcObject = stream;
-                } catch (error) {
-                    video.src = URL.createObjectURL(stream);
-                }
+                video.src = URL.createObjectURL(stream);
+                // try {
+                //     video.srcObject = stream;
+                // } catch (error) {
+                //     video.src = URL.createObjectURL(stream);
+                // }
                 video.volume = 0.0;
                 video.play();
 
