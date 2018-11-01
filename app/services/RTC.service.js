@@ -135,9 +135,10 @@
             localStream = true;
             console.log('login function');
             PUB_CONFIG.number = username || "Anonymous";
+            PUB_CONFIG.autocam = true;
             var phone = window.phone = PHONE(PUB_CONFIG);
             phone.debug(function (res) {
-                console.log('ERRORR >>>>>------------------------>>>>>', res);
+                console.log('LOG >>>>>------------------------>>>>>', res);
             });
             var ctrl = window.ctrl = CONTROLLER(phone);
             ctrl.ready(function () {

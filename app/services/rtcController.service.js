@@ -72,9 +72,9 @@
 
             function broadcast(vid){
                 var video = document.createElement('video');
-                video.src    = URL.createObjectURL(phone.mystream);
+                // video.src    = URL.createObjectURL(phone.mystream);
                 // try {
-                //     video.srcObject = phone.mystream;
+                    video.srcObject = phone.mystream;
                 // } catch (error) {
                 //     video.src = URL.createObjectURL(phone.mystream);
                 // }
@@ -82,6 +82,7 @@
                 video.play();
                 video.setAttribute( 'autoplay', 'autoplay' );
                 video.setAttribute( 'data-number', phone.number() );
+                video.setAttribute( 'playsinline', 'playsinline' );
                 // vid.style.cssText ="-moz-transform: scale(-1, 1); \
 					// 	 	-webkit-transform: scale(-1, 1); -o-transform: scale(-1, 1); \
 					// 		transform: scale(-1, 1); filter: FlipH;";
@@ -89,10 +90,8 @@
                 let wrap = document.createElement('div');
                 wrap.setAttribute( 'id', phone.number() );
                 wrap.classList.add('video-wrapper');
-
                 wrap.append(video);
                 vid.appendChild(wrap);
-
                 // vid.appendChild(video);
             }
 
@@ -294,7 +293,7 @@
         // Request fresh TURN servers from XirSys - Need to explain.
         // room=default&application=default&domain=kevingleason.me&ident=gleasonk&secret=b9066b5e-1f75-11e5-866a-c400956a1e19
         // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-        function get_xirsys_servers() {
+        function get_xirsys_servers2() {
             var servers;
             $.ajax({
                 type: 'POST',
@@ -312,6 +311,22 @@
                     if (!res.e) servers = res.d.iceServers;
                 },
                 async: false
+            });
+            return servers;
+        }
+
+        function get_xirsys_servers() {
+            var servers;
+            $.ajax ({
+                url: "https://global.xirsys.net/_turn/default/",
+                type: "PUT",
+                async: false,
+                headers: {
+                    "Authorization": "Basic " + btoa("vadymk:1a0d31fe-dba1-11e8-a1d9-0b75046cc17f")
+                },
+                success: function (res){
+                   if(res.v.iceServers) servers = res.v.iceServers;
+                },
             });
             return servers;
         }

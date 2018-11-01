@@ -26,22 +26,19 @@
             var mystream = null;
             var myvideo = document.createElement('video');
             var myconnection = false;
-            var mediaconf = config.media ||
-                {
-                    audio: true,
-                    video: {
-                        width: {max: 640},
-                        height: {max: 480},
-                        frameRate: {
-                            max: 15
-                        },
+            var mediaconf = config.media || {
+                audio: true, video: {
+                    width: {max: 320},
+                    height: {
+                        max: 320
                     }
-                };
-
-            if (!utilsSvc.isBrowser().chrome()) {
-                 mediaconf.video = true;
+                }
+            };
+            if(utilsSvc.getSupportCameraParam().framerate){
+                mediaconf.video.frameRate = {
+                    max: 14
+                }
             }
-
             var conversations = {};
             var oneway = config.oneway || false;
             var broadcast = config.broadcast || false;
@@ -72,7 +69,6 @@
             // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
             // Local Microphone and Camera Media (one per device)
             // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-            // navigator.getUserMedia =
             navigator.getUserMedia =
                 navigator.getUserMedia ||
                 navigator.webkitGetUserMedia ||
@@ -92,8 +88,8 @@
                 },*/
                 iceServers: [{
                     "url":
-                        (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) && navigator.mozGetUserMedia ? "stun:stun.services.mozilla.com" :
-                            (!navigator.mediaDevices || !navigator.getUserMedia) &&  navigator.webkitGetUserMedia ? "stun:stun.l.google.com:19302" :
+                        navigator.mozGetUserMedia ? "stun:stun.services.mozilla.com" :
+                            navigator.webkitGetUserMedia ? "stun:stun.l.google.com:19302" :
                                 "stun:23.21.150.121"
                 },
                     {url: "stun:stun.l.google.com:19302"},
@@ -412,12 +408,8 @@
                 // Video Settings
                 video.width = snap.width;
                 video.height = snap.height;
-                video.src = URL.createObjectURL(stream);
-                // try {
-                //     video.srcObject = stream;
-                // } catch (error) {
-                //     video.src = URL.createObjectURL(stream);
-                // }
+                // video.src = URL.createObjectURL(stream);
+                video.srcObject = stream;
                 video.volume = 0.0;
                 video.play();
 
@@ -449,12 +441,9 @@
                 vid.setAttribute('autoplay', 'autoplay');
                 vid.setAttribute('data-number', number);
                 vid.setAttribute('id', number);
-                vid.src = URL.createObjectURL(stream);
-                // try {
-                //     vid.srcObject = stream;
-                // } catch (error) {
-                //     vid.src = URL.createObjectURL(stream);
-                // }
+                vid.setAttribute('playsinline', 'playsinline');
+                // vid.src = URL.createObjectURL(stream);
+                vid.srcObject = stream;
 
                 let wrap = document.createElement('div');
                 wrap.setAttribute('id', number);
@@ -484,7 +473,6 @@
             function onicecandidate(event) {
                 if (!event.candidate) return;
                 transmit(this.number, event.candidate);
-                // transmit(PHONE.number(), event.candidate);
             }
 
             // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -526,34 +514,17 @@
                     subscribe();
                     return;
                 }
-                // window.navigator.getUserMedia( mediaconf, function(stream) {
-                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                    navigator.mediaDevices.getUserMedia(mediaconf).then(success).catch(error);
-                } else {
-                    navigator.getUserMedia(mediaconf,
-                        function (stream) {
-                            success(stream);
-                        }, function (info) {
-                            error(info);
-                        });
-
-                }
-
-                function success(stream) {
+                navigator.mediaDevices.getUserMedia(mediaconf).then(function (stream) {
                     if (!stream) return unablecb(stream);
                     mystream = stream;
-                    phone.mystream = stream;
                     snapshots_setup(stream);
+                    phone.mystream = stream;
                     onready();
                     subscribe();
-                }
-
-                function error(info) {
-                    alert('Your browser not support webcam and microphone! Please check you connected and enable webcam and microphone');
+                }, function (info) {
                     debugcb(info);
                     return unablecb(info);
-                }
-
+                });
             }
 
             // -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -688,4 +659,5 @@
             return PHONE;
         };
     }
-})();
+})
+();

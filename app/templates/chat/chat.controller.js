@@ -68,6 +68,12 @@
         let chatHeightOld = null;           //chat height before download new messages
         let chatHeightNew = null;           //chat height after download new messages
 
+        function playById(id){
+            if($('#'+ id + "mhuser video") && $('#'+ id + "mhuser video")[0] && $('#'+ id + "mhuser video")[0].play){
+                $('#'+ id + "mhuser video")[0].play();
+            }
+        }
+
         /////////////////////////// last chat loader //////////////////////////
         loadLastChat();
 
@@ -196,12 +202,17 @@
             document.getElementById("multi").style.display = "none";
 
             function transferVideoElem(id) {
-                let itm = document.getElementById(id + "mhuser");
-                let cln = itm.cloneNode(true);
+
+                let item$ = $('#'+id+'mhuser');
+                let cln$ = item$.clone(true);
+                // let itm = document.getElementById(id + "mhuser");
+                // let cln = itm.cloneNode(true);
 
                 if (id !== user.id) {
-                    document.getElementById("tmp2-vid-box").appendChild(cln);
-                    document.getElementById("vid-box").removeChild(itm);
+                    // document.getElementById("tmp2-vid-box").appendChild(cln);
+                    item$.appendTo("#tmp2-vid-box");
+                    // document.getElementById("vid-box").removeChild(itm);
+                    // item$.remove();
                     document.getElementById(id + "mhuser").childNodes[0].onclick = function () {
                         $rootScope.$broadcast('emergency-log', id);
                     };
@@ -209,12 +220,15 @@
                     vm.idVid[3].remote = 'tmp3-vid-box';
                     vm.idVid[2].remote = 'vid-box';
                 } else {
-                    document.getElementById("tmp2-vid-thumb").appendChild(cln);
-                    document.getElementById("vid-thumb").removeChild(itm);
+                    // document.getElementById("tmp2-vid-thumb").appendChild(cln);
+                    item$.appendTo("#tmp2-vid-thumb");
+                    // document.getElementById("vid-thumb").removeChild(itm);
+                    // item$.remove();
 
                     vm.idVid[3].local = 'tmp3-vid-thumb';
                     vm.idVid[2].local = 'vid-thumb';
                 }
+                playById(id);
             }
 
             function dataDependencies() {
@@ -247,23 +261,30 @@
                 document.getElementById("multi").style.display = "none";
 
                 function transferVideoElem(id) {
-                    let itm = document.getElementById(id + "mhuser");
-                    let cln = itm.cloneNode(true);
+                    let item$ = $('#'+id+'mhuser');
+                    let cln$ = item$.clone(true);
+
+                    // let itm = document.getElementById(id + "mhuser");
+                    // let cln = itm.cloneNode(true);
 
                     if (id !== user.id) {
-                        document.getElementById("tmp2-vid-box").appendChild(cln);
-                        document.getElementById("vid-box").removeChild(itm);
+                        // document.getElementById("tmp2-vid-box").appendChild(cln);
+                        item$.appendTo("#tmp2-vid-box");
+                        // document.getElementById("vid-box").removeChild(itm);
+                        // item$.remove();
                         document.getElementById(id + "mhuser").childNodes[0].onclick = function () {
                             $rootScope.$broadcast('emergency-log', id);
                         };
                     } else {
-                        document.getElementById("tmp2-vid-thumb").appendChild(cln);
-                        document.getElementById("vid-box").removeChild(itm);
-
+                        // document.getElementById("tmp2-vid-thumb").appendChild(cln);
+                        item$.appendTo("#tmp2-vid-thumb");
+                        // document.getElementById("vid-box").removeChild(itm);
+                        // item$.remove();
                         vm.idVid[4].remote = 'tmp4-vid-box';
                         vm.idVid[2].remote = 'vid-box';
                         vm.idVid[2].local = 'vid-thumb';
                     }
+                    playById(id);
                 }
 
                 function dataDependencies() {
@@ -295,12 +316,18 @@
                 document.getElementById("multi").style.display = "none";
 
                 function transferVideoElem(id) {
-                    let itm = document.getElementById(id + "mhuser");
-                    let cln = itm.cloneNode(true);
+
+                    // let itm = document.getElementById(id + "mhuser");
+                    // let cln = itm.cloneNode(true);
+                    let item$ = $('#'+id+'mhuser');
+                    let cln$ = item$.clone(true);
 
                     if (id !== user.id) {
-                        document.getElementById("tmp3-vid-box").appendChild(cln);
-                        document.getElementById("vid-box").removeChild(itm);
+                        // document.getElementById("tmp3-vid-box").appendChild(cln);
+                        item$.appendTo("#tmp3-vid-box");
+                        // document.getElementById("vid-box").removeChild(itm);
+                        // item$.remove();
+
                         document.getElementById(id + "mhuser").childNodes[0].onclick = function () {
                             $rootScope.$broadcast('emergency-log', id);
                         };
@@ -308,14 +335,17 @@
                         vm.idVid[2].remote = 'tmp2-vid-box';
                         vm.idVid[3].remote = 'vid-box';
                     } else {
-                        document.getElementById("tmp3-vid-thumb").appendChild(cln);
-                        document.getElementById("vid-thumb").removeChild(itm);
+                        // document.getElementById("tmp3-vid-thumb").appendChild(cln);
+                        item$.appendTo("#tmp3-vid-thumb");
+                        // document.getElementById("vid-thumb").removeChild(itm);
+                        // item$.remove();
+
 
                         vm.idVid[2].local = 'tmp2-vid-thumb';
                         vm.idVid[3].local = 'vid-thumb';
                     }
                 }
-
+                playById(id);
                 videoPlusChatDependencies(data.kid_id)
             })
         }
@@ -346,25 +376,34 @@
             }
 
             function transferVideoElem(id) {
-                let itm = document.getElementById(id + "mhuser");
-                let cln = itm.cloneNode(true);
+                // let itm = document.getElementById(id + "mhuser");
+                // let cln = itm.cloneNode(true);
+
+                let item$ = $('#'+id+'mhuser');
+                let cln$ = item$.clone(true);
 
                 console.log('user.id ', user.id);
                 if (id !== user.id) {
                     console.log('not self');
-                    document.getElementById("tmp4-vid-box").appendChild(cln);
+                    // document.getElementById("tmp4-vid-box").appendChild(cln);
+                    item$.appendTo("#tmp4-vid-box");
                     // $('#'+ itm).remove();
-                    document.getElementById("vid-box").removeChild(itm);
+                    // document.getElementById("vid-box").removeChild(itm);
+                    // item$.remove();
+
                     document.getElementById(id + "mhuser").childNodes[0].onclick = function () {
                         $rootScope.$broadcast('emergency-log', id);
                     };
+
                 } else {
                     console.log('self');
-                    document.getElementById("tmp4-vid-box").appendChild(cln);
-                    document.getElementById("vid-thumb").removeChild(itm);
-
+                    // document.getElementById("tmp4-vid-box").appendChild(cln);
+                    item$.appendTo("#tmp4-vid-box");
+                    // document.getElementById("vid-thumb").removeChild(itm);
+                    // item$.remove();
                     idChanger();
                 }
+                playById(id);
             }
 
             function idChanger() {
