@@ -23,7 +23,7 @@
 
         function autologout() {
             if (!$localStorage.token) {
-                $localStorage.reset();
+                $localStorage.$reset();
                 return $state.go('authorization.login')
             }
         }
