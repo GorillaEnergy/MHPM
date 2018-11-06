@@ -33,10 +33,22 @@
             removeMetadata: removeMetadata,
             off:off,
             setMetadataCancel: setMetadataCancel,
-            onMetadataCancel: onMetadataCancel
+            onMetadataCancel: onMetadataCancel,
+            setMask: setMask,
+            onMask: onMask
         };
 
         var fb = firebaseSvc.db();
+
+        function setMask(psyId, maskObj) {
+            fb.ref('/WebRTC/users/' + psyId + '/mask').set(maskObj);
+        }
+
+        function onMask(psyId, callback) {
+            fb.ref('/WebRTC/users/' + psyId + '/mask').on('value', (snapshot) => {
+                callback(snapshot.val());
+            });
+        }
 
         function psychologAccess(kid_id, psy_id, callback) {
             fb.ref('/chats/' + kid_id + '/' + psy_id + '/access').on('value', (snapshot) => {

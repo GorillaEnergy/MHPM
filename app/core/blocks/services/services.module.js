@@ -18,7 +18,8 @@
         'service.firebaseSvc',
         'service.firebaseDataSvc',
         'service.utilsSvc',
-        'service.modalSvc'
+        'service.modalSvc',
+        'service.faceRecognition'
     ]);
 
 })();

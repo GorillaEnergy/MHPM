@@ -5,17 +5,16 @@
         .service('RTCService', RTCService);
 
     RTCService.$inject = ['$localStorage', '$timeout', '$rootScope', '$window', '$mdDialog', 'consultantService', '$state',
-        'toastr', 'statisticService', 'firebaseDataSvc', 'utilsSvc', 'modalSvc'];
+        'toastr', 'statisticService', 'firebaseDataSvc', 'utilsSvc', 'modalSvc', 'faceRecognitionService'];
 
     function RTCService($localStorage, $timeout, $rootScope, $window, $mdDialog, consultantService, $state,
-                        toastr, statisticService, firebaseDataSvc, utilsSvc, modalSvc) {
+                        toastr, statisticService, firebaseDataSvc, utilsSvc, modalSvc, faceRecognitionService) {
         console.log('RTCService start');
 
         var video_out;
         var vid_thumb;
         let vidCount = 0;
         let userActivityArr = [];
-
         let user;
         let localStream;
         let remoteStream;
@@ -144,6 +143,7 @@
             ctrl.ready(function () {
                 ctrl.addLocalStream(vid_thumb);
                 addLog("Logged in as " + username);
+                faceRecognitionService.init(user.id);
             });
 
             ctrl.receive(function (session) {

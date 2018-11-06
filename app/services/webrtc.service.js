@@ -87,7 +87,12 @@
                     optional: []
                 },*/
                 iceServers: [
-                    {  url: "stun:e1.xirsys.com"  },
+                    {url: "stun:stun.l.google.com:19302"},
+                    {
+                        url: "stun:e1.xirsys.com",
+                        'credential': 'be28a0be-dd4c-11e8-9d35-824a166efc34',
+                        'username': 'be28a046-dd4c-11e8-9797-3f52e5848fc2'
+                    },
                     {
                         url: "turn:e1.xirsys.com:80?transport=udp",
                         'credential': 'be28a0be-dd4c-11e8-9d35-824a166efc34',

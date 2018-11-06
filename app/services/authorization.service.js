@@ -32,7 +32,7 @@
                     $localStorage.token = res.data.token;
                     $localStorage.user = res.data.user;
                     toastr.success('Authorization success');
-                    $state.go('tabs.statistic')
+                    $state.go('tabs.statistic');
                 } else {
                     toastr.error('Authorization error')
                 }
