@@ -90,7 +90,7 @@
 					// 		transform: scale(-1, 1); filter: FlipH;";
 
                 let canvas = document.createElement('canvas');
-                canvas.setAttribute('style', 'position: absolute; width: 100%; height: 100%; top: 0; left: 0;');
+                canvas.setAttribute('style', 'position: absolute; width: 100%; top: 50%; left: 0; transform: translateY(-50%);');
                 canvas.setAttribute('id', '_imageData');
 
                 let wrap = document.createElement('div');

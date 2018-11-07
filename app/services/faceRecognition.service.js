@@ -29,7 +29,7 @@
         let face = null;
         let scaleX = null;
         let scaleY = null;
-        let  k = null;
+        let k = null;
 
         let videoResolutions = null;
         let outerScaleX = null;
@@ -104,33 +104,31 @@
         //                                  namespace // tracked faces // canvas context to draw into
         function handleTrackingResults(brfv4, faces, imageDataCtx) {
             // for (let i = 0; i < faces.length; i++) {
-                face = faces[0];
-                if (face.state === brfv4.BRFState.FACE_TRACKING_START ||
-                    face.state === brfv4.BRFState.FACE_TRACKING) {
-                    // Set position to be nose top and calculate rotation.
-                    firebaseDataSvc.setMask(currentPsyId, {
-                        x: face.points[27].x,
-                        y: face.points[27].y,
-                        scaleX: (face.scale / 480) * (1 - toDegree(Math.abs(face.rotationY)) / 110.0) * 2.5,
-                        scaleY: (face.scale / 480) * (1 - toDegree(Math.abs(face.rotationX)) / 110.0) * 2.5,
-                        rotationZ: face.rotationZ
-                    });
-                    drawPointForFace(imageDataCtx, face);
-                    return true;
-                }
+            face = faces[0];
+            if (face.state === brfv4.BRFState.FACE_TRACKING_START ||
+                face.state === brfv4.BRFState.FACE_TRACKING) {
+                // Set position to be nose top and calculate rotation.
+                firebaseDataSvc.setMask(currentPsyId, {
+                    x: face.points[27].x,
+                    y: face.points[27].y,
+                    scaleX: (face.scale / 480) * (1 - toDegree(Math.abs(face.rotationY)) / 110.0) * 2.5,
+                    scaleY: (face.scale / 480) * (1 - toDegree(Math.abs(face.rotationX)) / 110.0) * 2.5,
+                    rotationZ: face.rotationZ
+                });
+                drawPointForFace(imageDataCtx, face);
+                return true;
+            }
             // }
             return false;
         }
 
         function drawPointForFace(imageDataCtx, face) {
-            setTimeout(function () {
-                imageDataCtx.strokeStyle="#00a0ff";
-                for(k = 0; k < face.vertices.length; k += 2) {
-                    imageDataCtx.beginPath();
-                    imageDataCtx.arc(face.vertices[k], face.vertices[k + 1], 2, 0, 2 * Math.PI);
-                    imageDataCtx.stroke();
-                }
-            },10);
+            imageDataCtx.strokeStyle = "#00a0ff";
+            for (k = 0; k < face.vertices.length; k += 2) {
+                imageDataCtx.beginPath();
+                imageDataCtx.arc(face.vertices[k], face.vertices[k + 1], 2, 0, 2 * Math.PI);
+                imageDataCtx.stroke();
+            }
         }
 
         function toDegree(x) {
