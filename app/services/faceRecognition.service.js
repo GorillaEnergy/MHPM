@@ -26,6 +26,14 @@
         let brfv4SDKName = null; // the currently available library
         let brfv4WASMBuffer = null;
 
+        let face = null;
+        let scaleX = null;
+        let scaleY = null;
+        let  k = null;
+
+        let videoResolutions = null;
+        let outerScaleX = null;
+        let outerScaleY = null;
 
         function onMaskEvent(psyId) {
             let count = 0;
@@ -95,36 +103,34 @@
         // that's why we put it into its own file.
         //                                  namespace // tracked faces // canvas context to draw into
         function handleTrackingResults(brfv4, faces, imageDataCtx) {
-            let imageDataSizes = imageData.getBoundingClientRect();
-            let videoResolutions = resolution;
-            let outerScaleX = imageDataSizes.width / videoResolutions.width;
-            let outerScaleY = imageDataSizes.height / videoResolutions.height;
-            for (let i = 0; i < faces.length; i++) {
-                let face = faces[i];
+            // for (let i = 0; i < faces.length; i++) {
+                face = faces[0];
                 if (face.state === brfv4.BRFState.FACE_TRACKING_START ||
                     face.state === brfv4.BRFState.FACE_TRACKING) {
                     // Set position to be nose top and calculate rotation.
-                    let x = face.points[27].x;
-                    let y = face.points[27].y;
-                    let scaleX = (face.scale / 480) * (1 - toDegree(Math.abs(face.rotationY)) / 110.0) * 2.5;
-                    let scaleY = (face.scale / 480) * (1 - toDegree(Math.abs(face.rotationX)) / 110.0) * 2.5;
                     firebaseDataSvc.setMask(currentPsyId, {
-                        x: x,
-                        y: y,
-                        scaleX: scaleX,
-                        scaleY: scaleY,
+                        x: face.points[27].x,
+                        y: face.points[27].y,
+                        scaleX: (face.scale / 480) * (1 - toDegree(Math.abs(face.rotationY)) / 110.0) * 2.5,
+                        scaleY: (face.scale / 480) * (1 - toDegree(Math.abs(face.rotationX)) / 110.0) * 2.5,
                         rotationZ: face.rotationZ
                     });
-                    imageDataCtx.strokeStyle="#00a0ff";
-                    for(var k = 0; k < face.vertices.length; k += 2) {
-                        imageDataCtx.beginPath();
-                        imageDataCtx.arc(face.vertices[k], face.vertices[k + 1], 2, 0, 2 * Math.PI);
-                        imageDataCtx.stroke();
-                    }
+                    drawPointForFace(imageDataCtx, face);
+                    return true;
                 }
-                return true;
-            }
+            // }
             return false;
+        }
+
+        function drawPointForFace(imageDataCtx, face) {
+            setTimeout(function () {
+                imageDataCtx.strokeStyle="#00a0ff";
+                for(k = 0; k < face.vertices.length; k += 2) {
+                    imageDataCtx.beginPath();
+                    imageDataCtx.arc(face.vertices[k], face.vertices[k + 1], 2, 0, 2 * Math.PI);
+                    imageDataCtx.stroke();
+                }
+            },10);
         }
 
         function toDegree(x) {
@@ -177,8 +183,16 @@
             if (imageDataCtx === null) {
                 onStreamDimensionsAvailable();
             } else {
-                trackFaces();
+                startProcessTrackFace();
             }
+        }
+
+        function startProcessTrackFace() {
+            imageDataSizes = imageData.getBoundingClientRect();
+            videoResolutions = resolution;
+            outerScaleX = imageDataSizes.width / videoResolutions.width;
+            outerScaleY = imageDataSizes.height / videoResolutions.height;
+            trackFaces();
         }
 
         function waitForSDK() {
