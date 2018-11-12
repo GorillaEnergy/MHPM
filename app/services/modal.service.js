@@ -16,7 +16,8 @@
             sendEmergency: sendEmergency,
             liveRoom: liveRoom,
             sendLog: sendLog,
-            cancel: cancel
+            cancel: cancel,
+            loadingFaceSDK: loadingFaceSDK
         };
 
         function cancel() {
@@ -89,6 +90,22 @@
                 },
                 templateUrl: 'components/send-emergency-log/send-emergency-log.html',
                 clickOutsideToClose: true,
+            });
+        }
+
+        function loadingFaceSDK(data) {
+            return $mdDialog.show({
+                controller: 'SendEmergencyLogController',
+                controllerAs: 'vm',
+                locals: {
+                    data: data || {}
+                },
+                template: '<md-dialog>\' +\n' +
+                '                    \'  <md-dialog-content>\' +\n' +
+                '                    \'     Loading face recognition SDK...\' +\n' +
+                '                    \'  </md-dialog-content>\' +\n' +
+                '                    \'</md-dialog>\'',
+                clickOutsideToClose: false,
             });
         }
 

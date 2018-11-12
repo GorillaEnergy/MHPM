@@ -4,9 +4,9 @@
     angular.module('service.faceRecognition', [])
         .service('faceRecognitionService', faceRecognitionService);
 
-    faceRecognitionService.$inject = ['$timeout', 'firebaseDataSvc'];
+    faceRecognitionService.$inject = ['$timeout', 'firebaseDataSvc', '$mdDialog', 'modalSvc'];
 
-    function faceRecognitionService($timeout, firebaseDataSvc) {
+    function faceRecognitionService($timeout, firebaseDataSvc, $mdDialog, modalSvc) {
 
         // 996541237
         let webcam = null;     // our webcam video
@@ -30,6 +30,7 @@
         let scaleX = null;
         let scaleY = null;
         let k = null;
+        let flength = null;
 
         let videoResolutions = null;
         let outerScaleX = null;
@@ -124,7 +125,7 @@
 
         function drawPointForFace(imageDataCtx, face) {
             imageDataCtx.strokeStyle = "#00a0ff";
-            for (k = 0; k < face.vertices.length; k += 2) {
+            for (k = 0, flength = face.vertices.length; k < flength; k += 2) {
                 imageDataCtx.beginPath();
                 imageDataCtx.arc(face.vertices[k], face.vertices[k + 1], 2, 0, 2 * Math.PI);
                 imageDataCtx.stroke();
@@ -144,12 +145,12 @@
             webcam = document.querySelector('#psy_video');
             if (!webcam) {
                 console.log("Waiting for WebCam.");
-                $timeout(onStreamDimensionsAvailable, 100);
+                $timeout(onStreamDimensionsAvailable, 250);
             } else {
                 //webcam.style.display = 'none';
                 console.log("onStreamDimensionsAvailable: " + (webcam.videoWidth !== 0));
                 if (webcam.videoWidth === 0) {
-                    $timeout(onStreamDimensionsAvailable, 100);
+                    $timeout(onStreamDimensionsAvailable, 250);
                 } else {
                     // Resize the canvas to match the webcam video size.
                     imageData.width = webcam.videoWidth;   // 640
@@ -232,25 +233,13 @@
         }
 
         function trackFaces() {
-            //let timeStart = window.performance.now();
             window.requestAnimFrame(trackFaces);
             // imageDataCtx.setTransform(-1.0, 0, 0, 1, resolution.width, 0); // A virtual mirror should be... mirrored
             imageDataCtx.drawImage(webcam, 0, 0, resolution.width, resolution.height);
             // imageDataCtx.setTransform(1.0, 0, 0, 1, 0, 0); // unmirrored for drawing the results
             brfManager.update(imageDataCtx.getImageData(0, 0, resolution.width, resolution.height).data);
-            //console.log(imageDataCtx.getImageData(0, 0, resolution.width, resolution.height).data);
             if (!handleTrackingResults(brfv4, brfManager.getFaces(), imageDataCtx))
                 return 0;
-            // if (timeoutId >= 0) {
-            //     clearTimeout(timeoutId);
-            // }
-
-            //let elapsedMs = window.performance.now() - timeStart;
-
-            // We don't need 60 FPS, the camera will deliver at 30 FPS anyway.
-            // timeoutId = $timeout(function () {
-            //     trackFaces();
-            // }, (1000 / 30) - elapsedMs);
         }
 
         function init(psy_id) {
@@ -258,13 +247,45 @@
             webcam = null;     // our webcam video
             imageData = document.getElementById("_imageData");  // image data for BRFv4
             imageDataSizes = imageData.getBoundingClientRect();
-
             initScale = imageDataSizes.width * 0.75 * 0.9 / 480; // Block width * aspect ratio * custom scale / mask height
             imageDataCtx = null;                                   // only fetch the context once
-            brfv4 = null; // the library namespace
-            brfManager = null; // the API
+            // brfv4 = null; // the library namespace
+            // brfManager = null; // the API
             resolution = null; // the video stream resolution (usually 640x480)
             timeoutId = -1;
+            // isWebAssemblySupported = null;
+            // // detect WebAssembly support and load either WASM or ASM version of BRFv4
+            // isWebAssemblySupported = _isWebAssemblySupported();
+            // console.log("Checking support of WebAssembly: " +
+            //     isWebAssemblySupported + " " + (isWebAssemblySupported ? "loading WASM (not ASM)." : "loading ASM (not WASM)."));
+            // // Some necessary global lets... (will need to refactor Stats for BRFv5.)
+            // brfv4BaseURL = isWebAssemblySupported ? "lib_ext/brfv4/brf_wasm/" : "lib_ext/brfv4/brf_asmjs/";
+            // brfv4SDKName = "BRFv4_JS_TK101018_v4.1.0"; // the currently available library
+            // brfv4WASMBuffer = null;
+            // if (isWebAssemblySupported) {
+            //     readWASMBinary(brfv4BaseURL + brfv4SDKName + ".wasm",
+            //         function (r) {
+            //             brfv4WASMBuffer = r; // see function waitForSDK. The ArrayBuffer needs to be added to the module object.
+            //             addBRFScript();
+            //             streamFetching();
+            //         },
+            //         function (e) {
+            //             console.error(e);
+            //         },
+            //         function (p) {
+            //             console.log(p);
+            //         }
+            //     );
+            // } else {
+            //     addBRFScript();
+            //     streamFetching();
+            // }
+        }
+        
+        function preloadLibrary() {
+            modalSvc.loadingFaceSDK();
+            brfv4 = null; // the library namespace
+            brfManager = null; // the API
             isWebAssemblySupported = null;
             // detect WebAssembly support and load either WASM or ASM version of BRFv4
             isWebAssemblySupported = _isWebAssemblySupported();
@@ -279,18 +300,19 @@
                     function (r) {
                         brfv4WASMBuffer = r; // see function waitForSDK. The ArrayBuffer needs to be added to the module object.
                         addBRFScript();
-                        streamFetching();
+                        $mdDialog.hide();
                     },
                     function (e) {
+                        $mdDialog.hide();
                         console.error(e);
                     },
                     function (p) {
+                        $mdDialog.hide();
                         console.log(p);
                     }
                 );
             } else {
                 addBRFScript();
-                streamFetching();
             }
         }
 
@@ -298,6 +320,7 @@
         model.init = init;
         model.onMaskEvent = onMaskEvent;
         model.offMaskEvent = offMaskEvent;
+        model.preloadLibrary = preloadLibrary;
         return model;
 
     }
