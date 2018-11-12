@@ -34,11 +34,11 @@
                     }
                 }
             };
-            if (utilsSvc.getSupportCameraParam().framerate) {
-                mediaconf.video.frameRate = {
-                    max: 14
-                }
-            }
+            // if (utilsSvc.getSupportCameraParam().framerate) {
+            //     mediaconf.video.frameRate = {
+            //         max: 14
+            //     }
+            // }
             var conversations = {};
             var oneway = config.oneway || false;
             var broadcast = config.broadcast || false;
