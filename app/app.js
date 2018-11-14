@@ -14,6 +14,5 @@
     function runBlock(webrtc, rtcController, RTCService, firebaseSvc, utilsSvc, faceRecognitionService) {
         utilsSvc.init();
         faceRecognitionService.preloadLibrary();
-
     }
 })();
