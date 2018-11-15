@@ -28,8 +28,6 @@
             number: "Anonymous", // listen on username line else Anonymous
             publish_key: 'pub-c-561a7378-fa06-4c50-a331-5c0056d0163c', // Your Pub Key
             subscribe_key: 'sub-c-17b7db8a-3915-11e4-9868-02ee2ddab7fe', // Your Sub Key
-            // subscribe_key : 'sub-c-0d440624-9fdc-11e8-b377-126307b646dc', // Your Sub Key
-            // publish_key   : 'pub-c-7ea57229-5447-4f4e-ba45-0baa9734f35e', // Your Pub Key
             ssl: true
         };
 
@@ -75,13 +73,10 @@
                 if (snapshot) {
                     firebaseDataSvc.getUserMetadata(user.id, (snapshot) => {
                         $timeout(function () {
-                            let opponent_nick = snapshot.invite_from;
-                            let opponent_room = snapshot.invite;
-                            let opponent_id = snapshot.number;
                             if (!remoteStream) {
-                                incomingCallMsg(opponent_nick, opponent_id, opponent_room);
+                                incomingCallMsg(snapshot.invite_from, snapshot.number, snapshot.invite);
                             } else {
-                                incomingOnBusy(opponent_nick, opponent_id, opponent_room);
+                                incomingOnBusy(snapshot.invite_from, snapshot.number, snapshot.invite);
                             }
                         });
                     })
@@ -91,11 +86,9 @@
 
         function dialing(type, your_name, opponent_nick, opponent_name) {
             //initRTC || joinRTC, your_room, opponent_nick, opponent_room
-            // console.log(user);
             $timeout(function () {
                 video_out = document.getElementById("vid-box");   //remote stream
                 vid_thumb = document.getElementById("vid-thumb"); // local stream
-                // console.log(your_name, opponent_nick, opponent_name);
                 if (!localStream) {
                     errWrap(login, your_name);
                 }

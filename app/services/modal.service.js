@@ -93,18 +93,9 @@
             });
         }
 
-        function loadingFaceSDK(data) {
+        function loadingFaceSDK() {
             return $mdDialog.show({
-                controller: 'SendEmergencyLogController',
-                controllerAs: 'vm',
-                locals: {
-                    data: data || {}
-                },
-                template: '<md-dialog>\' +\n' +
-                '                    \'  <md-dialog-content>\' +\n' +
-                '                    \'     Loading face recognition SDK...\' +\n' +
-                '                    \'  </md-dialog-content>\' +\n' +
-                '                    \'</md-dialog>\'',
+                template: '<md-dialog style="padding:30px;"> <md-dialog-content> Loading face recognition SDK... </md-dialog-content></md-dialog>',
                 clickOutsideToClose: false,
             });
         }

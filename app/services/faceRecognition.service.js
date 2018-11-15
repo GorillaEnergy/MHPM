@@ -273,7 +273,7 @@
             // detect WebAssembly support and load either WASM or ASM version of BRFv4
             isWebAssemblySupported = _isWebAssemblySupported();
             console.log("Checking support of WebAssembly: " +
-                isWebAssemblySupported + " " + (isWebAssemblySupported ? "loading WASM (not ASM)." : "loading ASM (not WASM)."));
+            isWebAssemblySupported + " " + (isWebAssemblySupported ? "loading WASM (not ASM)." : "loading ASM (not WASM)."));
             // Some necessary global lets... (will need to refactor Stats for BRFv5.)
             brfv4BaseURL = isWebAssemblySupported ? "lib_ext/brfv4/brf_wasm/" : "lib_ext/brfv4/brf_asmjs/";
             brfv4SDKName = "BRFv4_JS_TK101018_v4.1.0"; // the currently available library

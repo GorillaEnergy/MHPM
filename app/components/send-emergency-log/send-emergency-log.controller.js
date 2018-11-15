@@ -11,8 +11,10 @@
 
         // console.log(data);
         vm.send = send;
-
-        let kid_id = data.kid.id;
+        let kid_id;
+        if(data.kid && data.kid.id){
+            kid_id  = data.kid.id;
+        }
 
         function send() {
             let data = {
