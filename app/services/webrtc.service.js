@@ -27,12 +27,14 @@
             var myvideo = document.createElement('video');
             var myconnection = false;
             var mediaconf = config.media || {
-                audio: true, video: {
-                    width: {max: 320},
-                    height: {
-                        max: 320
-                    }
-                }
+                audio: true,
+                video: true
+                //     {
+                //     width: {max: 320},
+                //     height: {
+                //         max: 320
+                //     }
+                // }
             };
             // if (utilsSvc.getSupportCameraParam().framerate) {
             //     mediaconf.video.frameRate = {
@@ -481,7 +483,6 @@
                 vid.setAttribute('autoplay', 'autoplay');
                 vid.setAttribute('data-number', number);
                 vid.setAttribute('id', number);
-                vid.setAttribute('playsinline', 'playsinline');
                 // vid.src = URL.createObjectURL(stream);
                 vid.srcObject = stream;
 
@@ -557,8 +558,8 @@
                 navigator.mediaDevices.getUserMedia(mediaconf).then(function (stream) {
                     if (!stream) return unablecb(stream);
                     mystream = stream;
-                    snapshots_setup(stream);
                     phone.mystream = stream;
+                    snapshots_setup(stream);
                     onready();
                     subscribe();
                 }, function (info) {

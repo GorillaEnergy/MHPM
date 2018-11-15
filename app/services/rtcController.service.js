@@ -72,18 +72,11 @@
 
             function broadcast(vid){
                 var video = document.createElement('video');
-                // video.src    = URL.createObjectURL(phone.mystream);
-                // try {
-                    video.srcObject = phone.mystream;
-                // } catch (error) {
-                //     video.src = URL.createObjectURL(phone.mystream);
-                // }
+                // video.src    = URL.createObjectURL(phone.mystream);video.srcObject = phone.mystream;
                 video.volume = 0.0;
                 video.play();
                 video.setAttribute( 'autoplay', 'autoplay' );
                 video.setAttribute( 'data-number', phone.number() );
-                video.setAttribute( 'playsinline', 'playsinline' );
-
                 video.setAttribute('id', 'psy_video');
                 // vid.style.cssText ="-moz-transform: scale(-1, 1); \
 					// 	 	-webkit-transform: scale(-1, 1); -o-transform: scale(-1, 1); \
@@ -231,7 +224,7 @@
             }
 
             function add_to_group(number){
-                var session = phone.dial(number, get_xirsys_servers()); // Dial Number
+                var session = phone.dial(number, false); // Dial Number
                 if (!session) return; 	// No Dupelicate Dialing Allowed
             }
 
@@ -334,7 +327,8 @@
                     "Authorization": "Basic " + btoa("vadymk:1a0d31fe-dba1-11e8-a1d9-0b75046cc17f")
                 },
                 success: function (res){
-                   if(res.v.iceServers) servers = res.v.iceServers;
+                    res = JSON.parse(res);
+                    if (!res.e) servers = res.d.iceServers;
                 },
             });
             return servers;
