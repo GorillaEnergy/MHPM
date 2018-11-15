@@ -28,13 +28,11 @@
             var myconnection = false;
             var mediaconf = config.media || {
                 audio: true,
-                video: true
-                //     {
-                //     width: {max: 320},
-                //     height: {
-                //         max: 320
-                //     }
-                // }
+                // video: true
+                video: {
+                    width: 320,
+                    height: 240
+                }
             };
             // if (utilsSvc.getSupportCameraParam().framerate) {
             //     mediaconf.video.frameRate = {
