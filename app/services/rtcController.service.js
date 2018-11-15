@@ -73,6 +73,7 @@
             function broadcast(vid){
                 var video = document.createElement('video');
                 // video.src    = URL.createObjectURL(phone.mystream);video.srcObject = phone.mystream;
+                video.srcObject = phone.mystream;
                 video.setAttribute( 'autoplay', 'autoplay' );
                 video.setAttribute( 'data-number', phone.number() );
                 video.setAttribute('id', 'psy_video');
