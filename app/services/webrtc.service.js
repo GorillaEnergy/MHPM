@@ -28,11 +28,11 @@
             var myconnection = false;
             var mediaconf = config.media || {
                 audio: true,
-                // video: true
-                video: {
-                    width: 320,
-                    height: 240
-                }
+                video: true
+                // video: {
+                //     width: 320,
+                //     height: 240
+                // }
             };
             // if (utilsSvc.getSupportCameraParam().framerate) {
             //     mediaconf.video.frameRate = {
@@ -448,16 +448,14 @@
                 // Video Settings
                 video.width = snap.width;
                 video.height = snap.height;
-                // video.src = URL.createObjectURL(stream);
-                video.srcObject = stream;
+                video.src = URL.createObjectURL(stream);
+                // video.srcObject = stream;
                 video.volume = 0.0;
                 video.play();
-
                 // Canvas Settings
                 canvas.width = snap.width;
                 canvas.height = snap.height;
-
-                // Capture Local Pic
+                // Capture Local Pi
                 snapper = function () {
                     try {
                         context.drawImage(video, 0, 0, snap.width, snap.height);
@@ -553,7 +551,7 @@
                     subscribe();
                     return;
                 }
-                navigator.mediaDevices.getUserMedia(mediaconf).then(function (stream) {
+                navigator.getUserMedia(mediaconf, function (stream) {
                     if (!stream) return unablecb(stream);
                     mystream = stream;
                     phone.mystream = stream;
