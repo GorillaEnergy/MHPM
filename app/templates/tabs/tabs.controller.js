@@ -40,6 +40,7 @@
         $timeout(function () {
             resizeBody();
         });
+
         angular.element($window).bind("resize", function (e) {
             resizeBody(true);
         });

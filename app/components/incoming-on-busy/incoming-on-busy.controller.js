@@ -7,18 +7,12 @@
 
     function IncomingOnBusyController($mdDialog, dateConverter, consultantService, data) {
         let vm = this;
-
-        console.log(data);
         vm.opponent_name = data.opponent_name;
         vm.logs = data.logs;
-
         let consultantsObj = consultantService.convert(data.consultants);
-        console.log(consultantsObj);
-
-        vm.consName = consName;
         vm.dateConvert = dateConverter.dateConverter;
         vm.timeConvert = dateConverter.timeConverter;
-
+        vm.consName = consName;
         vm.addToCurrent = addToCurrent;
         vm.toChat = toChat;
         vm.reject = reject;

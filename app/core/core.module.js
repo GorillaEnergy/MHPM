@@ -8,5 +8,4 @@
         'ui.sortable', 'ui.calendar',
     ]);
 
-
 })();

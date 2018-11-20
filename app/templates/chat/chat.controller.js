@@ -186,14 +186,11 @@
         function downgradeTo2From3(data) {
             viewCurrent = data.type;
             console.log('downgradeTo2From3');
-
             let opponent_id = Number(data.users[0].user.substr(0, data.users[0].user.length - 6));
-
             document.getElementById("oneVSone").style.display = "flex";
 
             transferVideoElem(opponent_id);
             transferVideoElem(user.id);
-            // chat_body = document.getElementById("chat");
             dataDependencies();
 
             document.getElementById("chatBody").style.display = "none";
@@ -205,26 +202,17 @@
 
                 let item$ = $('#'+id+'mhuser');
                 let cln$ = item$.clone(true);
-                // let itm = document.getElementById(id + "mhuser");
-                // let cln = itm.cloneNode(true);
 
                 if (id !== user.id) {
-                    // document.getElementById("tmp2-vid-box").appendChild(cln);
                     item$.appendTo("#tmp2-vid-box");
-                    // document.getElementById("vid-box").removeChild(itm);
-                    // item$.remove();
-                    document.getElementById(id + "mhuser").childNodes[0].onclick = function () {
+                   document.getElementById(id + "mhuser").childNodes[0].onclick = function () {
                         $rootScope.$broadcast('emergency-log', id);
                     };
 
                     vm.idVid[3].remote = 'tmp3-vid-box';
                     vm.idVid[2].remote = 'vid-box';
                 } else {
-                    // document.getElementById("tmp2-vid-thumb").appendChild(cln);
                     item$.appendTo("#tmp2-vid-thumb");
-                    // document.getElementById("vid-thumb").removeChild(itm);
-                    // item$.remove();
-
                     vm.idVid[3].local = 'tmp3-vid-thumb';
                     vm.idVid[2].local = 'vid-thumb';
                 }
@@ -264,22 +252,13 @@
                     let item$ = $('#'+id+'mhuser');
                     let cln$ = item$.clone(true);
 
-                    // let itm = document.getElementById(id + "mhuser");
-                    // let cln = itm.cloneNode(true);
-
                     if (id !== user.id) {
-                        // document.getElementById("tmp2-vid-box").appendChild(cln);
                         item$.appendTo("#tmp2-vid-box");
-                        // document.getElementById("vid-box").removeChild(itm);
-                        // item$.remove();
                         document.getElementById(id + "mhuser").childNodes[0].onclick = function () {
                             $rootScope.$broadcast('emergency-log', id);
                         };
                     } else {
-                        // document.getElementById("tmp2-vid-thumb").appendChild(cln);
                         item$.appendTo("#tmp2-vid-thumb");
-                        // document.getElementById("vid-box").removeChild(itm);
-                        // item$.remove();
                         vm.idVid[4].remote = 'tmp4-vid-box';
                         vm.idVid[2].remote = 'vid-box';
                         vm.idVid[2].local = 'vid-thumb';
@@ -316,31 +295,18 @@
                 document.getElementById("multi").style.display = "none";
 
                 function transferVideoElem(id) {
-
-                    // let itm = document.getElementById(id + "mhuser");
-                    // let cln = itm.cloneNode(true);
                     let item$ = $('#'+id+'mhuser');
                     let cln$ = item$.clone(true);
 
                     if (id !== user.id) {
-                        // document.getElementById("tmp3-vid-box").appendChild(cln);
                         item$.appendTo("#tmp3-vid-box");
-                        // document.getElementById("vid-box").removeChild(itm);
-                        // item$.remove();
-
                         document.getElementById(id + "mhuser").childNodes[0].onclick = function () {
                             $rootScope.$broadcast('emergency-log', id);
                         };
-
                         vm.idVid[2].remote = 'tmp2-vid-box';
                         vm.idVid[3].remote = 'vid-box';
                     } else {
-                        // document.getElementById("tmp3-vid-thumb").appendChild(cln);
                         item$.appendTo("#tmp3-vid-thumb");
-                        // document.getElementById("vid-thumb").removeChild(itm);
-                        // item$.remove();
-
-
                         vm.idVid[2].local = 'tmp2-vid-thumb';
                         vm.idVid[3].local = 'vid-thumb';
                     }
@@ -376,31 +342,20 @@
             }
 
             function transferVideoElem(id) {
-                // let itm = document.getElementById(id + "mhuser");
-                // let cln = itm.cloneNode(true);
-
-                let item$ = $('#'+id+'mhuser');
+               let item$ = $('#'+id+'mhuser');
                 let cln$ = item$.clone(true);
 
                 console.log('user.id ', user.id);
                 if (id !== user.id) {
                     console.log('not self');
-                    // document.getElementById("tmp4-vid-box").appendChild(cln);
                     item$.appendTo("#tmp4-vid-box");
-                    // $('#'+ itm).remove();
-                    // document.getElementById("vid-box").removeChild(itm);
-                    // item$.remove();
-
                     document.getElementById(id + "mhuser").childNodes[0].onclick = function () {
                         $rootScope.$broadcast('emergency-log', id);
                     };
 
                 } else {
                     console.log('self');
-                    // document.getElementById("tmp4-vid-box").appendChild(cln);
                     item$.appendTo("#tmp4-vid-box");
-                    // document.getElementById("vid-thumb").removeChild(itm);
-                    // item$.remove();
                     idChanger();
                 }
                 playById(id);
@@ -763,7 +718,6 @@
                 $timeout(function () {
                     snapshot ? vm.messages = convertToArray(snapshot, 'primary_loading') : vm.messages = [];
                     scrollToBottom();
-                    // console.log(angular.copy(vm.messages));
                 })
             });
         }
@@ -849,7 +803,6 @@
             firebaseDataSvc.onLogs(kid_id, number_of_logs, (snapshot) => {
                 $timeout(function () {
                     vm.logs = snapshot ? convertToArray(snapshot, null, true) : [];
-                    // console.log(angular.copy(vm.logs));
                 })
             });
         }
@@ -886,12 +839,8 @@
                 }
 
                 $timeout(function () {
-
                     chatHeightNew = angular.copy(angular.element("#chat")[0].scrollHeight);
-                    // console.log('chatHeightNew = ', chatHeightNew);
-
                     chat_body.scrollTop = angular.copy(chatHeightNew - chatHeightOld);
-                    // console.log('chat_body.scrollTop = ', chat_body.scrollTop);
                 })
             })
         }

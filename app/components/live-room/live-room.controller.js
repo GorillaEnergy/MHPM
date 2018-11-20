@@ -14,11 +14,8 @@
         vm.removeRoom = removeRoom;
         vm.close = close;
 
-        // let image = document.getElementById('file');
         let fd = new FormData();
-
         vm.data = {};
-        // vm.photoBlock = $('#photo-block');
 
         init();
 

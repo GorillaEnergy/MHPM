@@ -9,7 +9,6 @@
     function SendEmergencyLogController($mdDialog, toastr, data, logsService) {
         let vm = this;
 
-        // console.log(data);
         vm.send = send;
         let kid_id;
         if(data.kid && data.kid.id){
