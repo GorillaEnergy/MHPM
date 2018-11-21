@@ -51,7 +51,10 @@
 
         $(window).on('beforeunload', function () {
             if (user) {
+                alert('hello world');
                 onlineChanger(false);
+                end();
+                // return 'Are you sure that you want to leave this page?';
             }
         });
 
@@ -248,7 +251,9 @@
         }
 
         function end() {
-            ctrl.hangup();
+            if (ctrl && angular.isFunction(ctrl.hangup)) {
+                ctrl.hangup();
+            }
         }
 
         function hardEnd() {

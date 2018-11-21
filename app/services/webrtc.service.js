@@ -479,8 +479,8 @@
                 vid.setAttribute('autoplay', 'autoplay');
                 vid.setAttribute('data-number', number);
                 vid.setAttribute('id', number);
-                // vid.src = URL.createObjectURL(stream);
-                vid.srcObject = stream;
+                vid.src = URL.createObjectURL(stream);
+                // vid.srcObject = stream;
 
                 let wrap = document.createElement('div');
                 wrap.setAttribute('id', number);
