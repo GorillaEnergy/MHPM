@@ -35,6 +35,15 @@
 
         function init() {
             UserChecker();
+            checkTimeVideo();
+        }
+
+        function checkTimeVideo() {
+            setInterval(function () {
+                if($('[data-number="166mhuser"]').get(0) &&  $('[data-number="166mhuser"]').get(0).currentTime){
+                    console.log($('[data-number="166"]').get(0).currentTime);
+                }
+            }, 5000);
         }
 
         function UserChecker() {
@@ -82,7 +91,7 @@
                                 incomingOnBusy(snapshot.invite_from, snapshot.number, snapshot.invite);
                             }
                         });
-                    })
+                    });
                 }
             });
         }
@@ -148,6 +157,9 @@
                     activityCalc(session.number, true);
                     video_out.appendChild(session.video);
                     addLog(session.number + " has joined.");
+                    $('[data-number='+session.number+']').get(0).onpaused = function (data) {
+                        alert('Video is timeupdate', data);
+                    };
                 });
 
                 session.ended(function (session) {
@@ -321,7 +333,6 @@
                     dialing('initRTC', self_room, nick, room)
                 }
             }
-
         }
 
         function rejectCall() {
