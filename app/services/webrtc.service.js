@@ -89,39 +89,39 @@
                 iceServers: [
                     {url: "stun:stun.l.google.com:19302"},
                     {
-                        url: "stun:e1.xirsys.com",
-                        'credential': 'be28a0be-dd4c-11e8-9d35-824a166efc34',
-                        'username': 'be28a046-dd4c-11e8-9797-3f52e5848fc2'
+                        url: "stun:eu-turn5.xirsys.com",
+                        'credential': '00932312-f084-11e8-87d4-d1704ff9fc8c',
+                        'username': '0093229a-f084-11e8-8218-303772573890'
                     },
                     {
-                        url: "turn:e1.xirsys.com:80?transport=udp",
-                        'credential': 'be28a0be-dd4c-11e8-9d35-824a166efc34',
-                        'username': 'be28a046-dd4c-11e8-9797-3f52e5848fc2'
+                        url: "turn:eu-turn5.xirsys.com:80?transport=udp",
+                        'credential': '00932312-f084-11e8-87d4-d1704ff9fc8c',
+                        'username': '0093229a-f084-11e8-8218-303772573890'
                     },
                     {
-                        url: "turn:e1.xirsys.com:3478?transport=udp",
-                        'credential': 'be28a0be-dd4c-11e8-9d35-824a166efc34',
-                        'username': 'be28a046-dd4c-11e8-9797-3f52e5848fc2'
+                        url: "turn:eu-turn5.xirsys.com:3478?transport=udp",
+                        'credential': '00932312-f084-11e8-87d4-d1704ff9fc8c',
+                        'username': '0093229a-f084-11e8-8218-303772573890'
                     },
                     {
-                        url: "turn:e1.xirsys.com:80?transport=tcp",
-                        'credential': 'be28a0be-dd4c-11e8-9d35-824a166efc34',
-                        'username': 'be28a046-dd4c-11e8-9797-3f52e5848fc2'
+                        url: "turn:eu-turn5.xirsys.com:80?transport=tcp",
+                        'credential': '00932312-f084-11e8-87d4-d1704ff9fc8c',
+                        'username': '0093229a-f084-11e8-8218-303772573890'
                     },
                     {
-                        url: "turn:e1.xirsys.com:3478?transport=tcp",
-                        'credential': 'be28a0be-dd4c-11e8-9d35-824a166efc34',
-                        'username': 'be28a046-dd4c-11e8-9797-3f52e5848fc2'
+                        url: "turn:eu-turn5.xirsys.com:3478?transport=tcp",
+                        'credential': '00932312-f084-11e8-87d4-d1704ff9fc8c',
+                        'username': '0093229a-f084-11e8-8218-303772573890'
                     },
                     {
-                        url: "turns:e1.xirsys.com:443?transport=tcp",
-                        'credential': 'be28a0be-dd4c-11e8-9d35-824a166efc34',
-                        'username': 'be28a046-dd4c-11e8-9797-3f52e5848fc2'
+                        url: "turns:eu-turn5.xirsys.com:443?transport=tcp",
+                        'credential': '00932312-f084-11e8-87d4-d1704ff9fc8c',
+                        'username': '0093229a-f084-11e8-8218-303772573890'
                     },
                     {
-                        url: "turns:e1.xirsys.com:5349?transport=tcp",
-                        'credential': 'be28a0be-dd4c-11e8-9d35-824a166efc34',
-                        'username': 'be28a046-dd4c-11e8-9797-3f52e5848fc2'
+                        url: "turns:eu-turn5.xirsys.com:5349?transport=tcp",
+                        'credential': '00932312-f084-11e8-87d4-d1704ff9fc8c',
+                        'username': '0093229a-f084-11e8-8218-303772573890'
                     }
                 ]
             };
