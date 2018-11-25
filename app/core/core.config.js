@@ -50,6 +50,10 @@
                 resolve: {
                     autologin: function (autologinService, firebaseSvc) {
                         return autologinService.autologout();
+                    },
+                    //need for preload servers before use webrtc
+                    rtcServers: function (rtcExtSvc) {
+                        return rtcExtSvc.getXirsysServer();
                     }
                 }
             })
@@ -68,7 +72,6 @@
                     my_weekly: function (statisticService) {
                         return statisticService.getMyWeeklyStatistic()
                     },
-
                 }
             })
             .state('tabs.schedule', {

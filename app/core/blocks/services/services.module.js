@@ -19,7 +19,8 @@
         'service.firebaseDataSvc',
         'service.utilsSvc',
         'service.modalSvc',
-        'service.faceRecognition'
+        'service.faceRecognition',
+        'service.rtcExtSvc'
     ]);
 
 })();

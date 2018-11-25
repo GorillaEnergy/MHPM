@@ -77,20 +77,18 @@
                 video.setAttribute( 'autoplay', 'autoplay' );
                 video.setAttribute( 'data-number', phone.number() );
                 video.setAttribute('id', 'psy_video');
+                video.setAttribute('muted', '');
                 video.volume = 0.0;
                 video.play();
                 // vid.style.cssText ="-moz-transform: scale(-1, 1); \
 					// 	 	-webkit-transform: scale(-1, 1); -o-transform: scale(-1, 1); \
 					// 		transform: scale(-1, 1); filter: FlipH;";
-
                 let canvas = document.createElement('canvas');
                 canvas.setAttribute('style', 'position: absolute; width: 100%; top: 50%; left: 0; transform: translateY(-50%);');
                 canvas.setAttribute('id', '_imageData');
-
                 let wrap = document.createElement('div');
                 wrap.setAttribute( 'id', phone.number() );
                 wrap.style.position = 'relative';
-
                 wrap.classList.add('video-wrapper');
                 wrap.append(video);
                 wrap.append(canvas);

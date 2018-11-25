@@ -29,16 +29,56 @@
             watchInvites: watchInvites,
             getUserMetadata: getUserMetadata,
             getLogs: getLogs,
-            setAnswer:setAnswer,
+            setAnswer: setAnswer,
             removeMetadata: removeMetadata,
-            off:off,
+            off: off,
             setMetadataCancel: setMetadataCancel,
             onMetadataCancel: onMetadataCancel,
             setMask: setMask,
-            onMask: onMask
+            onMask: onMask,
+            initPsyChild: initPsyChild,
+            setPsyNeedReload: setPsyNeedReload,
+            onPsyNeedReload: onPsyNeedReload,
+            setPsyLastTime: setPsyLastTime,
+            onChildUpdateStatus: onChildUpdateStatus,
+            offChildUpdateStatus: offChildUpdateStatus,
+            setPsyChildNeedReload: setPsyChildNeedReload
         };
 
         var fb = firebaseSvc.db();
+
+        function initPsyChild(psyId) {
+            fb.ref('/WebRTC/users/' + psyId + '/users').set({});
+        }
+
+        function setPsyNeedReload(psyId, value) {
+            fb.ref('/WebRTC/users/' + psyId + '/needReload').set(value);
+        }
+
+        function onPsyNeedReload(psyId, callback) {
+            fb.ref('/WebRTC/users/' + psyId + '/needReload').on('value', (snapshot) => {
+                callback(snapshot.val());
+            });
+        }
+
+        function setPsyLastTime(psyId, time) {
+            fb.ref('/WebRTC/users/' + psyId + '/lastTime').set(time);
+        }
+
+        function onChildUpdateStatus(psyId, childId, callback) {
+            fb.ref('/WebRTC/users/' + psyId + '/users/' + childId).on('value', (snapshot) => {
+                callback(snapshot.val());
+            });
+        }
+
+        function offChildUpdateStatus(psyId, childId) {
+            fb.ref('/WebRTC/users/' + psyId + '/users/' + childId).off();
+            fb.ref('/WebRTC/users/' + psyId + '/users/' + childId).remove();
+        }
+
+        function setPsyChildNeedReload(psyId, childId) {
+            fb.ref('/WebRTC/users/' + psyId + '/users/' + childId + '/needReload').set(true);
+        }
 
         function setMask(psyId, maskObj) {
             fb.ref('/WebRTC/users/' + psyId + '/mask').set(maskObj);
@@ -164,7 +204,7 @@
                 callback(snapshot.val());
             });
         }
-        
+
         function setAnswer(user_id, answer) {
             fb.ref('/WebRTC/users/' + user_id + '/metadata/answer').set(answer);
         }
@@ -177,11 +217,11 @@
             fb.ref().off();
         }
 
-        function setMetadataCancel(id){
+        function setMetadataCancel(id) {
             fb.ref('/WebRTC/users/' + id + '/metadata/cancel').set(true);
         }
 
-        function onMetadataCancel(id, callback){
+        function onMetadataCancel(id, callback) {
             fb.ref('/WebRTC/users/' + id + '/metadata/cancel').on('value', (snapshot) => {
                 callback(snapshot.val());
             });

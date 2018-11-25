@@ -693,7 +693,8 @@
                 !soloKey ? markAsRead(unreadMsgsKeysArr) : markAsRead([soloKey]);
 
                 $timeout(function () {
-                    var total = total_unread - local_unread > -1 ? total_unread - local_unread : 0;
+                    // var total = total_unread - local_unread > -1 ? total_unread - local_unread : 0;
+                    var total = total_unread - local_unread;
                     firebaseDataSvc.setTotalUnreadPsy(kid_id, psy_id, total);
                     local_unread = 0;
                     unreadMsgsKeysArr = [];
@@ -758,10 +759,7 @@
                 $timeout(function () {
                     for (let i = 0; i < vm.messages.length; i++) {
                         if (vm.messages[i].date === snapshot.date) {
-                            console.log(vm.messages);
-                            console.log('removed this ', vm.messages[i]);
                             vm.messages.splice(i, 1);
-                            console.log(vm.messages);
                             break;
                         }
                     }

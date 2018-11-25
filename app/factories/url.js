@@ -48,6 +48,10 @@
             },
             logs: {
                 send: baseUrl + 'api/create-log'
+            },
+
+            rtc_servers: {
+                all: baseUrl + 'api/servers'
             }
 
         };

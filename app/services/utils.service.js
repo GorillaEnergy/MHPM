@@ -14,17 +14,24 @@
             totalTime: totalTime,
             init: init,
             isBrowser: isBrowser,
-            getSupportCameraParam: getSupportCameraParam
+            getSupportCameraParam: getSupportCameraParam,
+            getNumberFromString: getNumberFromString
         };
 
         return model;
+
+
+        function getNumberFromString(str) {
+            return +(str.replace(/[^0-9\.]+/g, ""));
+        }
+
 
         function getSupportCameraParam() {
             var param = {};
             let supportedConstraints = navigator.mediaDevices.getSupportedConstraints();
             for (let constraint in supportedConstraints) {
                 if (supportedConstraints.hasOwnProperty(constraint)) {
-                    param[(''+constraint).toLowerCase()] = true;
+                    param[('' + constraint).toLowerCase()] = true;
                 }
             }
             return param;

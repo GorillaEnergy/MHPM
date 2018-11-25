@@ -5,14 +5,15 @@
         .service('RTCService', RTCService);
 
     RTCService.$inject = ['$localStorage', '$timeout', '$rootScope', '$window', '$mdDialog', 'consultantService', '$state',
-        'toastr', 'statisticService', 'firebaseDataSvc', 'utilsSvc', 'modalSvc', 'faceRecognitionService'];
+        'toastr', 'statisticService', 'firebaseDataSvc', 'utilsSvc', 'modalSvc', 'faceRecognitionService', 'rtcExtSvc'];
 
     function RTCService($localStorage, $timeout, $rootScope, $window, $mdDialog, consultantService, $state,
-                        toastr, statisticService, firebaseDataSvc, utilsSvc, modalSvc, faceRecognitionService) {
+                        toastr, statisticService, firebaseDataSvc, utilsSvc, modalSvc, faceRecognitionService, rtcExtSvc) {
         console.log('RTCService start');
 
         var video_out;
         var vid_thumb;
+        var ctrl = null;
         let vidCount = 0;
         let userActivityArr = [];
         let user;
@@ -35,15 +36,6 @@
 
         function init() {
             UserChecker();
-            checkTimeVideo();
-        }
-
-        function checkTimeVideo() {
-            setInterval(function () {
-                if($('[data-number="166mhuser"]').get(0) &&  $('[data-number="166mhuser"]').get(0).currentTime){
-                    console.log($('[data-number="166"]').get(0).currentTime);
-                }
-            }, 5000);
         }
 
         function UserChecker() {
@@ -54,18 +46,30 @@
                     watchInvites();
                     watchCancel();
                     clearInterval(checkUserInterval);
+                    initPsyChild();
                 }
             }, USER_CHECK_PERIOD);
         }
 
         $(window).on('beforeunload', function () {
             if (user) {
-                alert('hello world');
                 onlineChanger(false);
                 end();
                 // return 'Are you sure that you want to leave this page?';
             }
         });
+
+        function initPsyChild() {
+            firebaseDataSvc.removeMetadata(user.id);
+            firebaseDataSvc.initPsyChild(user.id);
+            firebaseDataSvc.setPsyNeedReload(user.id, false);
+            firebaseDataSvc.onPsyNeedReload(user.id, (snapshot) => {
+                if (snapshot) {
+                    hardEnd();
+                }
+            });
+            rtcExtSvc.startAutoSetLastTime(user.id);
+        }
 
         function onlineChanger(status) {
             firebaseDataSvc.setOnlineStatus(user.id, status);
@@ -143,7 +147,7 @@
             phone.debug(function (res) {
                 console.log('LOG >>>>>------------------------>>>>>', res);
             });
-            var ctrl = window.ctrl = CONTROLLER(phone);
+            ctrl = window.ctrl = CONTROLLER(phone);
             ctrl.ready(function () {
                 ctrl.addLocalStream(vid_thumb);
                 addLog("Logged in as " + username);
@@ -157,9 +161,8 @@
                     activityCalc(session.number, true);
                     video_out.appendChild(session.video);
                     addLog(session.number + " has joined.");
-                    $('[data-number='+session.number+']').get(0).onpaused = function (data) {
-                        alert('Video is timeupdate', data);
-                    };
+                    rtcExtSvc.startAutoCheckerUserVideo(user.id);
+                    rtcExtSvc.addUserToCheck(utilsSvc.getNumberFromString(session.number));
                 });
 
                 session.ended(function (session) {
@@ -167,6 +170,7 @@
                     // ctrl.getVideoElement(session.number).remove();
                     ctrl.getVideoWrap(session.number).remove();
                     addLog(session.number + " has left.");
+                    rtcExtSvc.removeUserFromCheck(utilsSvc.getNumberFromString(session.number));
                 });
             });
 
@@ -269,10 +273,11 @@
         }
 
         function hardEnd() {
+            var reloadBind = window.location.reload.bind(window.location);
             end();
-            $timeout(function () {
-                $window.location.reload();
-            }, 1000);
+            setTimeout(function(){
+                reloadBind();
+            }, 2000);
         }
 
         function pause() {
@@ -313,8 +318,6 @@
             function accept(nick, id, room) {
                 if ($state.current.name !== 'tabs.chat') {
                     $state.go('tabs.chat', {to_call: true});
-                    // initDial();
-                    // на будущее вызывать initDial только после загрузки контроллера во избежание "критов"
                     $rootScope.$on('dialing', function (event) {
                         initDial();
                     })
@@ -400,7 +403,6 @@
                 }
 
                 function reject() {
-                    // console.log("reject");
                     firebaseDataSvc.setAnswer(user.id, false);
                     $timeout(function () {
                         firebaseDataSvc.removeMetadata(user.id);
@@ -426,7 +428,6 @@
         function accessToGo() {
             return access_to_state_go;
         }
-
 
         let model = {};
         model.incomingCallMsg = incomingCallMsg;
