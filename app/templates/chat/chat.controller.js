@@ -688,13 +688,11 @@
                     local_unread++;
                 }
             }
-
             if (total_unread) {
                 !soloKey ? markAsRead(unreadMsgsKeysArr) : markAsRead([soloKey]);
-
                 $timeout(function () {
-                    // var total = total_unread - local_unread > -1 ? total_unread - local_unread : 0;
-                    var total = total_unread - local_unread;
+                    var total = total_unread - local_unread > -1 ? total_unread - local_unread : 0;
+                    // var total = total_unread - local_unread;
                     firebaseDataSvc.setTotalUnreadPsy(kid_id, psy_id, total);
                     local_unread = 0;
                     unreadMsgsKeysArr = [];

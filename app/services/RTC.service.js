@@ -60,7 +60,7 @@
         });
 
         function initPsyChild() {
-            firebaseDataSvc.removeMetadata(user.id);
+            // firebaseDataSvc.removeMetadata(user.id);
             firebaseDataSvc.initPsyChild(user.id);
             firebaseDataSvc.setPsyNeedReload(user.id, false);
             firebaseDataSvc.onPsyNeedReload(user.id, (snapshot) => {
